@@ -4,4 +4,14 @@ An Explanation of How Everything Works
 In src/org/usfirst/frc/team1683/ there are the following directories:
 
   * autonomous - controls the robot during its autonomous period
+  * driverStation - screen that shows info about the robot
+  * driveTrain - it's the drive train...
+  * pickerUpper - the poor man's claw
+  * pneumatics - everything air-related
+  * robot - the main classes, because robots need to do robot stuff
+  * sensors - self explanatory
+  * shooter - a wheel shooter implementation
+  * test - self-explanatory; not for a grade
+  * vision - computer vision (deprecated; offloading to RasPi3 instead)
+
 
