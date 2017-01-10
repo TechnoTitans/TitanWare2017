@@ -20,7 +20,7 @@ import org.usfirst.frc.team1683.vision.FindGoal;
  *         Switches between different autonomous programs
  *
  */
-public class AutonomousSwitcher {
+public class AutonomousSwitcher { // Testing commit system will delete later
   // Autonomous autonomous;
 
   // public AutonomousSwitcher(TankDrive tankDrive) {
