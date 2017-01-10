@@ -7,7 +7,10 @@ import org.usfirst.frc.team1683.sensors.Gyro;
 public class AntiDrift {
 
   private final int antidriftangle = 0;
-  private final double kp;
+  @SuppressWarnings("unused")
+  // This variable is used for error correction (now automated)
+  // It used to come from SmartDashboard
+  private final double kp; 
   private Gyro gyro;
 
   private MotorGroup left;

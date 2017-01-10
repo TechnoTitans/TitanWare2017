@@ -5,6 +5,7 @@ import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
+import org.usfirst.frc.team1683.pneumatics.Solenoid;
 import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.LinearActuator;
@@ -52,15 +53,19 @@ public class TechnoTitan extends IterativeRobot {
 	TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE);
 
 	MotorGroup leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, WHEEL_RADIUS),
-		// MotorGroup leftGroup = new MotorGroup(
 		leftETalonSRX, new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK_E, LEFT_REVERSE));
 
 	MotorGroup rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS),
-		// MotorGroup rightGroup = new MotorGroup(
 		rightETalonSRX, new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
 
 	drive = new TankDrive(leftGroup, rightGroup, gyro);
 	// END DRIVE TRAIN
+	// Will use to shoot something probably later
+	@SuppressWarnings("unused")
+	Solenoid shootPiston = new Solenoid(HWR.DEFAULT_MODULE_CHANNEL, HWR.SHOOTER_PISTON_CHANNEL);
+	//shooter = new Shooter(HWR.SHOOTER_LEFT, HWR.SHOOTER_RIGHT, HWR.ANGLE_MOTOR, shootPiston);
+	actuator = new LinearActuator(HWR.LINEAR_ACTUATOR, false);
+
 	endGameTimer = new Timer();
 
 	BuiltInAccel accel = new BuiltInAccel();

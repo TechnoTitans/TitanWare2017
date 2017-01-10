@@ -17,7 +17,8 @@ public class TankDrive implements DriveTrain {
   private MotorGroup right;
   private Gyro gyro;
   private Thread thread;
-
+  // Will probably use to correct drift
+  @SuppressWarnings("unused")
   private AntiDrift antiDrift;
   private final double kp = 0.6;
   // private AntiDrift antiDrift;

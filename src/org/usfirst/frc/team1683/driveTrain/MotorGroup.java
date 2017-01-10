@@ -67,7 +67,7 @@ public class MotorGroup extends ArrayList<Motor> {
 
   /**
    * Move distance in inches.
-   * Calls the moveDistance parameter
+   * Calls the moveDistance method of each motor
    * @param distance
    *            Distance in inches.
    * @param speed
