@@ -2,12 +2,7 @@ package org.usfirst.frc.team1683.driveTrain;
 
 import java.util.ArrayList;
 
-import org.usfirst.frc.team1683.driverStation.Settings;
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Encoder;
-
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDeviceStatus;
 
 /**
  * Represents a group of motors that move together, tied to the same

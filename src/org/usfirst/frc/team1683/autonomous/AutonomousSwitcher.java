@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1683.autonomous;
 
-import org.usfirst.frc.team1683.autonomous.ShootAtTarget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1683.autonomous.Autonomous.AutonomousMode;
@@ -10,14 +9,15 @@ import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.LinearActuator;
-import org.usfirst.frc.team1683.shooter.Shooter;
-import org.usfirst.frc.team1683.vision.FindGoal;
 
 /**
  *
  * @author Sneha Kadiyala
  *
  *         Switches between different autonomous programs
+ *         Depending on our Alliance's strengths and weaknesses,
+ *         we may want to do different things during autonomous mode
+ *         This provides an easy way to quickly decide before the match which mode we want to use
  *
  */
 public class AutonomousSwitcher {
@@ -40,16 +40,10 @@ public class AutonomousSwitcher {
 
   private DriveTrain driveTrain;
   BuiltInAccel accel;
-  FindGoal vision;
-  Shooter shooter;
   Gyro gyro;
   LinearActuator actuator;
-  // ShootingPhysics physics;
 
-  public AutonomousSwitcher(DriveTrain driveTrain, BuiltInAccel accel,
-                            FindGoal vision, Shooter shooter,
-                            LinearActuator actuator) {
-    // ShootingPhysics physics) {
+  public AutonomousSwitcher(DriveTrain driveTrain, BuiltInAccel accel, LinearActuator actuator) {
     chooser = new SendableChooser();
     chooser.addDefault(DEFAULT_AUTO.name(), DEFAULT_AUTO.name());
     for (AutonomousMode mode : Autonomous.AutonomousMode.values()) {
@@ -60,36 +54,19 @@ public class AutonomousSwitcher {
         "Auto to run", chooser);
 
     this.driveTrain = driveTrain;
-    // this.physics = physics;
     this.accel = accel;
-    this.vision = vision;
     this.actuator = actuator;
     updateAutoSelected();
   }
 
   public void updateAutoSelected() {
-    // SmartDashboard.sendData("AUTO SELECTED",
-    // SmartDashboard.getString("Auto Selector"));
     int autoMode = SmartDashboard.getInt("Auto Mode");
     // switch (toMode(SmartDashboard.getString("Auto Selector"))) {
     switch (autoMode) {
-      case 1:
-        // case REACH_DEFENSE:
-        autoSelected = new ReachDefense((TankDrive)driveTrain, shooter);
-        break;
-      case 2:
-        // case BREACH_DEFENSE:
-        autoSelected =
-            new BreachDefense((TankDrive)driveTrain, accel, actuator);
-        break;
-      case 3:
-        // case SHOOT_AT_TARGET:
-        autoSelected = new ShootAtTarget((TankDrive)driveTrain, accel,
-                                         vision, shooter, gyro);
-        break;
       case -1:
         // case TEST_AUTO:
-        autoSelected = new TestAuto((TankDrive)driveTrain);
+    	// Which isn't implemented? (Deleted?)
+        //autoSelected = new TestAuto((TankDrive)driveTrain);
         break;
       case 0:
       // case DO_NOTHING:
@@ -97,10 +74,6 @@ public class AutonomousSwitcher {
         autoSelected = new DoNothing((TankDrive)driveTrain);
         break;
     }
-  }
-
-  private AutonomousMode toMode(String mode) {
-    return AutonomousMode.valueOf(mode);
   }
 
   public Autonomous getAutoSelected() {

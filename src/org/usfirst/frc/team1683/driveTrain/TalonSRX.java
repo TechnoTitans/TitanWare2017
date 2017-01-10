@@ -2,7 +2,6 @@ package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Encoder;
-import org.usfirst.frc.team1683.shooter.Shooter;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
@@ -17,7 +16,7 @@ public class TalonSRX extends CANTalon implements Motor {
 
   private Encoder encoder;
   private Thread thread;
-  private boolean calibrated = false;
+  private boolean calibrated = false; // unused variable. we just put it here for the lolz. I'm guessing.
   private double PIDTargetSpeed;
 
   /**
@@ -214,11 +213,6 @@ public class TalonSRX extends CANTalon implements Motor {
   public void PIDPosition(double position) {
     // PIDUpdate();
     super.changeControlMode(TalonControlMode.Position);
-    if (!Shooter.errorFlag) {
-      super.set(position);
-      SmartDashboard.sendData("Talon " + this.getChannel() + " Position",
-                              super.getPosition());
-    }
   }
 
   public void PIDSpeed(double rpm) {
