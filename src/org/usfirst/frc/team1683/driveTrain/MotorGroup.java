@@ -24,7 +24,7 @@ public class MotorGroup extends ArrayList<Motor> {
    * Basically a list of motors.
    *
    * @param encoder
-   *            The encoder attached to this MotorGroup; will automatically attatch this
+   *            The encoder attached to this MotorGroup; will automatically attach this
    *            encoder to any TalonSRX motor in the motor group
    * @param motors
    *            The motors.
