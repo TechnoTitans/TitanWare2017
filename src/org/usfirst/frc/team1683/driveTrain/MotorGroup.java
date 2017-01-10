@@ -21,10 +21,11 @@ public class MotorGroup extends ArrayList<Motor> {
   private AntiDrift antiDrift;
 
   /**
-   * Constructor
+   * Basically a list of motors.
    *
    * @param encoder
-   *            The encoder attached to this MotorGroup
+   *            The encoder attached to this MotorGroup; will automatically attatch this
+   *            encoder to any TalonSRX motor in the motor group
    * @param motors
    *            The motors.
    */
@@ -39,7 +40,7 @@ public class MotorGroup extends ArrayList<Motor> {
   }
 
   /**
-   * Constructor
+   * Constructor -- just a list of motors
    *
    * @param motors
    *            The motors.
@@ -66,9 +67,11 @@ public class MotorGroup extends ArrayList<Motor> {
 
   /**
    * Move distance in inches.
-   *
+   * Calls the moveDistance parameter
    * @param distance
    *            Distance in inches.
+   * @param speed
+   * 			Speed of motor, from 0 to 1
    * @throws EncoderNotFoundException
    *             If encoder not found.
    */
@@ -93,7 +96,7 @@ public class MotorGroup extends ArrayList<Motor> {
   }
 
   /**
-   * Gets collective speed of motors
+   * Gets collective (average) speed of motors
    */
   public double getSpeed() {
     double speed = 0;
@@ -116,7 +119,10 @@ public class MotorGroup extends ArrayList<Motor> {
    * @return If there is an encoder associated with the group.
    */
   public boolean hasEncoder() { return !(encoder == null); }
-
+  /**
+   * 
+   * @return The average error of all the motors
+   */
   public double getError() {
     double error = 0;
     for (Motor motor : this) {

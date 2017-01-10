@@ -16,7 +16,6 @@ public class TalonSRX extends CANTalon implements Motor {
 
   private Encoder encoder;
   private Thread thread;
-  private boolean calibrated = false; // unused variable. we just put it here for the lolz. I'm guessing.
   private double PIDTargetSpeed;
 
   /**
@@ -50,7 +49,6 @@ public class TalonSRX extends CANTalon implements Motor {
       // synchronized (this) {
       // TODO: make not magic number
       timer.start();
-      // while (Math.abs(encoder.getDistance()) < Math.abs(distance)) {
       while (Math.abs(encoder.getDistance()) < Math.abs(distance) &&
              timer.get() < 3) {
         talonSrx.set(speed);
@@ -58,16 +56,14 @@ public class TalonSRX extends CANTalon implements Motor {
         // encoder.getDistance());
         // do nothing
       }
-      // }
       talonSrx.stop();
-      // notify();
 
       encoder.reset();
     }
   }
 
   /**
-   * Constructor
+   * Constructor for a TalonSRX motor
    *
    * @param channel
    *            The port where the TalonSRX is plugged in.
@@ -126,14 +122,6 @@ public class TalonSRX extends CANTalon implements Motor {
       }
       if (thread.getState().equals(Thread.State.NEW)) {
         thread.start();
-
-        // synchronized (thread) {
-        // try {
-        // thread.wait();
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
-        // }
         SmartDashboard.sendData("EncoderNotFound", false);
       }
     } else {
@@ -158,45 +146,25 @@ public class TalonSRX extends CANTalon implements Motor {
   /**
    * Gets speed of the TalonSRX in RPM
    */
-  // @Override
-  // public double get() {
   // speed = enc counts / 100 ms
   // (speed * 60 secs)
   // --------------------------------------
   // 4096 encoder counts * 100 milliseconds
-  // }
 
   @Override
   public double getSpeed() {
-    // return this.get();
     return (super.getSpeed() * 60) / (4096 * 0.1);
   }
 
   public double getRPM() { return this.get(); }
 
+ 
   public void calibrate() {
     super.setPosition(0);
-    calibrated = true;
   }
 
   public void PIDInit() throws EncoderNotFoundException {
-    // if
-    // (!super.isSensorPresent(FeedbackDevice.PulseWidth).equals(FeedbackDeviceStatus.FeedbackStatusPresent))
-    // {
-    // SmartDashboard.sendData("Encoder on Talon " + getChannel() + "
-    // not found", true);
-    // throw new EncoderNotFoundException();
-    // } else
-    // SmartDashboard.sendData("Encoder on Talon " + getChannel() + "
-    // not found", false);
-    // super.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-
-    // super.setInverted(false);
-    // super.configEncoderCodesPerRev(4096);
-    // calibrate();
     super.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-    // super.configEncoderCodesPerRev(4096);
-    // super.setPosition(0);
   }
 
   public void PIDUpdate(double P, double I, double D) {
@@ -211,7 +179,6 @@ public class TalonSRX extends CANTalon implements Motor {
   public void PIDAngle(double angle) { PIDPosition(angle / 360.0); }
 
   public void PIDPosition(double position) {
-    // PIDUpdate();
     super.changeControlMode(TalonControlMode.Position);
   }
 
@@ -223,13 +190,8 @@ public class TalonSRX extends CANTalon implements Motor {
     super.enableControl();
     PIDTargetSpeed = rpm;
     // double speed = rpm * (4096.0 / 6000.0);
-
-    // SmartDashboard.sendData(this.getChannel() + "RPM", rpm);
-    // SmartDashboard.sendData(this.getChannel() + "Speed", speed);
     super.changeControlMode(TalonControlMode.Speed);
     super.set(rpm);
-    // SmartDashboard.sendData("Talon " + this.getChannel() + " Speed",
-    // getSpeed());
   }
 
   public double PIDErrorSpeed() { return PIDTargetSpeed - getSpeed(); }

@@ -11,13 +11,7 @@ public class QuadEncoder implements Encoder {
   private double wheelRadius;
 
   public QuadEncoder(TalonSRX talonSRX, double wheelRadius) {
-    // if (talonSRX.isSensorPresent(FeedbackDevice.QuadEncoder) ==
-    // FeedbackDeviceStatus.FeedbackStatusPresent) {
     this.talonSRX = talonSRX;
-    // } else {
-    // throw new EncoderNotFoundException();
-    // this.talonSRX = null;
-    // }
     this.talonSRX.setFeedbackDevice(
         FeedbackDevice.CtreMagEncoder_Relative);
 
@@ -28,9 +22,6 @@ public class QuadEncoder implements Encoder {
 
   @Override
   public double getDistance() {
-    // double pos = talonSRX.getEncPosition();
-    // return ;
-    // this.talonSRX.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
     return talonSRX.getPosition() * 2 * Math.PI * wheelRadius;
   }
 
@@ -49,8 +40,6 @@ public class QuadEncoder implements Encoder {
 
   @Override
   public double getSpeed() {
-    // TODO Auto-generated method stub
-    // this.talonSRX.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
     return talonSRX.getSpeed();
   }
 
@@ -58,7 +47,6 @@ public class QuadEncoder implements Encoder {
   public void reset() {
     // this.talonSRX.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
     talonSRX.setPosition(0);
-    // talonSRX.setpos
   }
 
   public TalonSRX getTalon() { return talonSRX; }
