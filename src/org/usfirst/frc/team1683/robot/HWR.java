@@ -1,13 +1,5 @@
 package org.usfirst.frc.team1683.robot;
 
-/**
- * HWR - Stands for HardWare References. Each variable references a piece
- * of
- * hardware to a channel or port.
- *
- * @author David Luo
- *
- */
 public class HWR {
 
   // Motors
@@ -16,21 +8,13 @@ public class HWR {
   public static final int RIGHT_DRIVE_TRAIN_FRONT_E = HWP.CAN_9; // no
   public static final int RIGHT_DRIVE_TRAIN_BACK = HWP.CAN_2;
   public static final int LIGHT_RING = HWP.CAN_1;
-  // public static final int ANGLE_MOTOR = HWP.CAN_5;
+ 
   public static final int ANGLE_MOTOR = HWP.CAN_8;
-  public static final int SHOOTER_LEFT = HWP.CAN_6; // change to can_6
-  public static final int SHOOTER_RIGHT = HWP.CAN_7; // change to can_7
+  public static final int SHOOTER_LEFT = HWP.CAN_6;
+  public static final int SHOOTER_RIGHT = HWP.CAN_7;
   public static final int LINEAR_ACTUATOR = HWP.CAN_3;
-
-  // // Test
-  // public static final int TEST_TALON_1 = HWP.CAN_5;
-  // public static final int TEST_TALON_2 = HWP.CAN_3;
-  // public static final int TEST_ENCODER_1 = HWR.TEST_TALON_1;
-  // public static final int TEST_ENCODER_2 = HWR.TEST_TALON_2;
-  // public static final int TEST_GYRO = HWP.ANALOG_1;
-
+  
   // Encoders
-  // TODO: Get these values
   public static final int LEFT_DRIVE_ENCODER = HWP.CAN_4;
   public static final int RIGHT_DRIVE_ENCODER = HWP.CAN_2;
 
