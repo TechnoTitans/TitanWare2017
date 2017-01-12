@@ -18,77 +18,72 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 
 public class TechnoTitan extends IterativeRobot {
-    public static AutonomousSwitcher switcher;
-    public static final boolean LEFT_REVERSE = false;
-    public static final boolean RIGHT_REVERSE = true;
-    public static final double WHEEL_RADIUS = 0; //TODO: get values
-    TankDrive drive;
-    Timer endGameTimer;
-    PressureReader pressureReader;
-    LightRing lightRing;
-    Compressor compressor = new Compressor(1);
+	public static AutonomousSwitcher switcher;
+	public static final boolean LEFT_REVERSE = false;
+	public static final boolean RIGHT_REVERSE = true;
+	public static final double WHEEL_RADIUS = 0; // TODO: get values
+	TankDrive drive;
+	Timer endGameTimer;
+	PressureReader pressureReader;
+	LightRing lightRing;
+	Compressor compressor = new Compressor(1);
 
-    //initiate robot
-    @Override
-    public void robotInit() {
+	@Override
+	public void robotInit() {
+		//drive train
+		Gyro gyro = new Gyro(HWR.GYRO);
 
-	// GYRO
-	Gyro gyro = new Gyro(HWR.GYRO);
+		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE);
+		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE);
 
-	// DRIVE TRAIN
-	TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE);
-	TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE);
+		MotorGroup leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, WHEEL_RADIUS), leftETalonSRX,
+				new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK_E, LEFT_REVERSE));
+		MotorGroup rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS), rightETalonSRX,
+				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
 
-	MotorGroup leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, WHEEL_RADIUS),
-		// MotorGroup leftGroup = new MotorGroup(
-		leftETalonSRX, new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK_E, LEFT_REVERSE));
+		drive = new TankDrive(leftGroup, rightGroup, gyro);
 
-	MotorGroup rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS),
-		// MotorGroup rightGroup = new MotorGroup(
-		rightETalonSRX, new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
+		// END DRIVE TRAIN
+		endGameTimer = new Timer();
 
-	drive = new TankDrive(leftGroup, rightGroup, gyro);
-	// END DRIVE TRAIN
-	endGameTimer = new Timer();
+		BuiltInAccel accel = new BuiltInAccel();
+		pressureReader = new PressureReader(HWR.PRESSURE_SENSOR);
 
-	BuiltInAccel accel = new BuiltInAccel();
-	pressureReader = new PressureReader(HWR.PRESSURE_SENSOR);
+		lightRing = new LightRing(HWR.LIGHT_RING);
+		lightRing.set(1);
 
-	lightRing = new LightRing(HWR.LIGHT_RING);
-	lightRing.set(1);
+		// switcher = new AutonomousSwitcher(drive, accel, actuator);
+		CameraServer server = CameraServer.getInstance();
+		server.setQuality(50);
+		server.startAutomaticCapture("cam1");
+	}
 
-	//switcher = new AutonomousSwitcher(drive, accel, actuator);
-	CameraServer server = CameraServer.getInstance();
-	server.setQuality(50);
-	server.startAutomaticCapture("cam1");
-    }
+	@Override
+	public void autonomousInit() {
 
-    @Override
-    public void autonomousInit() {
+	}
 
-    }
+	@Override
+	public void autonomousPeriodic() {
+	}
 
-    @Override
-    public void autonomousPeriodic() {
-    }
+	@Override
+	public void teleopInit() {
+		endGameTimer.start();
 
-    @Override
-    public void teleopInit() {
-	endGameTimer.start();
+	}
 
-    }
+	@Override
+	public void teleopPeriodic() {
+		drive.driveMode();
+	}
 
-    @Override
-    public void teleopPeriodic() {
-	drive.driveMode();
-    }
+	@Override
+	public void testInit() {
+	}
 
-    @Override
-    public void testInit() {
-    }
-
-    @Override
-    public void testPeriodic() {
-    }
+	@Override
+	public void testPeriodic() {
+	}
 
 }

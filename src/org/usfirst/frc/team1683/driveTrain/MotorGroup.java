@@ -4,17 +4,8 @@ import java.util.ArrayList;
 
 import org.usfirst.frc.team1683.sensors.Encoder;
 
-/**
- * Represents a group of motors that move together, tied to the same
- * gearsbox
- * and using the same encoder.
- *
- * @author David Luo
- *
- */
 public class MotorGroup extends ArrayList<Motor> {
 
-  // This variable was required for some reason.
   private static final long serialVersionUID = 1L;
   private Encoder encoder;
 
