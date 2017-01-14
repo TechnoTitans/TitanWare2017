@@ -53,9 +53,9 @@ public class TechnoTitan extends IterativeRobot {
 		lightRing.set(1);
 
 		// switcher = new AutonomousSwitcher(drive, accel, actuator);
-		CameraServer server = CameraServer.getInstance();
-		server.setQuality(50);
-		server.startAutomaticCapture("cam1");
+//		CameraServer server = CameraServer.getInstance();
+//		server.setQuality(50);
+//		server.startAutomaticCapture("cam1");
 	}
 
 	@Override

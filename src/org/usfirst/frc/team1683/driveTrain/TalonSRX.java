@@ -3,8 +3,10 @@ package org.usfirst.frc.team1683.driveTrain;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
-import edu.wpi.first.wpilibj.CANTalon;
+//import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
+
+import com.ctre.CANTalon; 
 
 /**
  * Class to represent TalonSRXs attatched to motors.
