@@ -2,55 +2,45 @@ package org.usfirst.frc.team1683.robot;
 
 public class HWR {
 
-  // Motors
-  public static final int LEFT_DRIVE_TRAIN_FRONT = HWP.CAN_4;
-  public static final int LEFT_DRIVE_TRAIN_BACK_E = HWP.CAN_5;
-  public static final int RIGHT_DRIVE_TRAIN_FRONT_E = HWP.CAN_9; // no
-  public static final int RIGHT_DRIVE_TRAIN_BACK = HWP.CAN_2;
-  public static final int LIGHT_RING = HWP.CAN_1;
- 
-  public static final int ANGLE_MOTOR = HWP.CAN_8;
-  public static final int SHOOTER_LEFT = HWP.CAN_6;
-  public static final int SHOOTER_RIGHT = HWP.CAN_7;
-  public static final int LINEAR_ACTUATOR = HWP.CAN_3;
-  
-  // Encoders
-  public static final int LEFT_DRIVE_ENCODER = HWP.CAN_4;
-  public static final int RIGHT_DRIVE_ENCODER = HWP.CAN_2;
+	// Motors
+	public static final int LEFT_DRIVE_TRAIN_FRONT = HWP.CAN_4;
+	public static final int LEFT_DRIVE_TRAIN_BACK_E = HWP.CAN_5;
+	public static final int RIGHT_DRIVE_TRAIN_FRONT_E = HWP.CAN_9; // no
+	public static final int RIGHT_DRIVE_TRAIN_BACK = HWP.CAN_2;
+	public static final int LIGHT_RING = HWP.CAN_1;
 
-  // Joysticks
-  public static final int LEFT_JOYSTICK = HWP.JOY_0;
-  public static final int RIGHT_JOYSTICK = HWP.JOY_1;
-  public static final int AUX_JOYSTICK = HWP.JOY_2;
+	public static final int WINCH = HWP.CAN_8;
 
-  // Sensors
-  public static final int GYRO = HWP.ANALOG_1;
-  // public static final int ACCEL_CHANNEL_X = HWP.ANALOG_2;
-  // public static final int ACCEL_CHANNEL_Y = HWP.ANALOG_3;
-  public static final int PRESSURE_SENSOR = HWP.ANALOG_0;
+	// Encoders
 
-  // Compressor
-  public static final int COMPRESSOR = 0;
-  // TODO: Get these values
-  public static final int DEFAULT_MODULE_CHANNEL = 1;
-  public static final int SHOOTER_PISTON_CHANNEL = 3;
-  // public static final int ANGLE_PISTON_CHANNEL = ;
-  public static final int ClIMB_DEPLOY_CHANNEL = 0;
-  public static final int CLIMB_RETRACT_CHANNEL = 1;
+	public static final int LEFT_DRIVE_ENCODER = HWP.CAN_4;
+	public static final int RIGHT_DRIVE_ENCODER = HWP.CAN_2;
 
-  // Buttons Hp DriverStation
-  public static final int SPIN_UP_INTAKE = HWP.BUTTON_4;
-  public static final int SPIN_UP_SHOOTER = HWP.BUTTON_5;
-  public static final int SHOOT_BALL = HWP.BUTTON_2;
-  public static final int LIFT_HOOK = HWP.BUTTON_4;
-  public static final int ROBOT_CHINUP = HWP.BUTTON_1;
-  public static final int SWITCH_SHOOTER_MODE =
-      HWP.BUTTON_8; // find button
+	// Joysticks
+	public static final int LEFT_JOYSTICK = HWP.JOY_0;
+	public static final int RIGHT_JOYSTICK = HWP.JOY_1;
+	public static final int AUX_JOYSTICK = HWP.JOY_2;
 
-  // //Buttons Dell DriverStation
-  // public static final int SPIN_UP_INTAKE = HWP.BUTTON_5;
-  // public static final int SPIN_UP_SHOOTER = HWP.BUTTON_4;
-  // public static final int SHOOT_BALL = HWP.BUTTON_6;
-  // public static final int LIFT_HOOK = HWP.BUTTON_5;
-  // public static final int ROBOT_CHINUP = HWP.BUTTON_1;
+	// Sensors
+	public static final int GYRO = HWP.ANALOG_1;
+	// public static final int ACCEL_CHANNEL_X = HWP.ANALOG_2;
+	// public static final int ACCEL_CHANNEL_Y = HWP.ANALOG_3;
+	public static final int PRESSURE_SENSOR = HWP.ANALOG_0;
+
+	// Compressor
+	public static final int COMPRESSOR = 0;
+	// TODO: Get these values
+	public static final int DEFAULT_MODULE_CHANNEL = 1;
+	public static final int SHOOTER_PISTON_CHANNEL = 3;
+	// public static final int ANGLE_PISTON_CHANNEL = ;
+	public static final int ClIMB_DEPLOY_CHANNEL = 0;
+	public static final int CLIMB_RETRACT_CHANNEL = 1;
+
+	// Buttons Hp DriverStation
+	public static final int SPIN_UP_INTAKE = HWP.BUTTON_4;
+	public static final int SPIN_UP_SHOOTER = HWP.BUTTON_5;
+	public static final int SHOOT_BALL = HWP.BUTTON_2;
+	public static final int LIFT_HOOK = HWP.BUTTON_4;
+	public static final int ROBOT_CHINUP = HWP.BUTTON_1;
+	public static final int SWITCH_SHOOTER_MODE = HWP.BUTTON_8; // find button
 }
