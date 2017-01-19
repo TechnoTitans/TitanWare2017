@@ -5,7 +5,7 @@ import org.usfirst.frc.team1683.robot.HWR;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class DriverStation {
-	
+
 	public static final int XAxis = 0;
 	public static final int YAxis = 0;
 	public static final int ZAxis = 0;
