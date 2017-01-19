@@ -14,7 +14,8 @@ public class Winch {
 		this.winchMotor = new TalonSRX(channel);
 		this.limitSwitch = limitSwitch;
 	}
-
+	
+	//turn the winch
 	public void turnWinch() {
 		winchMotor.set(liftSpeed);
 		if (limitSwitch.isPressed()) {
