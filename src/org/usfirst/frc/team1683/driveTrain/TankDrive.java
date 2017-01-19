@@ -170,9 +170,9 @@ public class TankDrive implements DriveTrain {
     SmartDashboard.sendData("position motor 0", leftMotor.getEncPosition());
     SmartDashboard.sendData("position 1", leftMotor.getPosition());
     SmartDashboard.sendData("velocity motor 0", leftMotor.getEncVelocity());
+    SmartDashboard.sendData("velocity encoder ticks per 100 ms", leftMotor.getOriginalSpeed());
     SmartDashboard.sendData("velocity 1", leftMotor.getEncoder().getSpeed());
     SmartDashboard.sendData("position 2", leftMotor.getEncoder().getDistance());
-    SmartDashboard.sendData("position 3", ((QuadEncoder) leftMotor.getEncoder()).getPosition());
   }
 
   @Override
