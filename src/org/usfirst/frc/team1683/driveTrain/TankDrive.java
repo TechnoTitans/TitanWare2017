@@ -4,6 +4,7 @@ import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Encoder;
 import org.usfirst.frc.team1683.sensors.Gyro;
+import org.usfirst.frc.team1683.sensors.QuadEncoder;
 
 /**
  * Represents the drive train in tank drive configuration.
@@ -163,6 +164,15 @@ public class TankDrive implements DriveTrain {
 
     left.set(lSpeed);
     right.set(rSpeed);
+    
+    TalonSRX leftMotor = (TalonSRX) left.get(0);
+    
+    SmartDashboard.sendData("position motor 0", leftMotor.getEncPosition());
+    SmartDashboard.sendData("position 1", leftMotor.getPosition());
+    SmartDashboard.sendData("velocity motor 0", leftMotor.getEncVelocity());
+    SmartDashboard.sendData("velocity 1", leftMotor.getEncoder().getSpeed());
+    SmartDashboard.sendData("position 2", leftMotor.getEncoder().getDistance());
+    SmartDashboard.sendData("position 3", ((QuadEncoder) leftMotor.getEncoder()).getPosition());
   }
 
   @Override
