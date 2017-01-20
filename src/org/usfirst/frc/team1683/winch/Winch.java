@@ -1,4 +1,4 @@
-package Winch;
+package org.usfirst.frc.team1683.winch;
 
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
 
