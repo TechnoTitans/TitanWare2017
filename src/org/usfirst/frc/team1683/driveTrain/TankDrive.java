@@ -67,7 +67,7 @@ public class TankDrive implements DriveTrain {
 
 	/**
 	 * @param distance
-	 *            Distance to move in inches.
+	 *            Distance to move in inches at mid speed
 	 * @throws EncoderNotFoundException
 	 *             Encoder not found.
 	 */

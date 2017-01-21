@@ -19,10 +19,19 @@ public class QuadEncoder implements Encoder {
 
   }
 
+  /**
+   * The total distance that the motor has traveled
+   * Multiplies rotations by 2*pi*r where r = wheel radius
+   * @return total distance
+   */
   @Override
   public double getDistance() {
     return talonSRX.getPosition() * 2 * Math.PI * wheelRadius;
   }
+  /**
+   * Just calls talonSRX.getSpeed()
+   * @return The speed of the talon in RPM
+   */
   @Override
   public double getSpeed() {
     return talonSRX.getSpeed();
