@@ -59,7 +59,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		drive.moveDistance(4*Math.PI, 0.07);
+		drive.moveDistance(1000);
 	}
 
 	@Override
