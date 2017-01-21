@@ -2,6 +2,8 @@ package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.sensors.Encoder;
 
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+
 import com.ctre.CANTalon; 
 
 /**
@@ -42,6 +44,10 @@ public class TalonSRX extends CANTalon implements Motor {
     public void run() {
       encoder.reset();
       while (Math.abs(encoder.getDistance()) < Math.abs(distance)) {
+    	if (encoder.getDistance() != 0) {
+    		SmartDashboard.sendData("current distance", encoder.getDistance());
+        	SmartDashboard.sendData("distance goal", distance);
+    	}
         talonSrx.set(speed);
       }
       talonSrx.stop();

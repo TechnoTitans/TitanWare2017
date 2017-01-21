@@ -27,7 +27,6 @@ public class TechnoTitan extends IterativeRobot {
 	PressureReader pressureReader;
 	LightRing lightRing;
 	Compressor compressor = new Compressor(1);
-
 	@Override
 	public void robotInit() {
 		//drive train
@@ -60,7 +59,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		drive.moveDistance(50);
+		drive.moveDistance(4*Math.PI, 0.07);
 	}
 
 	@Override
