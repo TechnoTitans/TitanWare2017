@@ -5,12 +5,6 @@ import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Encoder;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
-/**
- * Represents the drive train in tank drive configuration.
- *
- * @author David Luo
- *
- */
 public class TankDrive implements DriveTrain {
 
 	private MotorGroup left;
