@@ -1,7 +1,11 @@
 package org.usfirst.frc.team1683.shooter;
 
 import edu.wpi.first.wpilibj.TalonSRX;
-
+/*
+ * 
+ * Author: Yi Liu
+ * 
+ */
 public class Intake {
 
 	TalonSRX intakeMotor;
