@@ -1,10 +1,8 @@
 package org.usfirst.frc.team1683.driveTrain;
 
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
-//import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 import com.ctre.CANTalon; 
 
@@ -17,6 +15,7 @@ import com.ctre.CANTalon;
 public class TalonSRX extends CANTalon implements Motor {
 
   private Encoder encoder;
+  // This thread handles moving a certain distance in a separate thread
   private Thread thread;
   private double PIDTargetSpeed;
 
@@ -31,14 +30,10 @@ public class TalonSRX extends CANTalon implements Motor {
     private double distance;
     private double speed;
     private TalonSRX talonSrx;
-    private Timer timer;
-    // private Encoder encoder;
 
     public MotorMover(TalonSRX talonSrx, double distance, double speed) {
       this.talonSrx = talonSrx;
       this.distance = distance;
-      timer = new Timer();
-      // this.encoder = encoder;
       if (distance < 0)
         this.speed = -speed;
       else
@@ -48,15 +43,12 @@ public class TalonSRX extends CANTalon implements Motor {
     @Override
     public void run() {
       encoder.reset();
-      // synchronized (this) {
-      // TODO: make not magic number
-      timer.start();
-      while (Math.abs(encoder.getDistance()) < Math.abs(distance) &&
-             timer.get() < 3) {
+      while (Math.abs(encoder.getDistance()) < Math.abs(distance)) {
+    	if (encoder.getDistance() != 0) {
+    		SmartDashboard.sendData("current distance", encoder.getDistance());
+        	SmartDashboard.sendData("distance goal", distance);
+    	}
         talonSrx.set(speed);
-        // SmartDashboard.sendData("encoder val",
-        // encoder.getDistance());
-        // do nothing
       }
       talonSrx.stop();
 
@@ -94,7 +86,7 @@ public class TalonSRX extends CANTalon implements Motor {
   }
 
   /**
-   * Move distance in inches
+   * Move distance in inches at mid speed
    *
    * @param distance
    *            Distance in inches
@@ -124,10 +116,8 @@ public class TalonSRX extends CANTalon implements Motor {
       }
       if (thread.getState().equals(Thread.State.NEW)) {
         thread.start();
-        SmartDashboard.sendData("EncoderNotFound", false);
       }
     } else {
-      SmartDashboard.sendData("EncoderNotFound", true);
       throw new EncoderNotFoundException();
     }
   }
@@ -135,8 +125,7 @@ public class TalonSRX extends CANTalon implements Motor {
   /**
    * Set the speed of the TalonSRX.
    *
-   * @param speed
-   *            Speed from 0 to 1.
+   * @param speed -- Speed from 0 to 1.
    */
   @Override
   public void set(double speed) {
@@ -157,31 +146,58 @@ public class TalonSRX extends CANTalon implements Motor {
   public double getSpeed() {
     return (super.getSpeed() * 60) / (4096 * 0.1);
   }
-
  
+  /**
+   * Resets the position/distance counter
+   */
   public void calibrate() {
     super.setPosition(0);
   }
 
+  /**
+   * Initializes PID by ensuring that the feedback device is the relative mag encoder
+   * @throws EncoderNotFoundException if there is no encoder
+   */
   public void PIDInit() throws EncoderNotFoundException {
+	if (!hasEncoder()) throw new EncoderNotFoundException("No encoder for PIDInit");
     super.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
   }
 
+  /**
+   * Standard PID loop
+   * @param P -- Proportional error coefficient
+   * @param I -- Integral error coefficient
+   * @param D -- Derivative error coefficient
+   */
   public void PIDUpdate(double P, double I, double D) {
     PIDUpdate(P, I, D, 0);
   }
 
-  public void PIDUpdate(double P, double I, double D, double F) {
+  private void PIDUpdate(double P, double I, double D, double F) {
     super.setPID(P, I, D);
     super.enableControl();
   }
 
+  /**
+   * Sets the position of motor
+   * Note: changes mode to POSITION
+   * @param angle -- angle in degrees
+   */
   public void PIDAngle(double angle) { PIDPosition(angle / 360.0); }
 
+  /**
+   * Sets PID position of motor
+   * @param position -- position
+   */
   public void PIDPosition(double position) {
     super.changeControlMode(TalonControlMode.Position);
+    super.set(position);
   }
 
+  /**
+   * Sets the PID target speed and sets the rpm
+   * @param rpm
+   */
   public void PIDSpeed(double rpm) {
     // PIDUpdate();
     // speed = RPM * 1 min/(6000 (10 milliseconds)) * 4096 encoder counts

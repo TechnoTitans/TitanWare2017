@@ -21,13 +21,12 @@ public class TechnoTitan extends IterativeRobot {
 	public static AutonomousSwitcher switcher;
 	public static final boolean LEFT_REVERSE = false;
 	public static final boolean RIGHT_REVERSE = true;
-	public static final double WHEEL_RADIUS = 0; // TODO: get values
+	public static final double WHEEL_RADIUS = 2;
 	TankDrive drive;
 	Timer endGameTimer;
 	PressureReader pressureReader;
 	LightRing lightRing;
 	Compressor compressor = new Compressor(1);
-
 	@Override
 	public void robotInit() {
 		//drive train
@@ -60,7 +59,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-
+		drive.moveDistance(1000);
 	}
 
 	@Override
