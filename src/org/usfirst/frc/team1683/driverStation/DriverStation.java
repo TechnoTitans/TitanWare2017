@@ -16,7 +16,7 @@ public class DriverStation {
 	public static Joystick auxStick = new Joystick(HWR.AUX_JOYSTICK);
 
 	// TODO
-	public static boolean antiBounce(int joystick, int button) {
+	/*public static boolean antiBounce(int joystick, int button) {
 		boolean pressed = false;
 
 		switch (joystick) {
@@ -32,7 +32,7 @@ public class DriverStation {
 			default:
 				break;
 		}
-
+		
 		if (pressed && !lasts[joystick][button - 1]) {
 			lasts[joystick][button - 1] = true;
 			return true;
@@ -42,5 +42,5 @@ public class DriverStation {
 			lasts[joystick][button - 1] = false;
 			return false;
 		}
-	}
+	}*/
 }
