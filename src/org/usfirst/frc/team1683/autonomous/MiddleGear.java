@@ -4,7 +4,7 @@ import org.usfirst.frc.team1683.autonomous.Autonomous.State;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 
 /**
- * Shoots at target
+ * middle gear scoring
  * 
  * @author Yi Liu
  *
