@@ -26,9 +26,10 @@ public class TechnoTitan extends IterativeRobot {
 	LightRing lightRing;
 	DoNothing auto;
 	Compressor compressor = new Compressor(1);
+
 	@Override
 	public void robotInit() {
-		
+
 		Gyro gyro = new Gyro(HWR.GYRO);
 
 		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE);
@@ -41,7 +42,6 @@ public class TechnoTitan extends IterativeRobot {
 
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
 
-		
 		endGameTimer = new Timer();
 
 		BuiltInAccel accel = new BuiltInAccel();
@@ -49,12 +49,12 @@ public class TechnoTitan extends IterativeRobot {
 
 		lightRing = new LightRing(HWR.LIGHT_RING);
 		lightRing.set(1);
-		
-		switcher = new AutonomousSwitcher(drive, accel);
 
-//		CameraServer server = CameraServer.getInstance();
-//		server.setQuality(50);
-//		server.startAutomaticCapture("cam1");
+		//switcher = new AutonomousSwitcher(drive, accel);
+
+		// CameraServer server = CameraServer.getInstance();
+		// server.setQuality(50);
+		// server.startAutomaticCapture("cam1");
 	}
 
 	@Override
