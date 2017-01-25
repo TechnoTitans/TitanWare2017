@@ -30,7 +30,7 @@ public class TechnoTitan extends IterativeRobot {
 	Compressor compressor = new Compressor(1);
 	Solenoid solenoid;
 		
-	SolenoidTest solenoidTest;
+	//SolenoidTest solenoidTest;
 
 	@Override
 	public void robotInit() {
@@ -52,7 +52,7 @@ public class TechnoTitan extends IterativeRobot {
 		BuiltInAccel accel = new BuiltInAccel();
 		pressureReader = new PressureReader(HWR.PRESSURE_SENSOR);
 		solenoid = new Solenoid(HWR.DEFAULT_MODULE_CHANNEL, HWR.GEAR_PISTON_CHANNEL);
-		solenoidTest = new SolenoidTest();
+		//solenoidTest = new SolenoidTest();
 		
 		lightRing = new LightRing(HWR.LIGHT_RING);
 		lightRing.set(1);
@@ -81,7 +81,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		solenoidTest.test();
+		
 		//drive.driveMode();
 	}
 
