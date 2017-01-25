@@ -9,14 +9,14 @@ import org.usfirst.frc.team1683.driveTrain.TankDrive;
  * @author Yi Liu
  *
  */
-public class MiddleGear extends Autonomous {
+public class EdgeGearScore extends Autonomous {
 	public final double distance = 96; // guessing distance (inches)
 	public final double pixelFromCenter = 10; // pixel (guessing)
 	public final double turnSpeed = 3; // degrees
 	public final double distanceFromGoal = 3; // degrees
 	public final double speed = 5;
 
-	public MiddleGear(TankDrive tankDrive) {
+	public EdgeGearScore(TankDrive tankDrive) {
 		super(tankDrive);
 	}
 
@@ -27,8 +27,23 @@ public class MiddleGear extends Autonomous {
 				break;
 			case DRIVE_FORWARD:
 				tankDrive.moveDistance(distance);
-				nextState = State.SCORE;
+				nextState = State.REALIGN;
 				break;
+			case REALIGN:
+				/*
+				 * while(vision.isNull ||
+				 * vision.distanceFromCenter<pixelFromCenter){
+				 * tankDrive.turn(turnSpeed); }
+				 */
+				nextState = State.APPROACH_GOAL;
+				break;
+			case APPROACH_GOAL:
+				/*
+				 * while(vision.getDistance<distanceFromGoal){
+				 * tankDrive.set(speed); }
+				 */
+				tankDrive.stop();
+				nextState = State.SCORE;
 			case SCORE:
 				/*
 				 * piston.extend();
