@@ -31,7 +31,7 @@ public class HWR {
 	public static final int COMPRESSOR = 0;
 	// TODO: Get these values
 	public static final int DEFAULT_MODULE_CHANNEL = 1;
-	public static final int SHOOTER_PISTON_CHANNEL = 3;
+	public static final int GEAR_PISTON_CHANNEL = 3;
 	// public static final int ANGLE_PISTON_CHANNEL = ;
 	public static final int ClIMB_DEPLOY_CHANNEL = 0;
 	public static final int CLIMB_RETRACT_CHANNEL = 1;
