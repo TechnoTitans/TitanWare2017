@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1683.shooter;
+package org.usfirst.frc.team1683.scoring;
 
 import edu.wpi.first.wpilibj.TalonSRX;
 /*
