@@ -30,7 +30,6 @@ public class TechnoTitan extends IterativeRobot {
 	Autonomous auto;
 	Compressor compressor = new Compressor(1);
 	Solenoid solenoid;
-	
 	GyroTester gyroTester;
 		
 	//SolenoidTest solenoidTest;
@@ -49,7 +48,7 @@ public class TechnoTitan extends IterativeRobot {
 				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
 
 		//drive = new TankDrive(leftGroup, rightGroup, gyro);
-
+		
 		endGameTimer = new Timer();
 
 		BuiltInAccel accel = new BuiltInAccel();
@@ -81,6 +80,7 @@ public class TechnoTitan extends IterativeRobot {
 	public void teleopInit() {
 		endGameTimer.start();
 		gyroTester = new GyroTester();
+		 
 
 	}
 
@@ -88,6 +88,7 @@ public class TechnoTitan extends IterativeRobot {
 	public void teleopPeriodic() {
 		gyroTester.test();
 		//drive.driveMode();
+		
 	}
 
 	@Override

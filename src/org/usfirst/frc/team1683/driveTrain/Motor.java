@@ -4,12 +4,6 @@ import org.usfirst.frc.team1683.sensors.Encoder;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 
-/**
- * Implemented by any class that represents a motor.
- *
- * @author David Luo
- *
- */
 public interface Motor extends PIDOutput {
 
 	public static final double MAX_SPEED = 1.0;
