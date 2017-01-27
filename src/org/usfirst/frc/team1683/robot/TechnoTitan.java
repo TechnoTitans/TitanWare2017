@@ -8,7 +8,9 @@ import org.usfirst.frc.team1683.autonomous.PassLine;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.BuiltInAccel;
+import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.test.GyroTester;
 import org.usfirst.frc.team1683.sensors.PressureReader;
@@ -31,13 +33,14 @@ public class TechnoTitan extends IterativeRobot {
 	Compressor compressor = new Compressor(1);
 	Solenoid solenoid;
 	GyroTester gyroTester;
+	Gyro gyro;
 		
 	//SolenoidTest solenoidTest;
 
 	@Override
 	public void robotInit() {
 
-		//Gyro gyro = new Gyro(HWR.GYRO);
+		gyro = new Gyro(HWR.GYRO);
 
 		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE);
 		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE);
@@ -47,7 +50,7 @@ public class TechnoTitan extends IterativeRobot {
 		MotorGroup rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS), rightETalonSRX,
 				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
 
-		//drive = new TankDrive(leftGroup, rightGroup, gyro);
+		drive = new TankDrive(leftGroup, rightGroup, gyro);
 		
 		endGameTimer = new Timer();
 
@@ -74,20 +77,20 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 	}
 
 	@Override
 	public void teleopInit() {
 		endGameTimer.start();
-		gyroTester = new GyroTester();
 		 
 
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		gyroTester.test();
-		//drive.driveMode();
+		drive.driveMode();
+		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 		
 	}
 
