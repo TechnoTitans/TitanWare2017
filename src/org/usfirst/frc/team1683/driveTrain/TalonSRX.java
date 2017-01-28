@@ -3,8 +3,11 @@ package org.usfirst.frc.team1683.driveTrain;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-
+import org.usfirst.frc.team1683.robot.HWR;
+import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import com.ctre.CANTalon;
+
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class TalonSRX extends CANTalon implements Motor {
 
@@ -12,8 +15,8 @@ public class TalonSRX extends CANTalon implements Motor {
 	// This thread handles moving a certain distance in a separate thread
 	private Thread thread;
 	private double PIDTargetSpeed;
-	AntiDrift antiDrift;
-
+	AntiDrift anti;
+	Gyro gyro;
 	private class MotorMover implements Runnable {
 
 		private double distance;
@@ -39,8 +42,8 @@ public class TalonSRX extends CANTalon implements Motor {
 					SmartDashboard.sendData("current distance", encoder.getDistance());
 					SmartDashboard.sendData("distance goal", distance);
 				}
-				talonSrx.set(speed);
-				SmartDashboard.sendData("antidrift", antiDrift.antiDrift(speed, true));
+				talonSrx.set(anti.antiDrift(speed, true));
+				SmartDashboard.sendData("antidrift", anti.antiDrift(speed, true));
 			}
 			talonSrx.stop();
 
@@ -60,6 +63,11 @@ public class TalonSRX extends CANTalon implements Motor {
 		super(channel);
 		super.setInverted(reversed);
 	}
+	public TalonSRX(int channel, boolean reversed, AntiDrift anti) {
+		super(channel);
+		super.setInverted(reversed);
+		this.anti = anti;
+	}
 
 	/**
 	 * Constructor
@@ -71,9 +79,10 @@ public class TalonSRX extends CANTalon implements Motor {
 	 * @param encoder
 	 *            Encoder to attach to this TalonSRX.
 	 */
-	public TalonSRX(int channel, boolean reversed, Encoder encoder) {
+	public TalonSRX(int channel, boolean reversed, AntiDrift anti, Encoder encoder) {
 		super(channel);
 		super.setInverted(reversed);
+		this.anti = anti;
 		this.encoder = encoder;
 	}
 

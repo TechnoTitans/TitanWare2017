@@ -15,7 +15,6 @@ import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.test.GyroTester;
 import org.usfirst.frc.team1683.sensors.PressureReader;
-import org.usfirst.frc.team1683.vision.LightRing;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -29,7 +28,7 @@ public class TechnoTitan extends IterativeRobot {
 	TankDrive drive;
 	Timer endGameTimer;
 	PressureReader pressureReader;
-	LightRing lightRing;
+	//LightRing lightRing;
 	Autonomous auto;
 	Compressor compressor = new Compressor(1);
 	Solenoid solenoid;
@@ -45,17 +44,17 @@ public class TechnoTitan extends IterativeRobot {
 	public void robotInit() {
 
 		gyro = new Gyro(HWR.GYRO);
+		anti = new AntiDrift(gyro);
 		
-		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE);
-		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE);
+		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE, anti);
+		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE, anti);
 
 		leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, WHEEL_RADIUS), true, leftETalonSRX,
-				new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK_E, LEFT_REVERSE));
+				new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK_E, LEFT_REVERSE, anti));
 		rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS), false, rightETalonSRX,
-				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
+				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE, anti));
 
-		anti = new AntiDrift(gyro);
-		drive = new TankDrive(leftGroup, rightGroup, gyro);
+		drive = new TankDrive(leftGroup, rightGroup, gyro, anti);
 		
 		endGameTimer = new Timer();
 
@@ -64,8 +63,8 @@ public class TechnoTitan extends IterativeRobot {
 		solenoid = new Solenoid(HWR.DEFAULT_MODULE_CHANNEL, HWR.GEAR_PISTON_CHANNEL);
 		//solenoidTest = new SolenoidTest();
 		
-		lightRing = new LightRing(HWR.LIGHT_RING);
-		lightRing.set(1);
+		//lightRing = new LightRing(HWR.LIGHT_RING);
+		//lightRing.set(1);
 		
 		//switcher = new AutonomousSwitcher(drive, accel);
 
