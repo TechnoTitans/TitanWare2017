@@ -13,31 +13,31 @@ public class AntiDrift {
 	// It used to come from SmartDashboard
 	private final double kp;
 	private Gyro gyro;
+	// 1 if right, -1 if left, 0 if no correction should be applied
+	private int right;
 
-	public AntiDrift(Gyro gyro) {
+	public AntiDrift(Gyro gyro, int right) {
 		SmartDashboard.prefDouble("kp", 0.03); //TODO testing
 		SmartDashboard.sendData("kp", 0.03);
 		this.kp = SmartDashboard.getDouble("kp");
 		this.gyro = gyro;
+		this.right = right;
 	}
 
-	public double antiDrift(double speed, Boolean left) {
+	/**
+	 * 
+	 * @param speed The current speed of the motor
+	 * @return The new speed of the motor that should be set to make the angle of the gyro closer to zero
+	 */
+	public double antiDrift(double speed) {
 		double error = antidriftangle - gyro.getAngle();
 		SmartDashboard.sendData("gyroanti", gyro.getAngle());
 
 		double correction = SmartDashboard.getDouble("kp") * error / 2.0;
-		if (left) {
-			double leftSpeed = limitSpeed(speed - correction) ;
-			return leftSpeed;
-		} else if (!left) {
-			double rightSpeed = limitSpeed(speed - correction);
-			return rightSpeed;
-		} else {
-			return speed;
-		}
+		return limitSpeed(speed + correction * right);
 	}
 
-	public static double limitSpeed(double speed) {
+	private static double limitSpeed(double speed) {
 		if (speed > 1.0) {
 			return 1.0;
 		} else if (speed < -1.0) {

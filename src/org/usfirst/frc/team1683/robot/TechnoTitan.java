@@ -34,7 +34,6 @@ public class TechnoTitan extends IterativeRobot {
 	Solenoid solenoid;
 	GyroTester gyroTester;
 	Gyro gyro;
-	AntiDrift anti;
 	
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
@@ -44,17 +43,16 @@ public class TechnoTitan extends IterativeRobot {
 	public void robotInit() {
 
 		gyro = new Gyro(HWR.GYRO);
-		anti = new AntiDrift(gyro);
 		
-		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE, anti);
-		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE, anti);
+		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE, new AntiDrift(gyro, -1));
+		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE, new AntiDrift(gyro, 1));
 
-		leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, WHEEL_RADIUS), true, leftETalonSRX,
-				new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK_E, LEFT_REVERSE, anti));
-		rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS), false, rightETalonSRX,
-				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE, anti));
+		leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, WHEEL_RADIUS), leftETalonSRX,
+				new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK_E, LEFT_REVERSE));
+		rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS), rightETalonSRX,
+				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
 
-		drive = new TankDrive(leftGroup, rightGroup, gyro, anti);
+		drive = new TankDrive(leftGroup, rightGroup, gyro);
 		
 		endGameTimer = new Timer();
 

@@ -22,11 +22,9 @@ public class TalonSRX extends CANTalon implements Motor {
 		private double distance;
 		private double speed;
 		private TalonSRX talonSrx;
-		private Boolean left;
 		
-		public MotorMover(TalonSRX talonSrx, double distance, double speed, Boolean left) {
+		public MotorMover(TalonSRX talonSrx, double distance, double speed) {
 			this.talonSrx = talonSrx;
-			this.left = left;
 			this.distance = distance;
 			if (distance < 0)
 				this.speed = -speed;
@@ -42,8 +40,8 @@ public class TalonSRX extends CANTalon implements Motor {
 					SmartDashboard.sendData("current distance", encoder.getDistance());
 					SmartDashboard.sendData("distance goal", distance);
 				}
-				talonSrx.set(anti.antiDrift(speed, true));
-				SmartDashboard.sendData("antidrift", anti.antiDrift(speed, true));
+				talonSrx.set(anti.antiDrift(speed));
+				SmartDashboard.sendData("antidrift", anti.antiDrift(speed));
 			}
 			talonSrx.stop();
 
@@ -93,8 +91,8 @@ public class TalonSRX extends CANTalon implements Motor {
 	 *            Distance in inches
 	 */
 	@Override
-	public void moveDistance(double distance, Boolean left) throws EncoderNotFoundException {
-		moveDistance(distance, Motor.MID_SPEED, left);
+	public void moveDistance(double distance) throws EncoderNotFoundException {
+		moveDistance(distance, Motor.MID_SPEED);
 	}
 
 	/**
@@ -106,11 +104,11 @@ public class TalonSRX extends CANTalon implements Motor {
 	 *            Speed from 0 to 1.
 	 */
 	@Override
-	public void moveDistance(double distance, double speed, Boolean left) throws EncoderNotFoundException {
+	public void moveDistance(double distance, double speed) throws EncoderNotFoundException {
 
 		if (hasEncoder()) {
 			if (thread == null || thread.getState().equals(Thread.State.TERMINATED)) {
-				thread = new Thread(new MotorMover(this, distance, speed, left));
+				thread = new Thread(new MotorMover(this, distance, speed));
 			}
 			if (thread.getState().equals(Thread.State.NEW)) {
 				thread.start();

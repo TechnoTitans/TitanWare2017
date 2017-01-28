@@ -10,9 +10,9 @@ public interface Motor extends PIDOutput {
 	public static final double MID_SPEED = 0.5;
 	public static final double LOW_SPEED = 0.25;
 
-	public void moveDistance(double distance, Boolean left) throws EncoderNotFoundException;
+	public void moveDistance(double distance) throws EncoderNotFoundException;
 
-	public void moveDistance(double distance, double speed, Boolean left) throws EncoderNotFoundException;
+	public void moveDistance(double distance, double speed) throws EncoderNotFoundException;
 
 	// public void moveDegrees();
 	public void set(double speed);

@@ -52,8 +52,7 @@ public class TankDrive implements DriveTrain {
 		this.right = right;
 	}
 
-	public TankDrive(MotorGroup left, MotorGroup right, Gyro gyro, AntiDrift anti) {
-		this.anti = anti;
+	public TankDrive(MotorGroup left, MotorGroup right, Gyro gyro) {
 		this.left = left;
 		this.right = right;
 		this.gyro = gyro;
