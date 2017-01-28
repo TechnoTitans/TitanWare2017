@@ -10,7 +10,7 @@ public class MotorGroup extends ArrayList<Motor> {
 	private Encoder encoder;
 
 	private AntiDrift antiDrift;
-
+	private Boolean left;
 	/**
 	 * Basically a list of motors.
 	 *
@@ -20,8 +20,9 @@ public class MotorGroup extends ArrayList<Motor> {
 	 * @param motors
 	 *            The motors.
 	 */
-	public MotorGroup(Encoder encoder, Motor... motors) {
+	public MotorGroup(Encoder encoder, Boolean left, Motor... motors) {
 		this.encoder = encoder;
+		this.left = left;
 		for (Motor motor : motors) {
 			if (motor instanceof TalonSRX) {
 				((TalonSRX) motor).setEncoder(encoder);
@@ -68,7 +69,7 @@ public class MotorGroup extends ArrayList<Motor> {
 	// TODO: make this linear instead of rotations
 	public void moveDistance(double distance, double speed) throws EncoderNotFoundException {
 		for (Motor motor : this) {
-			motor.moveDistance(distance, speed);
+			motor.moveDistance(distance, speed, left);
 		}
 	}
 

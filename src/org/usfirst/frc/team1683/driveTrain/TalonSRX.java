@@ -19,9 +19,11 @@ public class TalonSRX extends CANTalon implements Motor {
 		private double distance;
 		private double speed;
 		private TalonSRX talonSrx;
-
-		public MotorMover(TalonSRX talonSrx, double distance, double speed) {
+		private Boolean left;
+		
+		public MotorMover(TalonSRX talonSrx, double distance, double speed, Boolean left) {
 			this.talonSrx = talonSrx;
+			this.left = left;
 			this.distance = distance;
 			if (distance < 0)
 				this.speed = -speed;
@@ -81,8 +83,8 @@ public class TalonSRX extends CANTalon implements Motor {
 	 *            Distance in inches
 	 */
 	@Override
-	public void moveDistance(double distance) throws EncoderNotFoundException {
-		moveDistance(distance, Motor.MID_SPEED);
+	public void moveDistance(double distance, Boolean left) throws EncoderNotFoundException {
+		moveDistance(distance, Motor.MID_SPEED, left);
 	}
 
 	/**
@@ -94,11 +96,11 @@ public class TalonSRX extends CANTalon implements Motor {
 	 *            Speed from 0 to 1.
 	 */
 	@Override
-	public void moveDistance(double distance, double speed) throws EncoderNotFoundException {
+	public void moveDistance(double distance, double speed, Boolean left) throws EncoderNotFoundException {
 
 		if (hasEncoder()) {
 			if (thread == null || thread.getState().equals(Thread.State.TERMINATED)) {
-				thread = new Thread(new MotorMover(this, distance, speed));
+				thread = new Thread(new MotorMover(this, distance, speed, left));
 			}
 			if (thread.getState().equals(Thread.State.NEW)) {
 				thread.start();
