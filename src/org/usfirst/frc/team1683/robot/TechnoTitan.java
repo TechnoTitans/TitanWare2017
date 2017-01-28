@@ -5,6 +5,7 @@ import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.autonomous.DoNothing;
 import org.usfirst.frc.team1683.autonomous.PassLine;
+import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
@@ -34,22 +35,26 @@ public class TechnoTitan extends IterativeRobot {
 	Solenoid solenoid;
 	GyroTester gyroTester;
 	Gyro gyro;
-		
+	AntiDrift anti;
+	
+	MotorGroup leftGroup;
+	MotorGroup rightGroup;
 	//SolenoidTest solenoidTest;
 
 	@Override
 	public void robotInit() {
 
 		gyro = new Gyro(HWR.GYRO);
-
+		
 		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE);
 		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE);
 
-		MotorGroup leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, WHEEL_RADIUS), leftETalonSRX,
+		leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, WHEEL_RADIUS), leftETalonSRX,
 				new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK_E, LEFT_REVERSE));
-		MotorGroup rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS), rightETalonSRX,
+		rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS), rightETalonSRX,
 				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
 
+		anti = new AntiDrift(leftGroup, rightGroup, gyro);
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
 		
 		endGameTimer = new Timer();
@@ -72,12 +77,15 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		auto = new PassLine(drive);
+		gyro.reset();
 		auto.run();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
+		SmartDashboard.sendData("Left AntiDrift",anti.antiDrift(0.00, leftGroup));
+		SmartDashboard.sendData("Right AntiDrift", anti.antiDrift(0.00, rightGroup));
 	}
 
 	@Override

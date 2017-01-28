@@ -12,6 +12,7 @@ public class TalonSRX extends CANTalon implements Motor {
 	// This thread handles moving a certain distance in a separate thread
 	private Thread thread;
 	private double PIDTargetSpeed;
+	AntiDrift antiDrift;
 
 	private class MotorMover implements Runnable {
 

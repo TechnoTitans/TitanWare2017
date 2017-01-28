@@ -19,7 +19,7 @@ public class AntiDrift {
 	public AntiDrift(MotorGroup left, MotorGroup right, Gyro gyro) {
 		this.left = left;
 		this.right = right;
-		SmartDashboard.prefDouble("kp", 9);
+		SmartDashboard.prefDouble("kp", 0.03); //TODO testing
 		this.kp = SmartDashboard.getDouble("kp");
 		this.gyro = gyro;
 	}
@@ -29,7 +29,7 @@ public class AntiDrift {
 
 		double correction = SmartDashboard.getDouble("kp") * error / 2.0;
 		if (motorGroup.equals(left)) {
-			double leftSpeed = limitSpeed(speed + correction);
+			double leftSpeed = limitSpeed(speed - correction) ;
 			return leftSpeed;
 		} else if (motorGroup.equals(right)) {
 			double rightSpeed = limitSpeed(speed - correction);
