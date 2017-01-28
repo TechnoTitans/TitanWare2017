@@ -54,7 +54,7 @@ public class TechnoTitan extends IterativeRobot {
 		rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS), false, rightETalonSRX,
 				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
 
-		anti = new AntiDrift(leftGroup, rightGroup, gyro);
+		anti = new AntiDrift(gyro);
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
 		
 		endGameTimer = new Timer();
@@ -84,8 +84,6 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
-		SmartDashboard.sendData("Left AntiDrift",anti.antiDrift(0.00, leftGroup));
-		SmartDashboard.sendData("Right AntiDrift", anti.antiDrift(0.00, rightGroup));
 	}
 
 	@Override

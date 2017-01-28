@@ -40,6 +40,7 @@ public class TalonSRX extends CANTalon implements Motor {
 					SmartDashboard.sendData("distance goal", distance);
 				}
 				talonSrx.set(speed);
+				SmartDashboard.sendData("antidrift", antiDrift.antiDrift(speed, true));
 			}
 			talonSrx.stop();
 
