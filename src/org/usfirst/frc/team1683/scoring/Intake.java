@@ -1,19 +1,21 @@
-package org.usfirst.frc.team1683.shooter;
+package org.usfirst.frc.team1683.scoring;
 
 import edu.wpi.first.wpilibj.TalonSRX;
-
+/*
+ * 
+ * Author: Yi Liu
+ * 
+ */
 public class Intake {
 
 	TalonSRX intakeMotor;
-
-	public static final double speed = 0; //TODO
 
 	public Intake(int channel) {
 		this.intakeMotor = new TalonSRX(channel);
 	}
 
 	// turn intake
-	public void turnIntake() {
+	public void setIntakeSpeed(double speed) {
 		intakeMotor.set(speed);
 	}
 }

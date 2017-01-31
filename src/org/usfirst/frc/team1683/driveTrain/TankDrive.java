@@ -5,21 +5,16 @@ import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Encoder;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
-/**
- * Represents the drive train in tank drive configuration.
- *
- * @author David Luo
- *
- */
 public class TankDrive implements DriveTrain {
 
 	private MotorGroup left;
 	private MotorGroup right;
 	private Gyro gyro;
 	private Thread thread;
+
+	private AntiDrift anti;
 	// Will probably use to correct drift
 	@SuppressWarnings("unused")
-	private AntiDrift antiDrift;
 	private final double kp = 0.6;
 	// private AntiDrift antiDrift;
 
@@ -62,7 +57,6 @@ public class TankDrive implements DriveTrain {
 		this.right = right;
 		this.gyro = gyro;
 		// this.gyro.reset();
-		antiDrift = new AntiDrift(left, right, gyro, kp);
 	}
 
 	/**

@@ -2,62 +2,48 @@ package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
 public class AntiDrift {
 
-  private final int antidriftangle = 0;
-  @SuppressWarnings("unused")
-  // This variable is used for error correction (now automated)
-  // It used to come from SmartDashboard
-  private final double kp; 
-  private Gyro gyro;
+	private final int antidriftangle = 0;
+	@SuppressWarnings("unused")
+	// This variable is used for error correction (now automated)
+	// It used to come from SmartDashboard
+	private final double kp;
+	private Gyro gyro;
+	// 1 if right, -1 if left, 0 if no correction should be applied
+	private int right;
 
-  private MotorGroup left;
-  private MotorGroup right;
+	public AntiDrift(Gyro gyro, int right) {
+		SmartDashboard.prefDouble("kp", 0.03); //TODO testing
+		SmartDashboard.sendData("kp", 0.03);
+		this.kp = SmartDashboard.getDouble("kp");
+		this.gyro = gyro;
+		this.right = right;
+	}
 
-  public AntiDrift(MotorGroup left, MotorGroup right, Gyro gyro,
-                   double kp) {
-    this.left = left;
-    this.right = right;
-    // this.kp = kp;
-    // 9 was good estimate.
-    SmartDashboard.prefDouble("kp", 9);
-    this.kp = SmartDashboard.getDouble("kp");
-    this.gyro = gyro;
-  }
+	/**
+	 * 
+	 * @param speed The current speed of the motor
+	 * @return The new speed of the motor that should be set to make the angle of the gyro closer to zero
+	 */
+	public double antiDrift(double speed) {
+		double error = antidriftangle - gyro.getAngle();
+		SmartDashboard.sendData("gyroanti", gyro.getAngle());
 
-  public double antiDrift(double speed, MotorGroup motorGroup) {
-    double error = antidriftangle - gyro.getAngle();
-    // double correction = kp*error/2.0;
+		double correction = SmartDashboard.getDouble("kp") * error / 2.0;
+		return limitSpeed(speed + correction * right);
+	}
 
-    double correction = SmartDashboard.getDouble("kp") * error / 2.0;
-    if (motorGroup.equals(left)) {
-      // TODO:make sure motors are spinning the correct direction
-      double leftSpeed = limitSpeed(speed + correction); // motors need to
-      // be spinning
-      // the correct
-      // direction
-      return leftSpeed;
-    } else if (motorGroup.equals(right)) {
-      double rightSpeed =
-          limitSpeed(speed - correction); // motors need to
-      // be spinning
-      // the correct
-      // direction
-      return rightSpeed;
-    } else {
-      return speed;
-    }
-  }
-
-  public static double limitSpeed(double speed) {
-    if (speed > 1.0) {
-      return 1.0;
-    } else if (speed < -1.0) {
-      return -1.0;
-    } else {
-      return speed;
-    }
-  }
+	private static double limitSpeed(double speed) {
+		if (speed > 1.0) {
+			return 1.0;
+		} else if (speed < -1.0) {
+			return -1.0;
+		} else {
+			return speed;
+		}
+	}
 }

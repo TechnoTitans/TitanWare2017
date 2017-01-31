@@ -8,7 +8,7 @@ public class Winch {
 
 	TalonSRX winchMotor;
 	LimitSwitch limitSwitch;
-	public static final double liftSpeed = 0;
+	public static final double liftSpeed = 0;//TODO
 
 	public Winch(int channel, LimitSwitch limitSwitch) {
 		this.winchMotor = new TalonSRX(channel);
