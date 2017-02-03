@@ -36,6 +36,9 @@ public abstract class Autonomous {
 	public static void resetAuto() {
 		presentState = State.INIT_CASE;
 	}
+	public static void stop(){
+		presentState = State.STOP;
+	}
 
 	public abstract void run();
 }

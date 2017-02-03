@@ -17,8 +17,8 @@ public class AntiDrift {
 	private int right;
 
 	public AntiDrift(Gyro gyro, int right) {
-		SmartDashboard.prefDouble("kp", 0.03); //TODO testing
-		SmartDashboard.sendData("kp", 0.03);
+		SmartDashboard.prefDouble("kp", 0.01); //TODO testing
+		SmartDashboard.sendData("kp", 0.01);
 		this.kp = SmartDashboard.getDouble("kp");
 		this.gyro = gyro;
 		this.right = right;
@@ -34,7 +34,7 @@ public class AntiDrift {
 		SmartDashboard.sendData("gyroanti", gyro.getAngle());
 
 		double correction = SmartDashboard.getDouble("kp") * error / 2.0;
-		return limitSpeed(speed + correction * right);
+		return limitSpeed(speed -  correction * right);
 	}
 
 	private static double limitSpeed(double speed) {

@@ -85,6 +85,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		auto.stop();
 		endGameTimer.start();
 		 
 

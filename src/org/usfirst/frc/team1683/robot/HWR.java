@@ -4,9 +4,9 @@ public class HWR {
 
 	// Motors
 	public static final int LEFT_DRIVE_TRAIN_FRONT = HWP.CAN_4;
-	public static final int LEFT_DRIVE_TRAIN_BACK_E = HWP.CAN_2;
-	public static final int RIGHT_DRIVE_TRAIN_FRONT_E = HWP.CAN_3; // no
-	public static final int RIGHT_DRIVE_TRAIN_BACK = HWP.CAN_5;
+	public static final int LEFT_DRIVE_TRAIN_BACK_E = HWP.CAN_5;
+	public static final int RIGHT_DRIVE_TRAIN_FRONT_E = HWP.CAN_9; // no
+	public static final int RIGHT_DRIVE_TRAIN_BACK = HWP.CAN_2;
 	public static final int LIGHT_RING = HWP.CAN_1;
 
 	public static final int WINCH = HWP.CAN_8;
@@ -24,7 +24,7 @@ public class HWR {
 	// Sensors
 	public static final int GYRO = HWP.ANALOG_1;
 	// public static final int ACCEL_CHANNEL_X = HWP.ANALOG_2;
-	// public static final int ACCEL_CHANNEL_Y = HWP.ANALOG_3;
+	// public static final int  ACCEL_CHANNEL_Y = HWP.ANALOG_3;
 	public static final int PRESSURE_SENSOR = HWP.ANALOG_0;
 
 	// Compressor
