@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1683.winch;
+package org.usfirst.frc.team1683.scoring;
 
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
 
