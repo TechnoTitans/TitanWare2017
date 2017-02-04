@@ -3,7 +3,6 @@ package org.usfirst.frc.team1683.driveTrain;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import com.ctre.CANTalon;
 

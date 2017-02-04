@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1683.autonomous;
 
-import org.usfirst.frc.team1683.autonomous.Autonomous.State;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 
 /**
