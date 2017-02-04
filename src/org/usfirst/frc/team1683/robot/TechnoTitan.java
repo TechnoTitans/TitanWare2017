@@ -1,16 +1,15 @@
 
 package org.usfirst.frc.team1683.robot;
+
 import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
-import org.usfirst.frc.team1683.autonomous.DoNothing;
 import org.usfirst.frc.team1683.autonomous.PassLine;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.test.GyroTester;
@@ -28,22 +27,22 @@ public class TechnoTitan extends IterativeRobot {
 	TankDrive drive;
 	Timer endGameTimer;
 	PressureReader pressureReader;
-	//LightRing lightRing;
+	// LightRing lightRing;
 	Autonomous auto;
 	Compressor compressor = new Compressor(1);
 	Solenoid solenoid;
 	GyroTester gyroTester;
 	Gyro gyro;
-	
+
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
-	//SolenoidTest solenoidTest;
+	// SolenoidTest solenoidTest;
 
 	@Override
 	public void robotInit() {
 
 		gyro = new Gyro(HWR.GYRO);
-		
+
 		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE, new AntiDrift(gyro, -1));
 		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE, new AntiDrift(gyro, 1));
 
@@ -53,18 +52,14 @@ public class TechnoTitan extends IterativeRobot {
 				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE));
 
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
-		
+
 		endGameTimer = new Timer();
 
-		BuiltInAccel accel = new BuiltInAccel();
-		pressureReader = new PressureReader(HWR.PRESSURE_SENSOR);
-		solenoid = new Solenoid(HWR.DEFAULT_MODULE_CHANNEL, HWR.GEAR_PISTON_CHANNEL);
-		//solenoidTest = new SolenoidTest();
-		
-		//lightRing = new LightRing(HWR.LIGHT_RING);
-		//lightRing.set(1);
-		
-		//switcher = new AutonomousSwitcher(drive, accel);
+		// BuiltInAccel accel = new BuiltInAccel();
+		// lightRing = new LightRing(HWR.LIGHT_RING);
+		// lightRing.set(1);
+
+		// switcher = new AutonomousSwitcher(drive, accel);
 
 		// CameraServer server = CameraServer.getInstance();
 		// server.setQuality(50);
@@ -85,9 +80,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		auto.stop();
 		endGameTimer.start();
-		 
 
 	}
 
@@ -95,7 +88,7 @@ public class TechnoTitan extends IterativeRobot {
 	public void teleopPeriodic() {
 		drive.driveMode();
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
-		
+
 	}
 
 	@Override

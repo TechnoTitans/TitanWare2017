@@ -24,23 +24,16 @@ public class HWR {
 	// Sensors
 	public static final int GYRO = HWP.ANALOG_1;
 	// public static final int ACCEL_CHANNEL_X = HWP.ANALOG_2;
-	// public static final int  ACCEL_CHANNEL_Y = HWP.ANALOG_3;
-	public static final int PRESSURE_SENSOR = HWP.ANALOG_0;
-
-	// Compressor
-	public static final int COMPRESSOR = 0;
-	// TODO: Get these values
-	public static final int DEFAULT_MODULE_CHANNEL = 1;
-	public static final int GEAR_PISTON_CHANNEL = 3;
-	// public static final int ANGLE_PISTON_CHANNEL = ;
+	// public static final int ACCEL_CHANNEL_Y = HWP.ANALOG_3;
 	public static final int ClIMB_DEPLOY_CHANNEL = 0;
 	public static final int CLIMB_RETRACT_CHANNEL = 1;
 
 	// Buttons Hp DriverStation
-	public static final int SPIN_UP_INTAKE = HWP.BUTTON_4;
-	public static final int SPIN_UP_SHOOTER = HWP.BUTTON_5;
-	public static final int SHOOT_BALL = HWP.BUTTON_2;
-	public static final int LIFT_HOOK = HWP.BUTTON_4;
-	public static final int ROBOT_CHINUP = HWP.BUTTON_1;
-	public static final int SWITCH_SHOOTER_MODE = HWP.BUTTON_8; // find button
+	/*
+	 * public static final int SPIN_UP_INTAKE = HWP.BUTTON_4; public static
+	 * final int SPIN_UP_SHOOTER = HWP.BUTTON_5; public static final int
+	 * SHOOT_BALL = HWP.BUTTON_2; public static final int LIFT_HOOK =
+	 * HWP.BUTTON_4; public static final int ROBOT_CHINUP = HWP.BUTTON_1; public
+	 * static final int SWITCH_SHOOTER_MODE = HWP.BUTTON_8; // find button
+	 */
 }
