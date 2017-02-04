@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1683.autonomous;
 
-import org.usfirst.frc.team1683.autonomous.Autonomous.State;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 
 /**
@@ -54,7 +53,7 @@ public class EdgeGearScore extends Autonomous {
 				nextState = State.END_CASE;
 				break;
 			default:
-			break;
+				break;
 		}
 		presentState = nextState;
 	}

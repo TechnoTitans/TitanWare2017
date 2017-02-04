@@ -18,7 +18,7 @@ public class PassLine extends Autonomous {
 	public void run() {
 		switch(presentState){
 			case INIT_CASE:
-				tankDrive.moveDistance(distance, 0.1);
+				tankDrive.moveDistance(distance, 0.6);
 				break;
 			case STOP:
 				tankDrive.stop();

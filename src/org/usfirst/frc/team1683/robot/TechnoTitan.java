@@ -73,8 +73,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		auto = new PassLine(drive);
 		gyro.reset();
+		auto = new PassLine(drive);
 		auto.run();
 	}
 

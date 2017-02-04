@@ -1,8 +1,5 @@
 package org.usfirst.frc.team1683.driveTrain;
-
-import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
 public class AntiDrift {
@@ -17,7 +14,7 @@ public class AntiDrift {
 	private int right;
 
 	public AntiDrift(Gyro gyro, int right) {
-		SmartDashboard.prefDouble("kp", 0.01); //TODO testing
+		SmartDashboard.prefDouble("kp", 0.01);
 		SmartDashboard.sendData("kp", 0.01);
 		this.kp = SmartDashboard.getDouble("kp");
 		this.gyro = gyro;

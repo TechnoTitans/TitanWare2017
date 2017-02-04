@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 
 public class Gyro extends AnalogGyro implements Sensor {
 
-	public static double GYRO_SENSITIVITY = 0.0016693; ///TODO find real value
+	public static double GYRO_SENSITIVITY = 0.0065693; ///TODO find real value
 	public Gyro(int channel) {
 		super(channel);
 		super.initGyro();
