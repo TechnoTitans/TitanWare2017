@@ -7,6 +7,6 @@ public class LimitSwitch extends edu.wpi.first.wpilibj.DigitalInput {
 	}
 
 	public boolean isPressed() {
-		return super.get();
+		return !super.get();
 	}
 }

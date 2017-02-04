@@ -10,7 +10,9 @@ import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.sensors.AnalogUltra;
 import org.usfirst.frc.team1683.sensors.Gyro;
+import org.usfirst.frc.team1683.sensors.LimitSwitch;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.test.GyroTester;
 import org.usfirst.frc.team1683.sensors.PressureReader;
@@ -36,11 +38,16 @@ public class TechnoTitan extends IterativeRobot {
 
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
+	
+	LimitSwitch limitSwitch;
+	AnalogUltra ultrasonic;
 	// SolenoidTest solenoidTest;
 
 	@Override
 	public void robotInit() {
-
+		limitSwitch = new LimitSwitch(HWR.SWITCH);
+		ultrasonic = new AnalogUltra(HWR.ULTRASONIC);
+		
 		gyro = new Gyro(HWR.GYRO);
 
 		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE, new AntiDrift(gyro, -1));
@@ -87,6 +94,9 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.driveMode();
+		SmartDashboard.sendData("Limit Switch", limitSwitch.isPressed());
+
+		SmartDashboard.sendData("Ultrasonic", ultrasonic.getDistance());
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 
 	}
