@@ -79,6 +79,7 @@ public class TankDrive implements DriveTrain {
 	 */
 	@Override
 	public void moveDistance(double distance, double speed) throws EncoderNotFoundException {
+		//gyro.reset(); TODO
 		left.moveDistance(distance, speed);
 		right.moveDistance(distance, speed);
 	}
