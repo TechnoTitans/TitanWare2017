@@ -23,6 +23,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 
+//testing
+
 public class TechnoTitan extends IterativeRobot {
 	public static AutonomousSwitcher switcher;
 	public static final boolean LEFT_REVERSE = false;
