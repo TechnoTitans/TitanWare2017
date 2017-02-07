@@ -12,7 +12,6 @@ public class PiVisionReader {
 		return table.getNumber("dsTime", -1.0);
 	}
 	public double distanceFromCenter() {
-		// TODO Auto-generated method stub
-		return 0;
+		return table.getNumber("distance", 1e20);
 	}
 }
