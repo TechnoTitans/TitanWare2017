@@ -26,7 +26,7 @@ public abstract class Autonomous {
 	}
 
 	public static enum State {
-		INIT_CASE, END_CASE, DRIVE_FORWARD, FIND_TARGET, FIRE, REALIGN, STOP, APPROACH_GOAL, SCORE
+		INIT_CASE, END_CASE, DRIVE_FORWARD, FIND_TARGET, FIRE, REALIGN, STOP, APPROACH_GOAL, SCORE, DRIVE_FORWARD_WAITING;
 	}
 
 	public static enum AutonomousMode {

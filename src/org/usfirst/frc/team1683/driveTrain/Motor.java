@@ -30,4 +30,6 @@ public interface Motor extends PIDOutput {
 	public int getChannel();
 
 	public boolean isReversed();
+
+	public boolean hasMoveDistanceFinished();
 }

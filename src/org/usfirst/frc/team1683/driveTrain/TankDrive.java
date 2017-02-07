@@ -15,7 +15,6 @@ public class TankDrive implements DriveTrain {
 	// Will probably use to correct drift
 	@SuppressWarnings("unused")
 	private final double kp = 0.6;
-	// private AntiDrift antiDrift;
 
 	private class RobotTurner implements Runnable {
 
@@ -83,6 +82,9 @@ public class TankDrive implements DriveTrain {
 		right.moveDistance(distance, speed);
 	}
 
+	public boolean hasMoveDistanceFinished() {
+		return left.hasMoveDistanceFinished() && right.hasMoveDistanceFinished();
+	}
 	/**
 	 * @param degrees
 	 *            How much to turn the robot.
@@ -114,6 +116,28 @@ public class TankDrive implements DriveTrain {
 		right.set(speed);
 	};
 
+	/**
+	 * Sets speed of each motor group
+	 * @param leftSpeed -- speed of left motor group
+	 * @param rightSpeed -- speed of right motor group
+	 */
+	public void set(double leftSpeed, double rightSpeed) {
+		left.set(leftSpeed);
+		right.set(rightSpeed);
+	}
+	
+	/**
+	 * Turns in place
+	 * @param right -- True if should turn right, false if left
+	 * @param speed -- Speed
+	 */
+	public void turnInPlace(boolean right, double speed) {
+		if (right) {
+			set(speed, -speed);
+		} else {
+			set(-speed, speed);
+		}
+	}
 	/**
 	 * Stop the drive train.
 	 */

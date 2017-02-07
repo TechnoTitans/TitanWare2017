@@ -3,7 +3,7 @@ package org.usfirst.frc.team1683.autonomous;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 
 /**
- * Shoots at target
+ * Passes the line
  * 
  * @author Yi Liu
  *

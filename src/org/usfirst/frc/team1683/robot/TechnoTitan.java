@@ -4,6 +4,7 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
+import org.usfirst.frc.team1683.autonomous.EdgeGearScore;
 import org.usfirst.frc.team1683.autonomous.PassLine;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
@@ -13,6 +14,7 @@ import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.test.GyroTester;
+import org.usfirst.frc.team1683.vision.PiVisionReader;
 import org.usfirst.frc.team1683.sensors.PressureReader;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -37,6 +39,8 @@ public class TechnoTitan extends IterativeRobot {
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
 	// SolenoidTest solenoidTest;
+	
+	PiVisionReader vision;
 
 	@Override
 	public void robotInit() {
@@ -64,18 +68,21 @@ public class TechnoTitan extends IterativeRobot {
 		// CameraServer server = CameraServer.getInstance();
 		// server.setQuality(50);
 		// server.startAutomaticCapture("cam1");
+		
+		vision = new PiVisionReader();
 	}
 
 	@Override
 	public void autonomousInit() {
 		gyro.reset();
-		auto = new PassLine(drive);
+		auto = new EdgeGearScore(drive, true);
 		auto.run();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
+		SmartDashboard.sendData("Robot time in milliseconds", vision.getTime() * 1000);
 	}
 
 	@Override

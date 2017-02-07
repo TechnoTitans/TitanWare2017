@@ -3,6 +3,9 @@ package org.usfirst.frc.team1683.driveTrain;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+
+import java.lang.Thread.State;
+
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import com.ctre.CANTalon;
 
@@ -117,6 +120,12 @@ public class TalonSRX extends CANTalon implements Motor {
 		}
 	}
 
+	@Override
+	public boolean hasMoveDistanceFinished() {
+		if (thread == null) return true;
+		State threadState = thread.getState();
+		return threadState.equals(Thread.State.NEW) || threadState.equals(Thread.State.TERMINATED);
+	}
 	/**
 	 * Set the speed of the TalonSRX.
 	 *
