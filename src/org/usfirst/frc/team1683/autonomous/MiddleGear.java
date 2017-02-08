@@ -11,7 +11,10 @@ import edu.wpi.first.wpilibj.Timer;
  * @author Yi Liu
  *
  */
+
+@SuppressWarnings("unused")
 public class MiddleGear extends Autonomous {
+
 	public final double distance = 96; // guessing distance (inches)
 	private final double pixelFromCenter = 10; // pixel (guessing)
 	private final double turnSpeed = 3; // degrees
