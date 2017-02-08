@@ -25,5 +25,5 @@ public interface DriveTrain {
 
 	public MotorGroup getRightGroup();
 
-	public void driveMode();
+	public void driveMode(double leftSpeed, double rightSpeed);
 }

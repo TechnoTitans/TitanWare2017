@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1683.driveTrain;
 
-import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Encoder;
 import org.usfirst.frc.team1683.sensors.Gyro;
@@ -165,15 +164,15 @@ public class TankDrive implements DriveTrain {
 	 * Start driving.
 	 */
 	@Override
-	public void driveMode() {
+	public void driveMode(double leftSpeed, double rightSpeed) {
 		left.enableBrakeMode(false);
 		right.enableBrakeMode(false);
 
-		double lSpeed = -DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-		double rSpeed = -DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+		//double lSpeed = -DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+		//double rSpeed = -DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 
-		left.set(lSpeed);
-		right.set(rSpeed);
+		left.set(leftSpeed);
+		right.set(rightSpeed);
 	}
 
 	@Override

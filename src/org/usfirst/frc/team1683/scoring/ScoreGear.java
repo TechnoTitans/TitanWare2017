@@ -26,7 +26,4 @@ public class ScoreGear {
 		drivetrain.set(0);
 		*/
 	}
-	public void scoreGear(){
-		solenoid.set(true);
-	}
 }

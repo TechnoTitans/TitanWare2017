@@ -39,7 +39,7 @@ public class TechnoTitan extends IterativeRobot {
 	LimitSwitch limitSwitch;
 	AnalogUltra ultrasonic;
 	// SolenoidTest solenoidTest;
-	
+	Controls controls;
 	PiVisionReader vision;
 
 	@Override
@@ -58,7 +58,8 @@ public class TechnoTitan extends IterativeRobot {
 				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE), new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_MIDDLE, RIGHT_REVERSE));
 
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
-
+		controls = new Controls(drive);
+		
 		endGameTimer = new Timer();
 
 		// BuiltInAccel accel = new BuiltInAccel();
@@ -95,7 +96,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		drive.driveMode();
+		//drive.driveMode();
+		controls.run();
 		SmartDashboard.sendData("Limit Switch", limitSwitch.isPressed());
 
 		SmartDashboard.sendData("Ultrasonic", ultrasonic.getDistance());
