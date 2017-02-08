@@ -25,6 +25,8 @@ public class TechnoTitan extends IterativeRobot {
 	public static final boolean LEFT_REVERSE = false;
 	public static final boolean RIGHT_REVERSE = true;
 	public static final double WHEEL_RADIUS = 2;
+	public static final double AGITATOR_SPEED = 1.00;
+	
 	TankDrive drive;
 	Timer endGameTimer;
 	// LightRing lightRing;
@@ -46,6 +48,8 @@ public class TechnoTitan extends IterativeRobot {
 	public void robotInit() {
 		limitSwitch = new LimitSwitch(HWR.SWITCH);
 		ultrasonic = new AnalogUltra(HWR.ULTRASONIC);
+		
+		new TalonSRX(HWR.AGITATOR, true).set(AGITATOR_SPEED);
 		
 		gyro = new Gyro(HWR.GYRO);
 
@@ -90,6 +94,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		drive.stop();
 		endGameTimer.start();
 
 	}
