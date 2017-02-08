@@ -4,8 +4,7 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
-import org.usfirst.frc.team1683.autonomous.EdgeGearScore;
-import org.usfirst.frc.team1683.autonomous.PassLine;
+import org.usfirst.frc.team1683.autonomous.*;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
@@ -84,11 +83,11 @@ public class TechnoTitan extends IterativeRobot {
 	public void autonomousInit() {
 		gyro.reset();
 		auto = new EdgeGearScore(drive, true);
-		auto.run();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+		auto.run();
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 		SmartDashboard.sendData("Robot time in milliseconds", vision.getTime() * 1000);
 	}
