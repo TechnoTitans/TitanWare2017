@@ -4,7 +4,7 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
-import org.usfirst.frc.team1683.autonomous.*;
+import org.usfirst.frc.team1683.autonomous.EdgeGearScore;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
@@ -16,12 +16,9 @@ import org.usfirst.frc.team1683.sensors.LimitSwitch;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.test.GyroTester;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
-import org.usfirst.frc.team1683.sensors.PressureReader;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
-
 
 public class TechnoTitan extends IterativeRobot {
 	public static AutonomousSwitcher switcher;
@@ -30,10 +27,8 @@ public class TechnoTitan extends IterativeRobot {
 	public static final double WHEEL_RADIUS = 2;
 	TankDrive drive;
 	Timer endGameTimer;
-	PressureReader pressureReader;
 	// LightRing lightRing;
 	Autonomous auto;
-	Compressor compressor = new Compressor(1);
 	Solenoid solenoid;
 	GyroTester gyroTester;
 	Gyro gyro;
@@ -55,10 +50,10 @@ public class TechnoTitan extends IterativeRobot {
 		gyro = new Gyro(HWR.GYRO);
 
 		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE, new AntiDrift(gyro, -1));
-		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT_E, RIGHT_REVERSE, new AntiDrift(gyro, 1));
+		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT, RIGHT_REVERSE, new AntiDrift(gyro, 1));
 
 		leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, WHEEL_RADIUS), leftETalonSRX,
-				new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK_E, LEFT_REVERSE), new TalonSRX(HWR.LEFT_DRIVE_TRAIN_MIDDLE, LEFT_REVERSE));
+				new TalonSRX(HWR.LEFT_DRIVE_TRAIN_BACK, LEFT_REVERSE), new TalonSRX(HWR.LEFT_DRIVE_TRAIN_MIDDLE, LEFT_REVERSE));
 		rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, WHEEL_RADIUS), rightETalonSRX,
 				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_BACK, RIGHT_REVERSE), new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_MIDDLE, RIGHT_REVERSE));
 
@@ -87,9 +82,9 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		auto.run();
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 		SmartDashboard.sendData("Robot time in milliseconds", vision.getTime() * 1000);
+		auto.run();
 	}
 
 	@Override
