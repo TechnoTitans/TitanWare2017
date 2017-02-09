@@ -22,9 +22,13 @@ public class Controls {
 		double rSpeed = -DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 		drive.driveMode(lSpeed, rSpeed);
 
-		if (DriverStation.rightStick.getRawButton(HWR.SPIN_UP_INTAKE)) {
-			
+		if (DriverStation.auxStick.getRawButton(HWR.SPIN_UP_INTAKE)) {
+			winch.turnWinch();
 		}
+		else
+			winch.stop();
+		
+		
 		SmartDashboard.sendData("LimitSwitch", limitSwitch.isPressed());
 		if(DriverStation.auxStick.getRawButton(HWR.SPIN_WINCH)){
 			winch.turnWinch();
