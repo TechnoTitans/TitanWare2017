@@ -2,7 +2,7 @@ package org.usfirst.frc.team1683.scoring;
 
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
 
-import edu.wpi.first.wpilibj.TalonSRX;
+import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 
 public class Winch {
 
@@ -10,16 +10,16 @@ public class Winch {
 	LimitSwitch limitSwitch;
 	public static final double liftSpeed = 0;//TODO
 
-	public Winch(int channel, LimitSwitch limitSwitch) {
-		this.winchMotor = new TalonSRX(channel);
-		this.limitSwitch = limitSwitch;
+	public Winch(int channel){//, LimitSwitch limitSwitch) {
+		this.winchMotor = new TalonSRX(channel, true);
+		//this.limitSwitch = limitSwitch;
 	}
 	
 	//turn the winch
 	public void turnWinch() {
 		winchMotor.set(liftSpeed);
-		if (limitSwitch.isPressed()) {
-			winchMotor.set(0);
-		}
+	}
+	public void stop(){
+		winchMotor.brake();
 	}
 }

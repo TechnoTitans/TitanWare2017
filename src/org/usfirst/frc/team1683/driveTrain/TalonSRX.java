@@ -245,6 +245,12 @@ public class TalonSRX extends CANTalon implements Motor {
 		// super.enableBrakeMode(true);
 		super.disableControl();
 	}
+	
+	@Override
+	public void brake() {
+		super.enableBrakeMode(true);
+		super.disableControl();
+	}
 
 	/**
 	 * @return If there is an encoder attached to this TalonSRX.

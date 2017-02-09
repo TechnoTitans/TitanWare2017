@@ -20,6 +20,8 @@ public interface Motor extends PIDOutput {
 	public double get();
 
 	public void stop();
+	
+	public void brake();
 
 	public boolean hasEncoder();
 
