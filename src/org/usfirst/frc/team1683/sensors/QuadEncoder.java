@@ -15,7 +15,6 @@ public class QuadEncoder implements Encoder {
 		this.talonSRX.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 
 		this.wheelRadius = wheelRadius;
-
 	}
 
 	/**

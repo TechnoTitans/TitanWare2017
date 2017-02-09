@@ -28,25 +28,28 @@ public class MiddleGear extends Autonomous {
 	public MiddleGear(TankDrive tankDrive) {
 		super(tankDrive);
 		timer = new Timer();
+		driveTrainMover = new DriveTrainMover(tankDrive, distance, speed);
 	}
 
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
-				driveTrainMover = new DriveTrainMover(tankDrive, distance, speed);
 				nextState = State.DRIVE_FORWARD;
 				timer.start();
 				break;
 			case DRIVE_FORWARD:
 				driveTrainMover.runIteration();
 				SmartDashboard.sendData("encoder average distance", driveTrainMover.getAverageDistanceLeft());
-				if (driveTrainMover.areAllFinished()) nextState = State.SCORE;
+				if (driveTrainMover.areAnyFinished()) {
+					timer.reset();
+					nextState = State.SCORE;
+				}
 				break;
 			case SCORE:
 				/*
 				 * piston.extend();
 				 */
-				nextState = State.END_CASE;
+				if (timer.get() > 3) nextState = State.END_CASE;
 				break;
 			case END_CASE:
 				nextState = State.END_CASE;

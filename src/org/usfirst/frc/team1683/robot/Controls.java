@@ -2,15 +2,19 @@ package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driverStation.DriverStation;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.Winch;
+import org.usfirst.frc.team1683.sensors.LimitSwitch;
 
 public class Controls {
 	DriveTrain drive;
 	Winch winch;
+	LimitSwitch limitSwitch;
 
 	public Controls(DriveTrain drive) {
 		this.drive = drive;
 		winch = new Winch(HWR.WINCH);
+		limitSwitch = new LimitSwitch(HWR.CLIMB_SWITCH);
 	}
 
 	public void run() {
@@ -19,11 +23,13 @@ public class Controls {
 		drive.driveMode(lSpeed, rSpeed);
 
 		if (DriverStation.rightStick.getRawButton(HWR.SPIN_UP_INTAKE)) {
-
+			
 		}
-		if (DriverStation.rightStick.getRawButton(HWR.SPIN_WINCH))
+		SmartDashboard.sendData("LimitSwitch", limitSwitch.isPressed());
+		if(DriverStation.auxStick.getRawButton(HWR.SPIN_WINCH)){
 			winch.turnWinch();
-		else
+		}
+		if (DriverStation.auxStick.getRawButton(HWR.STOP_WINCH) || limitSwitch.isPressed())
 			winch.stop();
 	}
 }

@@ -27,6 +27,7 @@ public class MotorMover implements Runnable {
 			this.speed = -speed;
 		else
 			this.speed = speed;
+		this.encoder.reset();
 	}
 
 	/**

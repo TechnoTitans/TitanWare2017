@@ -5,6 +5,7 @@ import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.autonomous.EdgeGearScore;
+import org.usfirst.frc.team1683.autonomous.MiddleGear;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
@@ -38,7 +39,6 @@ public class TechnoTitan extends IterativeRobot {
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
 	
-	LimitSwitch limitSwitch;
 	AnalogUltra ultrasonic;
 	// SolenoidTest solenoidTest;
 	Controls controls;
@@ -46,7 +46,6 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		limitSwitch = new LimitSwitch(HWR.SWITCH);
 		ultrasonic = new AnalogUltra(HWR.ULTRASONIC);
 		
 		new TalonSRX(HWR.AGITATOR, true).set(AGITATOR_SPEED);
@@ -82,7 +81,7 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		gyro.reset();
-		auto = new EdgeGearScore(drive, true);
+		auto = new MiddleGear(drive);
 	}
 
 	@Override
@@ -103,7 +102,6 @@ public class TechnoTitan extends IterativeRobot {
 	public void teleopPeriodic() {
 		//drive.driveMode();
 		controls.run();
-		SmartDashboard.sendData("Limit Switch", limitSwitch.isPressed());
 
 		SmartDashboard.sendData("Ultrasonic", ultrasonic.getDistance());
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());

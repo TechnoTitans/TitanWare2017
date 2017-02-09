@@ -50,7 +50,6 @@ public class EdgeGearScore extends Autonomous {
 				}
 				break;
 			case DRIVE_FORWARD_WAITING:
-				SmartDashboard.sendData("timer", timer.get());
 				if (tankDrive.hasMoveDistanceFinished() || timer.get() > 3) {
 					nextState = State.REALIGN;
 				}
@@ -86,6 +85,7 @@ public class EdgeGearScore extends Autonomous {
 			default:
 				break;
 		}
+		SmartDashboard.sendData("timer", timer.get());
 		SmartDashboard.sendData("Edge gear state", presentState.toString());
 		presentState = nextState;
 	}
