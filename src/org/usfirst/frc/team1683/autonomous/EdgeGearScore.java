@@ -44,7 +44,8 @@ public class EdgeGearScore extends Autonomous {
 				nextState = State.DRIVE_FORWARD_WAITING;
 				break;
 			case DRIVE_FORWARD_WAITING:
-				if (tankDrive.hasMoveDistanceFinished() || timer.get() > 1) {
+				SmartDashboard.sendData("timer", timer.get());
+				if (tankDrive.hasMoveDistanceFinished() || timer.get() > 1000) {
 					nextState = State.REALIGN;
 				}
 				break;
@@ -55,8 +56,9 @@ public class EdgeGearScore extends Autonomous {
 				 * tankDrive.turn(turnSpeed); }
 				 */
 				tankDrive.turnInPlace(!right, 0.2);
-				if (vision.getDistanceTarget() < pixelFromCenter || timer.get() > 3) {
+				if (vision.getDistanceTarget() < pixelFromCenter || timer.get() > 3000) {
 					nextState = State.APPROACH_GOAL;
+					tankDrive.stop();
 				}
 				break;
 			case APPROACH_GOAL:
@@ -65,7 +67,7 @@ public class EdgeGearScore extends Autonomous {
 				 * tankDrive.set(speed); }
 				 */
 				tankDrive.stop();
-				if (timer.get() > 4) nextState = State.SCORE;
+				if (timer.get() > 4000) nextState = State.SCORE;
 			case SCORE:
 				/*
 				 * piston.extend();
