@@ -13,7 +13,6 @@ public class DriverStation {
 	public static boolean[][] lasts = new boolean[3][11];
 	public static Joystick leftStick = new Joystick(HWR.LEFT_JOYSTICK);
 	public static Joystick rightStick = new Joystick(HWR.RIGHT_JOYSTICK);
-	public static Joystick auxStick = new Joystick(HWR.AUX_JOYSTICK);
 
 	// TODO
 	/*
