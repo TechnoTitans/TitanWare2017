@@ -163,6 +163,9 @@ public class MotorGroup extends ArrayList<Motor> {
 		return !(antiDrift == null);
 	}
 
+	public AntiDrift getAntiDrift() {
+		return antiDrift;
+	}
 	public boolean hasMoveDistanceFinished() {
 		for (Motor m : this) {
 			if (m.hasMoveDistanceFinished() == false) return false;

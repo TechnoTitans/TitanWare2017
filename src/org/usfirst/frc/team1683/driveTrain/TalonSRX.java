@@ -2,8 +2,6 @@ package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.sensors.Encoder;
 
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-
 import java.lang.Thread.State;
 
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
@@ -19,37 +17,6 @@ public class TalonSRX extends CANTalon implements Motor {
 	private double PIDTargetSpeed;
 	AntiDrift anti;
 	Gyro gyro;
-	private class MotorMover implements Runnable {
-
-		private double distance;
-		private double speed;
-		private TalonSRX talonSrx;
-		
-		public MotorMover(TalonSRX talonSrx, double distance, double speed) {
-			this.talonSrx = talonSrx;
-			this.distance = distance;
-			if (distance < 0)
-				this.speed = -speed;
-			else
-				this.speed = speed;
-		}
-
-		@Override
-		public void run() {
-			encoder.reset();
-			while (Math.abs(encoder.getDistance()) < Math.abs(distance)) {
-				if (encoder.getDistance() != 0) {
-					SmartDashboard.sendData("current distance", encoder.getDistance());
-					SmartDashboard.sendData("distance goal", distance);
-				}
-				talonSrx.set(anti.antiDrift(speed));
-				SmartDashboard.sendData("antidrift", anti.antiDrift(speed));
-			}
-			talonSrx.stop();
-
-			encoder.reset();
-		}
-	}
 
 	/**
 	 * Constructor for a TalonSRX motor
@@ -110,7 +77,7 @@ public class TalonSRX extends CANTalon implements Motor {
 
 		if (hasEncoder()) {
 			if (thread == null || thread.getState().equals(Thread.State.TERMINATED)) {
-				thread = new Thread(new MotorMover(this, distance, speed));
+				thread = new Thread(new MotorMover(this, distance, speed, encoder, anti));
 			}
 			if (thread.getState().equals(Thread.State.NEW)) {
 				thread.start();
