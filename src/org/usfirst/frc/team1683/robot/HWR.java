@@ -12,7 +12,8 @@ public class HWR {
 	//public static final int LIGHT_RING = HWP.CAN_10;
 	
 	public static final int AGITATOR = HWP.CAN_8;
-	public static final int WINCH = HWP.CAN_9;
+	public static final int WINCH = HWP.CAN_7;
+	public static final int SHOOTER = HWP.CAN_9;
 
 	// Encoders
 
@@ -38,8 +39,10 @@ public class HWR {
 	public static final int FRONT_CONTROL = HWP.BUTTON_3;
 	
 	public static final int SPIN_SHOOTER = HWP.BUTTON_1;
+	public static final int TOGGLE_SHOOTER_MODE = HWP.BUTTON_8;
+	
+	
 	public static final int SPIN_INTAKE = HWP.BUTTON_2;
 	
-	public static final int STOP_WINCH = HWP.BUTTON_3;
 	public static final int TOGGLE_WINCH = HWP.BUTTON_5;
 }

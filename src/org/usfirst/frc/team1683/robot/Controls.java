@@ -3,27 +3,32 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.scoring.Shooter;
 import org.usfirst.frc.team1683.scoring.Winch;
-import org.usfirst.frc.team1683.sensors.LimitSwitch;
 
 public class Controls {
-	
+
 	public static boolean[][] lasts = new boolean[3][11];
-	
+
 	DriveTrain drive;
 	Winch winch;
-	LimitSwitch limitSwitch;
+	Shooter shooter;
+
 	boolean frontMode;
 	boolean toggleWinch;
+	boolean autoShooter;
+
 	double rSpeed;
 	double lSpeed;
 
 	public Controls(DriveTrain drive) {
 		this.drive = drive;
+		shooter = new Shooter(HWR.SHOOTER);
 		winch = new Winch(HWR.WINCH);
-		limitSwitch = new LimitSwitch(HWR.CLIMB_SWITCH);
+
 		frontMode = true;
 		toggleWinch = false;
+		autoShooter = true;
 	}
 
 	public void run() {
@@ -37,15 +42,31 @@ public class Controls {
 		lSpeed = (frontMode ? -1 : 1) * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 		drive.driveMode(lSpeed, rSpeed);
 
+		SmartDashboard.sendData("Zaxisaux", DriverStation.auxStick.getRawAxis(DriverStation.ZAxis));
+
 		// if (DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER)) {
 		// winch.turnWinch();
 		// } else
 		// winch.stop();
-		if (checkToggle(HWR.AUX_JOYSTICK,HWR.TOGGLE_WINCH)) {
+		if (checkToggle(HWR.AUX_JOYSTICK,HWR.TOGGLE_SHOOTER_MODE)) {
+			autoShooter = !autoShooter;
+		}
+		if (autoShooter) {
+			if(DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER))
+				shooter.turnOn();
+			else
+				shooter.turnOff();
+		} else {
+			shooter.setSpeed(-(DriverStation.auxStick.getRawAxis(DriverStation.ZAxis) - 1) / 2);
+		}
+
+		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_WINCH)) {
 			toggleWinch = !toggleWinch;
 		}
-		
-		SmartDashboard.sendData("togglewinchtest", toggleWinch);
+		if (toggleWinch)
+			winch.turnWinch();
+		else
+			winch.stop();
 	}
 
 	public static boolean checkToggle(int joystick, int button) {
