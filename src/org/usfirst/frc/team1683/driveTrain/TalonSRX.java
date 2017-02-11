@@ -58,6 +58,7 @@ public class TalonSRX extends CANTalon implements Motor {
 	 *
 	 * @param distance
 	 *            Distance in inches
+	 * @deprecated This creates a new thread, so it will continue even if e.g. autonomous is disabled and is hard to stop or kill, use MotorMover instead
 	 */
 	@Override
 	public void moveDistance(double distance) throws EncoderNotFoundException {
@@ -71,6 +72,7 @@ public class TalonSRX extends CANTalon implements Motor {
 	 *            Distance in inches.
 	 * @param speed
 	 *            Speed from 0 to 1.
+	 * @deprecated This creates a new thread and continues even after autonomous or the mode is disabled or switched; use MotorMover instead
 	 */
 	@Override
 	public void moveDistance(double distance, double speed) throws EncoderNotFoundException {

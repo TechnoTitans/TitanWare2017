@@ -61,7 +61,6 @@ public class MotorMover implements Runnable {
 		}
 		double correctSpeed = speed;
 		if (anti != null) correctSpeed = anti.antiDrift(speed);
-		SmartDashboard.sendData("motor mover" + hashCode(), correctSpeed);
 		motor.set(correctSpeed);
 		return false;
 	}

@@ -61,6 +61,7 @@ public class TankDrive implements DriveTrain {
 	 *            Distance to move in inches at mid speed
 	 * @throws EncoderNotFoundException
 	 *             Encoder not found.
+	 * @deprecated Creates a new thread so it is hard to stop and continues even after the mode is switched.
 	 */
 	@Override
 	public void moveDistance(double distance) throws EncoderNotFoundException {

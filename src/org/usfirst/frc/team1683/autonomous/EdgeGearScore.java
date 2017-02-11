@@ -18,10 +18,11 @@ public class EdgeGearScore extends Autonomous {
 	public final double pixelFromCenter = 10; // pixel (guessing)
 	public final double turnSpeed = 3; // degrees
 	public final double distanceFromGoal = 3; // degrees
-	public final double speed = 0.2;
+	public final double speed = 0.7;
 	private boolean right;
 	private PiVisionReader vision;
 	private Timer timer;
+	private MiddleGear moveForward;
 	private DriveTrainMover driveTrainMover;
 	/**
 	 * Places a gear when not starting in the middle
@@ -47,11 +48,7 @@ public class EdgeGearScore extends Autonomous {
 				SmartDashboard.sendData("encoder average distance", driveTrainMover.getAverageDistanceLeft());
 				if (driveTrainMover.areAnyFinished()) {
 					nextState = State.REALIGN;
-				}
-				break;
-			case DRIVE_FORWARD_WAITING:
-				if (tankDrive.hasMoveDistanceFinished() || timer.get() > 3) {
-					nextState = State.REALIGN;
+					timer.reset();
 				}
 				break;
 			case REALIGN:
@@ -64,20 +61,11 @@ public class EdgeGearScore extends Autonomous {
 				if (vision.getDistanceTarget() < pixelFromCenter || timer.get() > 6) {
 					nextState = State.APPROACH_GOAL;
 					tankDrive.set(0);
+					moveForward = new MiddleGear(tankDrive, 20);
 				}
 				break;
 			case APPROACH_GOAL:
-				/*
-				 * while(vision.getDistance < distanceFromGoal){
-				 * tankDrive.set(speed); }
-				 */
-				tankDrive.stop();
-				if (timer.get() > 10) nextState = State.SCORE;
-			case SCORE:
-				/*
-				 * piston.extend();
-				 */
-				nextState = State.END_CASE;
+				moveForward.run();
 				break;
 			case END_CASE:
 				nextState = State.END_CASE;

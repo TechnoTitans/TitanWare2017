@@ -58,7 +58,7 @@ public class DriveTrainMover {
 	
 	/**
 	 * Note: motor mover distance left is capped at 0, so if it has finished (is negative), it doesn't cancel out something that has not finished
-	 * @return The average distance that 
+	 * @return The average distance that all motor movers have traveled
 	 */
 	public double getAverageDistanceLeft() {
 		double total = 0;
