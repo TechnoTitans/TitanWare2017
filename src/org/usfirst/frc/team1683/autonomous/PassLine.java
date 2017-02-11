@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1683.autonomous;
 
+import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 
 /**
@@ -9,7 +10,8 @@ import org.usfirst.frc.team1683.driveTrain.TankDrive;
  *
  */
 public class PassLine extends Autonomous {
-	public final double distance = 20000000; // inches
+	public final double distance = 48; // inches
+	DriveTrainMover mover;
 
 	public PassLine(TankDrive tankDrive) {
 		super(tankDrive);
@@ -18,10 +20,16 @@ public class PassLine extends Autonomous {
 	public void run() {
 		switch(presentState){
 			case INIT_CASE:
-				tankDrive.moveDistance(distance, 0.4);
+				mover = new DriveTrainMover(tankDrive, distance, 0.5);
+				nextState = State.DRIVE_FORWARD;
 				break;
+			case DRIVE_FORWARD:
+				mover.runIteration();
+				if (mover.areAnyFinished()) {
+					nextState = State.STOP;
+				}
 			case STOP:
-				tankDrive.stop();
+				tankDrive.set(0);
 				break;
 			default:
 				break;
