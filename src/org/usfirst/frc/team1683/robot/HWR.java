@@ -34,7 +34,12 @@ public class HWR {
 
 	public static final int ULTRASONIC = HWP.ANALOG_2;
 	// Buttons Hp DriverStation
-	public static final int SPIN_UP_INTAKE = HWP.BUTTON_1;
+	public static final int BACK_CONTROL = HWP.BUTTON_2;
+	public static final int FRONT_CONTROL = HWP.BUTTON_3;
+	
+	public static final int SPIN_SHOOTER = HWP.BUTTON_1;
+	public static final int SPIN_INTAKE = HWP.BUTTON_2;
+	
 	public static final int STOP_WINCH = HWP.BUTTON_3;
-	public static final int SPIN_WINCH = HWP.BUTTON_5;
+	public static final int TOGGLE_WINCH = HWP.BUTTON_5;
 }
