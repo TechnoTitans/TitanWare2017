@@ -75,6 +75,7 @@ public class TankDrive implements DriveTrain {
 	 *            Speed from 0 to 1.
 	 * @throws EncoderNotFoundException
 	 *             Encoder not found.
+	 * @deprecated Creates a new thread so it is hard to stop and continues even after the mode is switched.
 	 */
 	@Override
 	public void moveDistance(double distance, double speed) throws EncoderNotFoundException {
@@ -115,8 +116,14 @@ public class TankDrive implements DriveTrain {
 	public void set(double speed) {
 		left.set(speed);
 		right.set(speed);
-	};
-
+	}
+	
+	public void setLeft(double speed) {
+		left.set(speed);
+	}
+	public void setRight(double speed) {
+		right.set(speed);
+	}
 	/**
 	 * Sets speed of each motor group
 	 * @param leftSpeed -- speed of left motor group
