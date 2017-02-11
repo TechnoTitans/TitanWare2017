@@ -2,7 +2,7 @@ package org.usfirst.frc.team1683.scoring;
 
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 
-public class Shooter {
+public class Shooter implements ScoringMotor {
 	
 	TalonSRX shooterWheel;
 	
@@ -21,7 +21,7 @@ public class Shooter {
 	public void turnOn(){
 		shooterWheel.set(speed);
 	}
-	public void turnOff(){
+	public void stop(){
 		shooterWheel.set(0);
 	}
 }
