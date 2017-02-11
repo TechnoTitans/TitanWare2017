@@ -3,44 +3,59 @@ package org.usfirst.frc.team1683.driveTrain;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
+/**
+ * Curved drive to follow path based on a function y
+ * 
+ * @author Yi Liu
+ *
+ */
 public class CurvedDrive {
 	public final static double width = 20;
 
 	TankDrive drive;
 	public double x;
+	public final double speed;
 
 	public CurvedDrive(TankDrive drive) {
 		this.drive = drive;
 		x = 0;
+		speed = 0.5;
 	}
 
 	public void run() {
-		x+=0.1;
-			SmartDashboard.sendData("CurvedDrive", ratioAngularVelocity(x * 3.14 / 180));
-			SmartDashboard.sendData("x", x);
-			drive.setLeft(0.8 * ratioAngularVelocity(x * 3.14 / 180));
+		x += 0.1;
+		SmartDashboard.sendData("CurvedDrive", ratioAngularVelocity(Math.toRadians(x)));
+		SmartDashboard.sendData("x", x);
 		
+		drive.setRight(speed * (isTurnRight(x) ? 1 : ratioAngularVelocity(Math.toRadians(x))));
+		drive.setLeft(speed * (isTurnRight(x) ? ratioAngularVelocity(Math.toRadians(x)) : 1));
 	}
 
-	public static double function(double x) {
+	public double function(double x) {
 		return Math.sin(x);
 	}
 
-	public static double derivFunction(double x) {
+	public double derivFunction(double x) {
 		return Math.cos(x);
 	}
 
-	public static double deriv2Function(double x) {
+	public double deriv2Function(double x) {
 		return -Math.sin(x);
 	}
 
-	public static double calCurve(double x) {
-		SmartDashboard.sendData("CurveRadius",
-				 Math.abs(Math.pow((1 + derivFunction(x) * derivFunction(x)), 1.5) / (deriv2Function(x))));
-		return Math.abs(Math.pow((1 + derivFunction(x) * derivFunction(x)), 1.5) / (deriv2Function(x)));
+	public double calCurve(double x) {
+		if (derivFunction(x) != 0)
+			return Math.pow((1 + derivFunction(x) * derivFunction(x)), 1.5) / (deriv2Function(x));
+		return speed;
 	}
 
-	public static double ratioAngularVelocity(double x) {
-		return 1 / (1 + (width / (calCurve(x) + width / 2)));
+	public boolean isTurnRight(double x) {
+		if (calCurve(x) < 0)
+			return true;
+		return false;
+	}
+
+	public double ratioAngularVelocity(double x) {
+		return 1 / (1 + (width / (Math.abs(calCurve(x)) + width / 2)));
 	}
 }
