@@ -3,16 +3,19 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.scoring.Intake;
+import org.usfirst.frc.team1683.scoring.ScoringMotor;
 import org.usfirst.frc.team1683.scoring.Shooter;
 import org.usfirst.frc.team1683.scoring.Winch;
 
 public class Controls {
-
-	public static boolean[][] lasts = new boolean[3][11];
+	public static boolean[] toggle = new boolean[11];
+	public static boolean[][] joystickCheckToggle = new boolean[3][11];
 
 	DriveTrain drive;
 	Winch winch;
 	Shooter shooter;
+	Intake intake;
 
 	boolean frontMode;
 	boolean toggleWinch;
@@ -25,7 +28,8 @@ public class Controls {
 		this.drive = drive;
 		shooter = new Shooter(HWR.SHOOTER);
 		winch = new Winch(HWR.WINCH);
-
+		intake = new Intake(HWR.INTAKE);
+		
 		frontMode = true;
 		toggleWinch = false;
 		autoShooter = true;
@@ -55,20 +59,27 @@ public class Controls {
 			if(DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER))
 				shooter.turnOn();
 			else
-				shooter.turnOff();
+				shooter.stop();
 		} else {
 			shooter.setSpeed(-(DriverStation.auxStick.getRawAxis(DriverStation.ZAxis) - 1) / 2);
 		}
-
-		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_WINCH)) {
-			toggleWinch = !toggleWinch;
-		}
-		if (toggleWinch)
-			winch.turnWinch();
-		else
-			winch.stop();
+		
+		toggle(HWR.TOGGLE_WINCH, winch);
+		toggle(HWR.TOGGLE_INTAKE, intake);
 	}
-
+	/*
+	 * Checks if a button is pressed to toggle it. Since teleop is periodic, needs to remember past button state to toggle
+	 * 
+	 */
+	public static void toggle(int button, ScoringMotor motor){
+		if (checkToggle(HWR.AUX_JOYSTICK, button)) {
+			toggle[button - 1] = !toggle[button - 1];
+		}
+		if (toggle[button - 1])
+			motor.turnOn();
+		else
+			motor.stop();
+	}
 	public static boolean checkToggle(int joystick, int button) {
 		boolean pressed = false;
 
@@ -86,13 +97,13 @@ public class Controls {
 				break;
 		}
 
-		if (pressed && !lasts[joystick][button - 1]) {
-			lasts[joystick][button - 1] = true;
+		if (pressed && !joystickCheckToggle[joystick][button - 1]) {
+			joystickCheckToggle[joystick][button - 1] = true;
 			return true;
-		} else if (pressed && lasts[joystick][button - 1]) {
+		} else if (pressed && joystickCheckToggle[joystick][button - 1]) {
 			return false;
 		} else {
-			lasts[joystick][button - 1] = false;
+			joystickCheckToggle[joystick][button - 1] = false;
 			return false;
 		}
 	}
