@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.sensors.Encoder;
+import org.usfirst.frc.team1683.sensors.Gyro;
 public interface DriveTrain {
 
 	void moveDistance(double distance) throws EncoderNotFoundException;
@@ -26,4 +27,8 @@ public interface DriveTrain {
 	public MotorGroup getRightGroup();
 
 	public void driveMode(double leftSpeed, double rightSpeed);
+
+	public Gyro getGyro();
+
+	void turnInPlace(boolean right, double speed);
 }
