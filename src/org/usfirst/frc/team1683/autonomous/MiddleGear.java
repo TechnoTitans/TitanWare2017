@@ -18,20 +18,26 @@ import edu.wpi.first.wpilibj.Timer;
 @SuppressWarnings("unused")
 public class MiddleGear extends Autonomous {
 
-	public final double distance = 96; // guessing distance (inches)
+	private final double distance;
+	private static final double DEFAULT_DISTANCE = 96;
 	private final double pixelFromCenter = 10; // pixel (guessing)
-	private final double turnSpeed = 3; // degrees
+	private final double turnSpeed = 3;
 	private final double distanceFromGoal = 3; // degrees
-	public final double speed = 5;
+	private final double speed = 0.5;
 	private Timer timer;
 	private DriveTrainMover driveTrainMover;
 	public MiddleGear(TankDrive tankDrive) {
+		this(tankDrive, DEFAULT_DISTANCE);
+	}
+	
+	public MiddleGear(TankDrive tankDrive, double distance) {
 		super(tankDrive);
+		this.distance = distance;
 	}
 	
 	private void driveForward() {
 		driveTrainMover.runIteration();
-		SmartDashboard.sendData("encoder average distance", driveTrainMover.getAverageDistanceLeft());
+		SmartDashboard.sendData("encoder average distance mid", driveTrainMover.getAverageDistanceLeft());
 		if (driveTrainMover.areAnyFinished()) {
 			timer.start();
 			nextState = State.SCORE;

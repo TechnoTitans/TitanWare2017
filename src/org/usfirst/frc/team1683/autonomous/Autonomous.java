@@ -16,13 +16,14 @@ public abstract class Autonomous {
 
 	// public static final double ACTUATOR_ERROR_TOLERANCE = 0.05;
 	// public static final double REACH_DISTANCE = 74;
-	public static State presentState = State.INIT_CASE;
-	public static State nextState;
+	public State presentState = State.INIT_CASE;
+	public State nextState;
 
 	public Autonomous(TankDrive tankDrive) {
 		this.tankDrive = tankDrive;
 		leftEncoder = tankDrive.getLeftEncoder();
 		rightEncoder = tankDrive.getRightEncoder();
+		resetAuto();
 	}
 
 	public static enum State {
@@ -32,11 +33,15 @@ public abstract class Autonomous {
 	public static enum AutonomousMode {
 		DO_NOTHING, REACH_DEFENSE, BREACH_DEFENSE, TEST_AUTO, SHOOT_AT_TARGET
 	}
+	
+	public boolean isAtEndCase() {
+		return presentState == State.END_CASE;
+	}
 
-	public static void resetAuto() {
+	public void resetAuto() {
 		presentState = State.INIT_CASE;
 	}
-	public static void stop(){
+	public void stop(){
 		presentState = State.STOP;
 	}
 
