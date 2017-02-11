@@ -23,33 +23,43 @@ public class MiddleGear extends Autonomous {
 	private final double turnSpeed = 3; // degrees
 	private final double distanceFromGoal = 3; // degrees
 	public final double speed = 5;
-	private final Timer timer;
+	private Timer timer;
 	private DriveTrainMover driveTrainMover;
 	public MiddleGear(TankDrive tankDrive) {
 		super(tankDrive);
-		timer = new Timer();
-		driveTrainMover = new DriveTrainMover(tankDrive, distance, speed);
+	}
+	
+	private void driveForward() {
+		driveTrainMover.runIteration();
+		SmartDashboard.sendData("encoder average distance", driveTrainMover.getAverageDistanceLeft());
+		if (driveTrainMover.areAnyFinished()) {
+			timer.start();
+			nextState = State.SCORE;
+			tankDrive.set(0);
+		}
 	}
 
+	private void score() {
+		/*
+		 * piston.extend();
+		 */
+		SmartDashboard.sendData("piston", true);
+		SmartDashboard.sendData("elapsed time", timer.get());
+		if (timer.get() > 10) nextState = State.END_CASE;
+	}
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
+				timer = new Timer();
+				driveTrainMover = new DriveTrainMover(tankDrive, distance, speed);
+				SmartDashboard.sendData("ranInit", Math.random());
 				nextState = State.DRIVE_FORWARD;
-				timer.start();
 				break;
 			case DRIVE_FORWARD:
-				driveTrainMover.runIteration();
-				SmartDashboard.sendData("encoder average distance", driveTrainMover.getAverageDistanceLeft());
-				if (driveTrainMover.areAnyFinished()) {
-					timer.reset();
-					nextState = State.SCORE;
-				}
+				driveForward();
 				break;
 			case SCORE:
-				/*
-				 * piston.extend();
-				 */
-				if (timer.get() > 3) nextState = State.END_CASE;
+				score();
 				break;
 			case END_CASE:
 				nextState = State.END_CASE;
