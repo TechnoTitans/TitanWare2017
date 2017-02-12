@@ -34,7 +34,7 @@ public class TankDrive implements DriveTrain {
 			double initialHeading = gyro.getAngle();
 
 			while (Math.abs(gyro.getAngle() - initialHeading) < Math.abs(angle)) {
-				// TODO: make sure these directions are right
+				// TODO: make sure these directions are right, counterclockwise
 				SmartDashboard.sendData("Gyro Angle2", gyro.getAngle());
 				left.set(-speed);
 				right.set(speed);
@@ -75,6 +75,7 @@ public class TankDrive implements DriveTrain {
 	 *            Speed from 0 to 1.
 	 * @throws EncoderNotFoundException
 	 *             Encoder not found.
+	 * @deprecated Creates a new thread so it is hard to stop and continues even after the mode is switched.
 	 */
 	@Override
 	public void moveDistance(double distance, double speed) throws EncoderNotFoundException {
@@ -129,7 +130,7 @@ public class TankDrive implements DriveTrain {
 	
 	/**
 	 * Turns in place
-	 * @param right -- True if should turn right, false if left
+	 * @param right -- True if should turn right (clockwise), false if left
 	 * @param speed -- Speed
 	 */
 	public void turnInPlace(boolean right, double speed) {
