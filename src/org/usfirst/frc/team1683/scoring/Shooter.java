@@ -6,7 +6,7 @@ public class Shooter implements ScoringMotor {
 	
 	TalonSRX shooterWheel;
 	
-	public final double speed = 0.8;
+	public final double speed = 0.6715;
 	public Shooter(int channel) {
 		this.shooterWheel = new TalonSRX(channel, false);
 	}

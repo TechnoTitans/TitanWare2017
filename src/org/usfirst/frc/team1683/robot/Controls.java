@@ -23,16 +23,19 @@ public class Controls {
 
 	double rSpeed;
 	double lSpeed;
-
+	public final double MAX_JOYSTICK_SPEED = 0.8;
+	
 	public Controls(DriveTrain drive) {
 		this.drive = drive;
 		shooter = new Shooter(HWR.SHOOTER);
-		winch = new Winch(HWR.WINCH);
+		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
 		
 		frontMode = true;
 		toggleWinch = false;
 		autoShooter = true;
+		
+		
 	}
 
 	public void run() {
@@ -42,8 +45,8 @@ public class Controls {
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
 			frontMode = true;
 		}
-		rSpeed = (frontMode ? -1 : 1) * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-		lSpeed = (frontMode ? -1 : 1) * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+		rSpeed = (frontMode ? -1 : 1) * MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+		lSpeed = (frontMode ? -1 : 1) * MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 		drive.driveMode(lSpeed, rSpeed);
 
 		SmartDashboard.sendData("Zaxisaux", DriverStation.auxStick.getRawAxis(DriverStation.ZAxis));

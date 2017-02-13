@@ -5,6 +5,8 @@ import org.usfirst.frc.team1683.sensors.Gyro;
 public interface DriveTrain {
 
 	public void set(double speed);
+	
+	public void set(double left, double right);
 
 	public void stop();
 

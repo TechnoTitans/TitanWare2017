@@ -12,7 +12,8 @@ public class HWR {
 	//public static final int LIGHT_RING = HWP.CAN_10;
 	
 	public static final int AGITATOR = HWP.CAN_8;
-	public static final int WINCH = HWP.CAN_7;
+	public static final int WINCH1 = HWP.CAN_7;
+	public static final int WINCH2 = HWP.CAN_11;
 	public static final int SHOOTER = HWP.CAN_9;
 	public static final int INTAKE = HWP.CAN_10;
 	// Encoders
