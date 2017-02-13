@@ -18,7 +18,7 @@ public class DriveTrainTurner {
 	/**
 	 * Creates a DriveTrainTurner
 	 * @param driveTrain -- the drive train
-	 * @param angle -- The angle; should not be above 180 or below -180; positive indicates counter-clockwise
+	 * @param angle -- The angle, if above 180 or below -180, will be adjusted to be in that range (will not do multiple revolutions); positive indicates counter-clockwise
 	 * @param speed -- Speed between 0 and 1 normally, if negative will take a longer route to angle (will twist the opposite way)
 	 */
 	public DriveTrainTurner(DriveTrain driveTrain, double angle, double speed) {
@@ -26,9 +26,21 @@ public class DriveTrainTurner {
 		this.driveTrain = driveTrain;
 		gyro = driveTrain.getGyro();
 		initialHeading = gyro.getAngle();
-		angle %= 360;
+		angle = normalizeAngle(angle);
 		this.angle = angle;
 		this.speed = speed;
+	}
+	
+	/**
+	 * Takes an angle and returns the angle between -180 and 180 that is equivalent to it
+	 * @param angle
+	 * @return An equivalent angle between -180 and 180
+	 */
+	public double normalizeAngle(double angle) {
+		angle %= 360;
+		if (angle < -180) angle += 360;
+		if (angle > 180) angle -= 360;
+		return angle;
 	}
 	
 	/**
@@ -46,6 +58,9 @@ public class DriveTrainTurner {
 			return true;
 		}
 	}
+	public double angleLeft() {
+		return Math.abs(angle) - Math.abs(angleDiff(gyro.getAngle(), initialHeading));
+	}
 	/**
 	 * 
 	 * @return Whether it is done turning
@@ -54,11 +69,7 @@ public class DriveTrainTurner {
 		return done;
 	}
 	private double angleDiff(double a, double b) {
-		double diff = a - b;
-		diff %= 360;
-		if (diff < -180) diff += 360;
-		if (diff > 180) diff -= 360;
-		return diff;
+		return normalizeAngle(a - b);
 	}
 	public double getSpeed() {
 		return speed;

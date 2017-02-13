@@ -4,6 +4,7 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
+import org.usfirst.frc.team1683.autonomous.Dance;
 import org.usfirst.frc.team1683.autonomous.EdgeGearScore;
 import org.usfirst.frc.team1683.autonomous.MiddleGear;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
@@ -27,7 +28,7 @@ public class TechnoTitan extends IterativeRobot {
 	public static final boolean RIGHT_REVERSE = true;
 	public static final double WHEEL_RADIUS = 2.2135;
 	public static final double AGITATOR_SPEED = 1.00;
-
+	
 	TankDrive drive;
 	Timer endGameTimer;
 	// LightRing lightRing;
@@ -49,9 +50,9 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		ultrasonic = new AnalogUltra(HWR.ULTRASONIC);
-
+		
 		new TalonSRX(HWR.AGITATOR, true).set(AGITATOR_SPEED);
-
+		
 		gyro = new Gyro(HWR.GYRO);
 
 		AntiDrift left = new AntiDrift(gyro, -1);
@@ -83,14 +84,14 @@ public class TechnoTitan extends IterativeRobot {
 		// CameraServer server = CameraServer.getInstance();
 		// server.setQuality(50);
 		// server.startAutomaticCapture("cam1");
-
+		
 		vision = new PiVisionReader();
 	}
 
 	@Override
 	public void autonomousInit() {
 		gyro.reset();
-		auto = new EdgeGearScore(drive, true);
+		auto = new EdgeGearScore(drive, false);
 	}
 
 	@Override
@@ -109,6 +110,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		//drive.driveMode();
+		controls.run();
 		// drive.driveMode();
 		//controls.run();
 		curvedDrive.run();
