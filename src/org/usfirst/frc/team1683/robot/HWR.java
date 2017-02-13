@@ -18,6 +18,7 @@ public class HWR {
 	// Encoders
 	
 	public static final int GREEN_LIGHT_LOW = HWP.CAN_11; 
+	// Enable low level green light for cameras
 
 	public static final int LEFT_DRIVE_ENCODER = HWP.CAN_3;
 	public static final int RIGHT_DRIVE_ENCODER = HWP.CAN_6;
