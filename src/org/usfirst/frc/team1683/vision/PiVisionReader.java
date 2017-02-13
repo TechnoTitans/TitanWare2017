@@ -20,4 +20,7 @@ public class PiVisionReader {
 	public boolean isNull() {
 		return table.getBoolean("OnScreen", false);
 	}
+	public void greenLight() {
+		
+	}
 }

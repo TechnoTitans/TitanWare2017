@@ -5,6 +5,7 @@ import org.usfirst.frc.team1683.sensors.Encoder;
 public class MotorMover implements Runnable {
 	private double distance;
 	private double speed;
+
 	private Motor motor;
 	private Encoder encoder;
 	private AntiDrift anti;
@@ -27,6 +28,21 @@ public class MotorMover implements Runnable {
 		else
 			this.speed = speed;
 		this.encoder.reset();
+	}
+	
+
+	/**
+	 * @return the speed
+	 */
+	public double getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * @param speed the speed to set
+	 */
+	public void setSpeed(double speed) {
+		this.speed = speed;
 	}
 
 	/**

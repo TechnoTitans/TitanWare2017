@@ -3,6 +3,7 @@ package org.usfirst.frc.team1683.autonomous;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.sensors.Encoder;
 import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 public abstract class Autonomous {
 	public static final double GYRO_ANGLE_TOLERANCE = 15.0;
@@ -23,11 +24,13 @@ public abstract class Autonomous {
 		this.tankDrive = tankDrive;
 		leftEncoder = tankDrive.getLeftEncoder();
 		rightEncoder = tankDrive.getRightEncoder();
+		org.usfirst.frc.team1683.vision.PiVisionReader visionReader = new org.usfirst.frc.team1683.vision.PiVisionReader();
+		
 		resetAuto();
 	}
 
 	public static enum State {
-		INIT_CASE, END_CASE, DRIVE_FORWARD, FIND_TARGET, FIRE, REALIGN, STOP, APPROACH_GOAL, SCORE, DRIVE_FORWARD_WAITING;
+		INIT_CASE, END_CASE, DRIVE_FORWARD, FIND_TARGET, FIRE, REALIGN, STOP, APPROACH_GOAL, SCORE, DRIVE_FORWARD_WAITING, DRIVE_PATH;
 	}
 
 	public static enum AutonomousMode {
@@ -43,6 +46,9 @@ public abstract class Autonomous {
 	}
 	public void stop(){
 		presentState = State.STOP;
+	}
+	public void turnGreenLightOn() {
+		
 	}
 
 	public abstract void run();
