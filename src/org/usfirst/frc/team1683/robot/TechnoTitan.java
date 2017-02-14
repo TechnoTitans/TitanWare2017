@@ -111,6 +111,8 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		// drive.driveMode();
+		SmartDashboard.sendData("encoder left", drive.getLeftEncoder().getDistance());
+		SmartDashboard.sendData("encoder right", drive.getRightEncoder().getDistance());
 		controls.run();
 		// curvedDrive.run();
 		SmartDashboard.sendData("Ultrasonic", ultrasonic.getDistance());

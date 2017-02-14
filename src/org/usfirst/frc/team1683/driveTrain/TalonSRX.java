@@ -32,6 +32,11 @@ public class TalonSRX extends CANTalon implements Motor {
 		this.anti = anti;
 	}
 
+	public TalonSRX(int channel, boolean reversed, Encoder encoder) {
+		super(channel);
+		super.setInverted(reversed);
+		this.encoder = encoder;
+	}
 	/**
 	 * Constructor
 	 *

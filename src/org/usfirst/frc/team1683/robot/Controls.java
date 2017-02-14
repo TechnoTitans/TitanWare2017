@@ -24,18 +24,17 @@ public class Controls {
 	double rSpeed;
 	double lSpeed;
 	public final double MAX_JOYSTICK_SPEED = 0.8;
-	
+
 	public Controls(DriveTrain drive) {
 		this.drive = drive;
 		shooter = new Shooter(HWR.SHOOTER);
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
-		
+
 		frontMode = true;
 		toggleWinch = false;
 		autoShooter = true;
-		
-		
+
 	}
 
 	public void run() {
@@ -55,26 +54,30 @@ public class Controls {
 		// winch.turnWinch();
 		// } else
 		// winch.stop();
-		if (checkToggle(HWR.AUX_JOYSTICK,HWR.TOGGLE_SHOOTER_MODE)) {
+
+		SmartDashboard.sendData("speed of shooter", shooter.getSpeed());
+		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_SHOOTER_MODE)) {
 			autoShooter = !autoShooter;
 		}
 		if (autoShooter) {
-			if(DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER))
+			if (DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER))
 				shooter.turnOn();
 			else
 				shooter.stop();
 		} else {
 			shooter.setSpeed(-(DriverStation.auxStick.getRawAxis(DriverStation.ZAxis) - 1) / 2);
 		}
-		
+
 		toggle(HWR.TOGGLE_WINCH, winch);
 		toggle(HWR.TOGGLE_INTAKE, intake);
 	}
+
 	/*
-	 * Checks if a button is pressed to toggle it. Since teleop is periodic, needs to remember past button state to toggle
+	 * Checks if a button is pressed to toggle it. Since teleop is periodic,
+	 * needs to remember past button state to toggle
 	 * 
 	 */
-	public static void toggle(int button, ScoringMotor motor){
+	public static void toggle(int button, ScoringMotor motor) {
 		if (checkToggle(HWR.AUX_JOYSTICK, button)) {
 			toggle[button - 1] = !toggle[button - 1];
 		}
@@ -83,6 +86,7 @@ public class Controls {
 		else
 			motor.stop();
 	}
+
 	public static boolean checkToggle(int joystick, int button) {
 		boolean pressed = false;
 
