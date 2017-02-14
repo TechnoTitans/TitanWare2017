@@ -115,10 +115,10 @@ public class CurvedPath extends CurvedDrive {
 	private double cachedLength = 0;
 	private int cachedIndex = 0;
 	private int getIndexOfCubic() {
-		if (x == cachedLength) return cachedIndex;
+		if (t == cachedLength) return cachedIndex;
 		for (int i = 0; i < lengths.length; ++i) {
-			if (x <= lengths[i]) {
-				cachedLength = x;
+			if (t <= lengths[i]) {
+				cachedLength = t;
 				cachedIndex = i;
 				return i;
 			}
@@ -128,33 +128,33 @@ public class CurvedPath extends CurvedDrive {
 	
 	@Override
 	public double parafunctionX() {
-		return xPath[getIndexOfCubic()].evaluate(x);
+		return xPath[getIndexOfCubic()].evaluate(t);
 	}
 	
 	@Override
 	public double derivParafunctionX() {
-		return xPath[getIndexOfCubic()].evalDeriv(x);
+		return xPath[getIndexOfCubic()].evalDeriv(t);
 	}
 	
 	@Override
 	public double deriv2ParafunctionX() {
-		return xPath[getIndexOfCubic()].evalDeriv2(x);
+		return xPath[getIndexOfCubic()].evalDeriv2(t);
 	}
 	
 
 	@Override
 	public double parafunctionY() {
-		return yPath[getIndexOfCubic()].evaluate(x);
+		return yPath[getIndexOfCubic()].evaluate(t);
 	}
 	
 	@Override
 	public double derivParafunctionY() {
-		return yPath[getIndexOfCubic()].evalDeriv(x);
+		return yPath[getIndexOfCubic()].evalDeriv(t);
 	}
 	
 	@Override
 	public double deriv2ParafunctionY() {
-		return yPath[getIndexOfCubic()].evalDeriv2(x);
+		return yPath[getIndexOfCubic()].evalDeriv2(t);
 	}
 	
 	@Override

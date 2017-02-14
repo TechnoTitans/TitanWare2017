@@ -18,26 +18,30 @@ public class CurvedDrive {
 
 	TankDrive drive;
 	Gyro gyro;
-	public double x;
+	public double t;
 
 	public CurvedDrive(TankDrive drive, Gyro gyro) {
 		this.drive = drive;
 		this.gyro = gyro;
-		x = 0.0;
+		t = 1.0;
 		gyro.reset();
 		SmartDashboard.prefDouble("kp", 0.022);
 		SmartDashboard.sendData("kp", 0.022);
 	}
 
 	public void run() {
-		x += 0.03;
-		SmartDashboard.sendData("x", x);
+		t += 0.03;
+		SmartDashboard.sendData("t", t);
 		SmartDashboard.sendData("Function", function());
-		SmartDashboard.sendData("Curved Drive Ratio", ratioAngularVelocity(x, false));
+		SmartDashboard.sendData("Curved Drive Ratio", ratioAngularVelocity(t, false));
 		SmartDashboard.sendData("Radius of Curve", calCurve());
 
-		drive.setRight(speed * (isTurningRight(x, false) ? 1 : ratioAngularVelocity(x, false)));
-		drive.setLeft(speed * (isTurningRight(x, false) ? ratioAngularVelocity(x, false) : 1));
+		SmartDashboard.sendData("Curved left speed",
+				speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)));
+		SmartDashboard.sendData("Curved right speed",
+				speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
+		drive.setRight(speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)));
+		drive.setLeft(speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
 	}
 
 	public double antiDrift(int right) {
@@ -61,27 +65,27 @@ public class CurvedDrive {
 		}
 	}
 
-	public double currentAngle() {
+	private double currentAngle() {
 		if (Math.atan(derivFunction()) > Math.PI) {
 			return Math.atan(derivFunction()) + Math.PI;
 		}
 		return Math.atan(derivFunction());
 	}
-	
-	//meters from now on!!
-	public double function() {
-		return 0.1 * Math.pow(x, 4) - 4.0 * Math.pow(x, 3) + 51.0 * Math.pow(x, 2) - 220.0 * x + 172.9;
+
+	// meters from now on!!
+	private double function() {
+		return 0.02 * (0.1 * Math.pow(t, 4) - 4.0 * Math.pow(t, 3) + 51.0 * Math.pow(t, 2) - 220.0 * t + 172.9);
 	}
 
-	public double derivFunction() {
-		return 0.4 * Math.pow(x, 3) - 12.0 * Math.pow(x, 2) + 102.0 * x - 220.0;
+	private double derivFunction() {
+		return 0.02 * (0.4 * Math.pow(t, 3) - 12.0 * Math.pow(t, 2) + 102.0 * t - 220.0);
 	}
 
-	public double deriv2Function() {
-		return 1.2 * Math.pow(x, 2) - 24.0 * x + 102.0;
+	private double deriv2Function() {
+		return 0.02 * (1.2 * Math.pow(t, 2) - 24.0 * t + 102.0);
 	}
 
-	public double calCurve() {
+	private double calCurve() {
 		if (deriv2Function() != 0)
 			return Math.pow((1 + derivFunction() * derivFunction()), 1.5) / (deriv2Function());
 		return speed;
@@ -89,31 +93,31 @@ public class CurvedDrive {
 
 	// parametric x
 	public double parafunctionX() {
-		return Math.pow(x, -1);
+		return Math.pow(t, -1);
 	}
 
 	public double derivParafunctionX() {
-		return -Math.pow(x, -2);
+		return -Math.pow(t, -2);
 	}
 
 	public double deriv2ParafunctionX() {
-		return 2 * Math.pow(x, -3);
+		return 2 * Math.pow(t, -3);
 	}
 
 	// parametric y
 	public double parafunctionY() {
-		return Math.pow(x, -1);
+		return Math.pow(t, -1);
 	}
 
 	public double derivParafunctionY() {
-		return -Math.pow(x, -2);
+		return -Math.pow(t, -2);
 	}
 
 	public double deriv2ParafunctionY() {
-		return 2 * Math.pow(x, -3);
+		return 2 * Math.pow(t, -3);
 	}
 
-	public double calParaCurve() {
+	private double calParaCurve() {
 		double denominator = derivParafunctionX() * deriv2ParafunctionY()
 				- derivParafunctionY() * deriv2ParafunctionX();
 		if (denominator != 0)
