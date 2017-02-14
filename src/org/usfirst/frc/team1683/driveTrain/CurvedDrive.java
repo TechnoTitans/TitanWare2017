@@ -146,7 +146,7 @@ public class CurvedDrive {
 		double semiPeri = (side1 + side2 + side3) / 2;
 		double area = Math.sqrt(semiPeri * (semiPeri - side1) * (semiPeri - side2) * (semiPeri - side3));
 
-		double radius = side1 * side2 * side3 / area;
+		double radius = side1 * side2 * side3 / (area * 4);
 		return radius;
 	}
 
