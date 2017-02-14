@@ -3,6 +3,8 @@ package org.usfirst.frc.team1683.driveTrain;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.Timer;
+
 /**
  * 
  * @author Pran
@@ -11,12 +13,15 @@ import java.util.List;
 public class DriveTrainMover {
 	private List<MotorMover> motorMovers = new ArrayList<MotorMover>();
 	private double distance, speed;
+	private Timer t;
 	public DriveTrainMover(DriveTrain driveTrain, double distance, double speed) {
 		this.distance = distance;
 		this.speed = speed;
 		MotorGroup left = driveTrain.getLeftGroup(), right = driveTrain.getRightGroup();
 		addMotorGroup(left);
 		addMotorGroup(right);
+		t = new Timer();
+		t.start();
 	}
 	
 	private void addMotorGroup(MotorGroup group) {
@@ -50,6 +55,7 @@ public class DriveTrainMover {
 	 * @return True if any (even one) motors are finished, false otherwise
 	 */
 	public boolean areAnyFinished() {
+		if (t.get() > 6) return true;
 		for (MotorMover motorMover : motorMovers) {
 			if (motorMover.distanceLeft() <= 0) return true;
 		}
