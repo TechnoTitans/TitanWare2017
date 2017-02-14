@@ -1,9 +1,6 @@
 package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.sensors.Encoder;
-
-import java.lang.Thread.State;
-
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import com.ctre.CANTalon;
 
@@ -12,8 +9,6 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 public class TalonSRX extends CANTalon implements Motor {
 
 	private Encoder encoder;
-	// This thread handles moving a certain distance in a separate thread
-	private Thread thread;
 	private double PIDTargetSpeed;
 	AntiDrift anti;
 	Gyro gyro;
@@ -30,6 +25,7 @@ public class TalonSRX extends CANTalon implements Motor {
 		super(channel);
 		super.setInverted(reversed);
 	}
+
 	public TalonSRX(int channel, boolean reversed, AntiDrift anti) {
 		super(channel);
 		super.setInverted(reversed);
@@ -53,48 +49,6 @@ public class TalonSRX extends CANTalon implements Motor {
 		this.encoder = encoder;
 	}
 
-	/**
-	 * Move distance in inches at mid speed
-	 *
-	 * @param distance
-	 *            Distance in inches
-	 * @deprecated This creates a new thread, so it will continue even if e.g. autonomous is disabled and is hard to stop or kill, use MotorMover instead
-	 */
-	@Override
-	public void moveDistance(double distance) throws EncoderNotFoundException {
-		moveDistance(distance, Motor.MID_SPEED);
-	}
-
-	/**
-	 * Move distance in inches
-	 *
-	 * @param distance
-	 *            Distance in inches.
-	 * @param speed
-	 *            Speed from 0 to 1.
-	 * @deprecated This creates a new thread and continues even after autonomous or the mode is disabled or switched; use MotorMover instead
-	 */
-	@Override
-	public void moveDistance(double distance, double speed) throws EncoderNotFoundException {
-
-		if (hasEncoder()) {
-			if (thread == null || thread.getState().equals(Thread.State.TERMINATED)) {
-				thread = new Thread(new MotorMover(this, distance, speed, encoder, anti));
-			}
-			if (thread.getState().equals(Thread.State.NEW)) {
-				thread.start();
-			}
-		} else {
-			throw new EncoderNotFoundException();
-		}
-	}
-
-	@Override
-	public boolean hasMoveDistanceFinished() {
-		if (thread == null) return true;
-		State threadState = thread.getState();
-		return threadState.equals(Thread.State.NEW) || threadState.equals(Thread.State.TERMINATED);
-	}
 	/**
 	 * Set the speed of the TalonSRX.
 	 *
@@ -214,7 +168,7 @@ public class TalonSRX extends CANTalon implements Motor {
 		// super.enableBrakeMode(true);
 		super.disableControl();
 	}
-	
+
 	@Override
 	public void brake() {
 		super.enableBrakeMode(true);

@@ -40,37 +40,6 @@ public class MotorGroup extends ArrayList<Motor> {
 			super.add(motor);
 		}
 	}
-
-	/**
-	 * Move distance in inches.
-	 *
-	 * @param distance
-	 *            Distance in inches.
-	 * @throws EncoderNotFoundException
-	 *             If encoder is not found.
-	 *
-	 */
-	public void moveDistance(double distance) throws EncoderNotFoundException {
-		moveDistance(distance, Motor.MID_SPEED);
-	}
-
-	/**
-	 * Move distance in inches. Calls the moveDistance method of each motor
-	 * 
-	 * @param distance
-	 *            Distance in inches.
-	 * @param speed
-	 *            Speed of motor, from 0 to 1
-	 * @throws EncoderNotFoundException
-	 *             If encoder not found.
-	 */
-	// TODO: make this linear instead of rotations
-	public void moveDistance(double distance, double speed) throws EncoderNotFoundException {
-		for (Motor motor : this) {
-			motor.moveDistance(distance, speed);
-		}
-	}
-
 	/**
 	 * Set collective speed of motors.
 	 *
@@ -165,11 +134,5 @@ public class MotorGroup extends ArrayList<Motor> {
 
 	public AntiDrift getAntiDrift() {
 		return antiDrift;
-	}
-	public boolean hasMoveDistanceFinished() {
-		for (Motor m : this) {
-			if (m.hasMoveDistanceFinished() == false) return false;
-		}
-		return true;
 	}
 }

@@ -4,12 +4,6 @@ import org.usfirst.frc.team1683.sensors.Encoder;
 import org.usfirst.frc.team1683.sensors.Gyro;
 public interface DriveTrain {
 
-	void moveDistance(double distance) throws EncoderNotFoundException;
-
-	public void moveDistance(double distance, double speed) throws EncoderNotFoundException;
-
-	public void turn(double degrees);
-
 	public void set(double speed);
 
 	public void stop();

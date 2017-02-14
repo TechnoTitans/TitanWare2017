@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class MiddleGear extends Autonomous {
 
 	private final double distance;
-	private static final double DEFAULT_DISTANCE = 96;
+	private static final double DEFAULT_DISTANCE = 20096;
 	private final double pixelFromCenter = 10; // pixel (guessing)
 	private final double turnSpeed = 3;
 	private final double distanceFromGoal = 3; // degrees
@@ -42,6 +42,7 @@ public class MiddleGear extends Autonomous {
 			timer.start();
 			nextState = State.SCORE;
 			tankDrive.set(0);
+			tankDrive.stop();
 		}
 	}
 

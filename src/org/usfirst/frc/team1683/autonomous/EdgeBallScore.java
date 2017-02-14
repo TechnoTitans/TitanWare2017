@@ -43,7 +43,7 @@ public class EdgeBallScore extends Autonomous {
 				nextState = State.DRIVE_FORWARD;
 				break;
 			case DRIVE_FORWARD:
-				tankDrive.moveDistance(distance);
+				
 				nextState = State.DRIVE_FORWARD_WAITING;
 				break;
 			case REALIGN:
