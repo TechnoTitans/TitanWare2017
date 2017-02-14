@@ -21,9 +21,19 @@ public class Path {
 	private int pathIndex = 0;
 	private double speed;
 	private boolean stopCondition;
+	
+
+	/**
+	 * Creates a new path object
+	 * @param driveTrain The driveTrain that controls the motors
+	 * @param path An array of PathPoint objects indicating where to go
+	 * @param speed The speed with which to move and turn
+	 * Note: default heading is 90 degrees
+	 */
 	public Path(DriveTrain driveTrain, PathPoint[] path, double speed) {
 		this(driveTrain, path, speed, 90);
 	}
+	
 	/**
 	 * Creates a new path object
 	 * @param driveTrain The driveTrain that controls the motors

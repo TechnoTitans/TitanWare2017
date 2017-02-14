@@ -91,7 +91,7 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		gyro.reset();
-		auto = new Dance(drive);
+		auto = new EdgeGearScore(drive, false);
 	}
 
 	@Override
