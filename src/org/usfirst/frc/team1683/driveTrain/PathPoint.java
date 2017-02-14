@@ -64,4 +64,7 @@ public class PathPoint {
 		y -= other.y;
 		isRelative = true;
 	}
+	public PathPoint subtract(PathPoint other) {
+		return new PathPoint(x - other.x, y - other.y, true);
+	}
 }

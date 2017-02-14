@@ -14,12 +14,16 @@ public class CurvedPath extends CurvedDrive {
 		double totalDistance = 0;
 		for (int i = 0; i < path.length; ++i) {
 			PathPoint p = path[i];
+			if (p.isRelative()) throw new IllegalArgumentException("Can't handle relative coords yet");
 			xPathPoints[i][0] = totalDistance;
 			xPathPoints[i][1] = p.getX();
 			yPathPoints[i][0] = totalDistance;
 			yPathPoints[i][1] = p.getY();
-			totalDistance += p.getDistance();
-			if (i != 0) lengths[i - 1] = totalDistance;
+			if (i != path.length - 1) {
+				totalDistance += path[i+1].subtract(p).getDistance();
+			  lengths[i] = totalDistance;
+				System.out.println(i + "  " + totalDistance);
+			}
 		}
 		xPath = interpolateCubics(xPathPoints);
 		yPath = interpolateCubics(yPathPoints);
