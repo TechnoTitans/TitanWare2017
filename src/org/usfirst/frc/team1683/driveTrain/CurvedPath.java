@@ -41,6 +41,11 @@ public class CurvedPath extends CurvedDrive {
 		double evalDeriv2(double x) {
 			return 6*a*x + 2*b;
 		}
+		
+		@Override
+		public String toString() {
+			return String.format("%.2ft^3 + %.2ft^2 + %.2ft + %.2f", a, b, c, d);
+		}
 	}
 	private Cubic[] interpolateCubics(double[][] pts) {
 		double slope = (pts[1][1] - pts[0][1]) / (pts[1][0] - pts[0][0]);
@@ -102,7 +107,7 @@ public class CurvedPath extends CurvedDrive {
 	    return solutions;
 	}
 	
-	// We cache one because it will often be called several times
+	// We cache one because it will often be called several (around 6) times, no use fetching index every single time
 	private double cachedLength = 0;
 	private int cachedIndex = 0;
 	private int getIndexOfCubic() {
@@ -155,6 +160,16 @@ public class CurvedPath extends CurvedDrive {
 	
 	@Override
 	public double ratioAngularVelocity(double x, boolean dummy) {
-		return super.ratioAngularVelocity(x, true);
+		return super.ratioAngularVelocity(x, true); // force parametric
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < lengths.length; ++i) {
+			result.append(String.format("Up to %.2f: x=", lengths[i]));
+			result.append(xPath[i].toString() + " y=" + yPath[i].toString() + "\n");
+		}
+		return result.toString();
 	}
 }
