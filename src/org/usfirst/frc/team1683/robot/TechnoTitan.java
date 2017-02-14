@@ -28,7 +28,7 @@ public class TechnoTitan extends IterativeRobot {
 	public static final boolean RIGHT_REVERSE = true;
 	public static final double WHEEL_RADIUS = 2.2135;
 	public static final double AGITATOR_SPEED = 1.00;
-	
+
 	TankDrive drive;
 	Timer endGameTimer;
 	// LightRing lightRing;
@@ -44,15 +44,15 @@ public class TechnoTitan extends IterativeRobot {
 	// SolenoidTest solenoidTest;
 	Controls controls;
 	PiVisionReader vision;
-	
+
 	CurvedDrive curvedDrive;
 
 	@Override
 	public void robotInit() {
 		ultrasonic = new AnalogUltra(HWR.ULTRASONIC);
-		
+
 		new TalonSRX(HWR.AGITATOR, true).set(AGITATOR_SPEED);
-		
+
 		gyro = new Gyro(HWR.GYRO);
 
 		AntiDrift left = new AntiDrift(gyro, -1);
@@ -73,8 +73,8 @@ public class TechnoTitan extends IterativeRobot {
 		endGameTimer = new Timer();
 		leftGroup.enableAntiDrift(left);
 		rightGroup.enableAntiDrift(right);
-		
-		curvedDrive = new CurvedDrive(drive);
+
+		curvedDrive = new CurvedDrive(drive, gyro);
 		// BuiltInAccel accel = new BuiltInAccel();
 		// lightRing = new LightRing(HWR.LIGHT_RING);
 		// lightRing.set(1);
@@ -84,7 +84,7 @@ public class TechnoTitan extends IterativeRobot {
 		// CameraServer server = CameraServer.getInstance();
 		// server.setQuality(50);
 		// server.startAutomaticCapture("cam1");
-		
+
 		vision = new PiVisionReader();
 	}
 
@@ -110,11 +110,11 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		//drive.driveMode();
+		// drive.driveMode();
 		controls.run();
 		// drive.driveMode();
 		controls.run();
-		//curvedDrive.run();
+		// curvedDrive.run();
 		SmartDashboard.sendData("Ultrasonic", ultrasonic.getDistance());
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 
