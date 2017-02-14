@@ -2,6 +2,17 @@ package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.sensors.Gyro;
 
+/**
+ * 
+ * @author Pran
+ * Curved Path TESTING ONLY may not work
+ * Uses curved drive to drive the robot
+ * TODO:
+ * 1. Get CurvedDrive actually working
+ * 2. Make sure that the cubic interpolation works (done mostly)
+ * 3. Possibly make cubic interpolation more numerically stable by translating the polynomial to the middle t-value before interpolation?
+ * 4. Profit!!!
+ */
 public class CurvedPath extends CurvedDrive {
 	private Cubic[] xPath, yPath;
 	private double[] lengths;
