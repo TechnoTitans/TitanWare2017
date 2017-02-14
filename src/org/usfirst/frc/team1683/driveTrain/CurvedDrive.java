@@ -19,6 +19,8 @@ public class CurvedDrive {
 	TankDrive drive;
 	Gyro gyro;
 	public double t;
+	PathPoint[] points = { new PathPoint(0, 0), new PathPoint(0, 1), new PathPoint(1, 1), new PathPoint(2, 2),
+			new PathPoint(3, 5), };
 
 	public CurvedDrive(TankDrive drive, Gyro gyro) {
 		this.drive = drive;
@@ -124,6 +126,28 @@ public class CurvedDrive {
 			return Math.pow((derivParafunctionX() * derivParafunctionX() + derivParafunctionY() * derivParafunctionY()),
 					1.5) / (denominator);
 		return speed;
+	}
+
+	private double calPointsCurve() {
+		if (t + 2 > points.length)
+			return speed;
+
+		PathPoint point1 = points[(int) t];
+		PathPoint point2 = points[(int) t + 1];
+		PathPoint point3 = points[(int) t + 2];
+
+		double side1 = Math.sqrt((point1.getX() - point2.getX()) * (point1.getX() - point2.getX())
+				+ (point1.getY() - point2.getY()) * (point1.getY() - point2.getY()));
+		double side2 = Math.sqrt((point3.getX() - point2.getX()) * (point3.getX() - point2.getX())
+				+ (point3.getY() - point2.getY()) * (point3.getY() - point2.getY()));
+		double side3 = Math.sqrt((point1.getX() - point3.getX()) * (point1.getX() - point3.getX())
+				+ (point1.getY() - point3.getY()) * (point1.getY() - point3.getY()));
+
+		double semiPeri = (side1 + side2 + side3) / 2;
+		double area = Math.sqrt(semiPeri * (semiPeri - side1) * (semiPeri - side2) * (semiPeri - side3));
+
+		double radius = side1 * side2 * side3 / area;
+		return radius;
 	}
 
 	public boolean isTurningRight(double x, boolean para) {
