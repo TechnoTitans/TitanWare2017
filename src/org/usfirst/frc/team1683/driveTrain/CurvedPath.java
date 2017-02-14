@@ -88,7 +88,7 @@ public class CurvedPath extends CurvedDrive {
 	           mat[i][k] = 0;
 	       }
 	    }
-	    // mat is now in row echelon
+	    // mat is now in row-echelon
 	    // get solutions
 	    double[] solutions = new double[n];
 	    for (int k = 0; k < n; ++k) {
@@ -146,5 +146,15 @@ public class CurvedPath extends CurvedDrive {
 	@Override
 	public double deriv2ParafunctionY() {
 		return yPath[getIndexOfCubic()].evalDeriv2(x);
+	}
+	
+	@Override
+	public boolean isTurningRight(double x, boolean dummy) {
+		return super.isTurningRight(x, true); // always parametric
+	}
+	
+	@Override
+	public double ratioAngularVelocity(double x, boolean dummy) {
+		return super.ratioAngularVelocity(x, true);
 	}
 }
