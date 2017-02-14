@@ -1,9 +1,6 @@
-package org.usfirst.frc.team1683.autonomous;
+package org.usfirst.frc.team1683.driveTrain;
 
 
-import org.usfirst.frc.team1683.driveTrain.DriveTrain;
-import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
-import org.usfirst.frc.team1683.driveTrain.DriveTrainTurner;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 /**
@@ -51,14 +48,7 @@ public class Path {
 		}
 		this.speed = speed;
 		setStopCondition(false);
-		convertAbsoluteToRelative();
-	}
-	private void convertAbsoluteToRelative() {
-		for (int i = 1; i < path.length; ++i) {
-			if (!path[i].isRelative()) {
-				path[i].setRelativeTo(path[i - 1]);
-			}
-		}
+		PathPoint.convertAbsoluteToRelative(path);
 	}
 	/**
 	 * Sometimes the path has to move straight ahead
