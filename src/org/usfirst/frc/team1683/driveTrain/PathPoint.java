@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1683.autonomous;
+package org.usfirst.frc.team1683.driveTrain;
 
 /**
  * A point on a path
@@ -35,6 +35,13 @@ public class PathPoint {
 	}
 	public double getY() {
 		return y;
+	}
+	static void convertAbsoluteToRelative(PathPoint[] path) {
+		for (int i = 1; i < path.length; ++i) {
+			if (!path[i].isRelative()) {
+				path[i].setRelativeTo(path[i - 1]);
+			}
+		}
 	}
 	/**
 	 * 
