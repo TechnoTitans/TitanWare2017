@@ -55,7 +55,7 @@ public class Controls {
 		// } else
 		// winch.stop();
 
-		SmartDashboard.sendData("speed of shooter", shooter.getSpeed());
+		//SmartDashboard.sendData("speed of shooter", shooter.getSpeed());
 		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_SHOOTER_MODE)) {
 			autoShooter = !autoShooter;
 		}
