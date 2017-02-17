@@ -14,6 +14,7 @@ import org.usfirst.frc.team1683.sensors.AnalogUltra;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.test.GyroTester;
+import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -31,7 +32,7 @@ public class TechnoTitan extends IterativeRobot {
 	Timer endGameTimer;
 	// LightRing lightRing;
 	Autonomous auto;
-	Solenoid solenoid;
+	LightRing lightRing;
 	GyroTester gyroTester;
 	Gyro gyro;
 
@@ -82,7 +83,8 @@ public class TechnoTitan extends IterativeRobot {
 		// CameraServer server = CameraServer.getInstance();
 		// server.setQuality(50);
 		// server.startAutomaticCapture("cam1");
-
+		
+		lightRing = new LightRing(HWR.GREEN_LIGHT_LOW);
 		vision = new PiVisionReader();
 	}
 
