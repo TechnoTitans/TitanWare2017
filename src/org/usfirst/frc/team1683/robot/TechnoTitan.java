@@ -1,11 +1,9 @@
 
 package org.usfirst.frc.team1683.robot;
 
-import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.autonomous.EdgeGearScore;
-import org.usfirst.frc.team1683.autonomous.MiddleGear;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.CurvedDrive;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
@@ -17,6 +15,7 @@ import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.test.GyroTester;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -95,6 +94,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		curvedDrive.run();
+		
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 		SmartDashboard.sendData("Robot time in milliseconds", vision.getTime() * 1000);
 		auto.run();
@@ -104,12 +105,10 @@ public class TechnoTitan extends IterativeRobot {
 	public void teleopInit() {
 		drive.stop();
 		endGameTimer.start();
-
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		// drive.driveMode();
 		SmartDashboard.sendData("encoder left", drive.getLeftEncoder().getDistance());
 		SmartDashboard.sendData("encoder right", drive.getRightEncoder().getDistance());
 		controls.run();

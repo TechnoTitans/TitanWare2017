@@ -23,7 +23,7 @@ public class Controls {
 
 	double rSpeed;
 	double lSpeed;
-	public final double MAX_JOYSTICK_SPEED = 0.5;
+	public final double MAX_JOYSTICK_SPEED = 1.0;
 
 	public Controls(DriveTrain drive) {
 		this.drive = drive;
@@ -44,15 +44,15 @@ public class Controls {
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
 			frontMode = true;
 		}
-		if(frontMode){
-			rSpeed = -MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-			lSpeed = -MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+		if (frontMode) {
+			lSpeed = -MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+			rSpeed = -MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+		} else {
+			lSpeed = MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+			rSpeed = MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 		}
-		else{
-			rSpeed = MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
-			lSpeed = MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-		}
-		drive.driveMode(lSpeed, rSpeed);
+
+		drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
 
 		SmartDashboard.sendData("Zaxisaux", DriverStation.auxStick.getRawAxis(DriverStation.ZAxis));
 
@@ -81,11 +81,11 @@ public class Controls {
 		} else {
 			winch.stop();
 		}
-		
-		if(DriverStation.auxStick.getRawButton(2)){
+
+		if (DriverStation.auxStick.getRawButton(HWR.TOGGLE_INTAKE)) {
 			intake.turnOn();
 		}
-		toggle(HWR.TOGGLE_INTAKE, intake);
+		// toggle(HWR.TOGGLE_INTAKE, intake);
 	}
 
 	/*
@@ -97,13 +97,12 @@ public class Controls {
 		if (checkToggle(HWR.AUX_JOYSTICK, button)) {
 			toggle[button - 1] = !toggle[button - 1];
 		}
-		if (toggle[button - 1]){
+		if (toggle[button - 1]) {
 			motor.turnOn();
-			SmartDashboard.sendData("intake clicked","true");
-		}
-		else{
+			SmartDashboard.sendData("intake clicked", "true");
+		} else {
 			motor.stop();
-			SmartDashboard.sendData("intake clicked","false");
+			SmartDashboard.sendData("intake clicked", "false");
 		}
 	}
 

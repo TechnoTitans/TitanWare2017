@@ -32,7 +32,7 @@ public class CurvedDrive {
 	}
 
 	public void run() {
-		t += 0.02;
+		t += 0.04;
 		SmartDashboard.sendData("t", t);
 		SmartDashboard.sendData("Function", function());
 		SmartDashboard.sendData("Curved Drive Ratio", ratioAngularVelocity(t, false));
@@ -42,8 +42,11 @@ public class CurvedDrive {
 				speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)));
 		SmartDashboard.sendData("Curved right speed",
 				speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
-		drive.setRight(speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)));
-		drive.setLeft(speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
+		//drive.setRight(speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)));
+		//drive.setLeft(speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
+		
+		SmartDashboard.sendData("Antidrift", antiDrift(-1));
+		SmartDashboard.sendData("Antidrift", antiDrift(1));
 	}
 
 	public double antiDrift(int right) {
@@ -51,9 +54,9 @@ public class CurvedDrive {
 		SmartDashboard.sendData("gyro angle", gyro.getAngle());
 
 		double correction = SmartDashboard.getDouble("kp") * error / 2.0;
-		SmartDashboard.sendData("Curved Speed Received", speed);
-		SmartDashboard.sendData("Curved Correction", correction);
-		SmartDashboard.sendData("Curved Corrected Speed", limitSpeed(speed - correction * right));
+		SmartDashboard.sendData("Anti - Curved Speed Received", speed);
+		SmartDashboard.sendData("Anti - Curved Correction", correction);
+		SmartDashboard.sendData("Anti - Curved Corrected Speed", limitSpeed(speed - correction * right));
 		return limitSpeed(speed - correction * right);
 	}
 
@@ -128,6 +131,7 @@ public class CurvedDrive {
 		return speed;
 	}
 
+	@SuppressWarnings("unused")
 	private double calPointsCurve() {
 		if (t + 2 > points.length)
 			return speed;
