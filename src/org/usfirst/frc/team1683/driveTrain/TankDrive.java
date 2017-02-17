@@ -9,10 +9,6 @@ public class TankDrive implements DriveTrain {
 	private MotorGroup right;
 	private Gyro gyro;
 
-	// Will probably use to correct drift
-	@SuppressWarnings("unused")
-	private final double kp = 0.6;
-
 	public TankDrive(MotorGroup left, MotorGroup right) {
 		this.left = left;
 		this.right = right;
