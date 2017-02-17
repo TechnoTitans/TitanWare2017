@@ -14,7 +14,7 @@ import org.usfirst.frc.team1683.sensors.Gyro;
  */
 public class CurvedDrive {
 	public final static double width = 0.6985;
-	public final double speed = 0.5;
+	public final double speed = 0.2;
 
 	TankDrive drive;
 	Gyro gyro;
@@ -32,7 +32,7 @@ public class CurvedDrive {
 	}
 
 	public void run() {
-		t += 0.03;
+		t += 0.02;
 		SmartDashboard.sendData("t", t);
 		SmartDashboard.sendData("Function", function());
 		SmartDashboard.sendData("Curved Drive Ratio", ratioAngularVelocity(t, false));

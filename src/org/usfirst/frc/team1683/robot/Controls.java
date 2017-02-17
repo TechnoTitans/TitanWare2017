@@ -23,7 +23,7 @@ public class Controls {
 
 	double rSpeed;
 	double lSpeed;
-	public final double MAX_JOYSTICK_SPEED = 0.8;
+	public final double MAX_JOYSTICK_SPEED = 0.5;
 
 	public Controls(DriveTrain drive) {
 		this.drive = drive;
@@ -44,8 +44,14 @@ public class Controls {
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
 			frontMode = true;
 		}
-		rSpeed = (frontMode ? -1 : 1) * MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-		lSpeed = (frontMode ? -1 : 1) * MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+		if(frontMode){
+			rSpeed = -MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+			lSpeed = -MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+		}
+		else{
+			rSpeed = MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+			lSpeed = MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+		}
 		drive.driveMode(lSpeed, rSpeed);
 
 		SmartDashboard.sendData("Zaxisaux", DriverStation.auxStick.getRawAxis(DriverStation.ZAxis));
@@ -55,7 +61,7 @@ public class Controls {
 		// } else
 		// winch.stop();
 
-		//SmartDashboard.sendData("speed of shooter", shooter.getSpeed());
+		// SmartDashboard.sendData("speed of shooter", shooter.getSpeed());
 		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_SHOOTER_MODE)) {
 			autoShooter = !autoShooter;
 		}
@@ -68,7 +74,17 @@ public class Controls {
 			shooter.setSpeed(-(DriverStation.auxStick.getRawAxis(DriverStation.ZAxis) - 1) / 2);
 		}
 
-		toggle(HWR.TOGGLE_WINCH, winch);
+		if (DriverStation.auxStick.getRawButton(HWR.TURN_WINCH)) {
+			winch.turnOn();
+		} else if (DriverStation.auxStick.getRawButton(HWR.TURN_BACK_WINCH)) {
+			winch.turnOtherWay();
+		} else {
+			winch.stop();
+		}
+		
+		if(DriverStation.auxStick.getRawButton(2)){
+			intake.turnOn();
+		}
 		toggle(HWR.TOGGLE_INTAKE, intake);
 	}
 
@@ -81,10 +97,14 @@ public class Controls {
 		if (checkToggle(HWR.AUX_JOYSTICK, button)) {
 			toggle[button - 1] = !toggle[button - 1];
 		}
-		if (toggle[button - 1])
+		if (toggle[button - 1]){
 			motor.turnOn();
-		else
+			SmartDashboard.sendData("intake clicked","true");
+		}
+		else{
 			motor.stop();
+			SmartDashboard.sendData("intake clicked","false");
+		}
 	}
 
 	public static boolean checkToggle(int joystick, int button) {

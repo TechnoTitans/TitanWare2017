@@ -113,8 +113,8 @@ public class TechnoTitan extends IterativeRobot {
 		// drive.driveMode();
 		SmartDashboard.sendData("encoder left", drive.getLeftEncoder().getDistance());
 		SmartDashboard.sendData("encoder right", drive.getRightEncoder().getDistance());
-		controls.run();
-		// curvedDrive.run();
+		//controls.run();
+		curvedDrive.run();
 		SmartDashboard.sendData("Ultrasonic", ultrasonic.getDistance());
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 

@@ -25,6 +25,7 @@ public class DriveTrainTurner {
 		// positive angle = counter clockwise, negative = clockwise
 		this.driveTrain = driveTrain;
 		gyro = driveTrain.getGyro();
+		gyro.reset();
 		initialHeading = gyro.getAngle();
 		angle = normalizeAngle(angle);
 		this.angle = angle;

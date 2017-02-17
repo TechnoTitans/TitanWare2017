@@ -4,7 +4,7 @@ import org.usfirst.frc.team1683.sensors.Gyro;
 
 public class AntiDrift {
 
-	private final int antidriftangle = 0;
+	private double antidriftangle = 0;
 	@SuppressWarnings("unused")
 	// This variable is used for error correction (now automated)
 	// It used to come from SmartDashboard
@@ -35,6 +35,11 @@ public class AntiDrift {
 		SmartDashboard.sendData("correction", correction);
 		SmartDashboard.sendData("correctedspeed", limitSpeed(speed -  correction * right));
 		return limitSpeed(speed -  correction * right);
+	}
+	
+	public void reset() {
+		gyro.reset();
+		antidriftangle = gyro.getAngle();
 	}
 	
 	

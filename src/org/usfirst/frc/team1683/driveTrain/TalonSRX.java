@@ -35,6 +35,7 @@ public class TalonSRX extends CANTalon implements Motor {
 	public TalonSRX(int channel, boolean reversed, Encoder encoder) {
 		super(channel);
 		super.setInverted(reversed);
+		
 		this.encoder = encoder;
 	}
 	/**
@@ -179,7 +180,13 @@ public class TalonSRX extends CANTalon implements Motor {
 		super.enableBrakeMode(true);
 		super.disableControl();
 	}
-
+	
+	@Override
+	public void coast() {
+		super.enableBrakeMode(false);
+		super.disableControl();
+	}
+	
 	/**
 	 * @return If there is an encoder attached to this TalonSRX.
 	 */

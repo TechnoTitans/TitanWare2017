@@ -78,15 +78,30 @@ public class Path {
 		}
 		SmartDashboard.sendData("path curPoint", path[pathIndex].toString());
 		SmartDashboard.sendData("isTurning", isTurning);
+		SmartDashboard.sendData("pathIndex", pathIndex);
+		SmartDashboard.sendData("pathIndexx[" + pathIndex + "]", Math.random());
+		SmartDashboard.sendData("currentHeading_path", currentHeading);
+		
+		if (pathIndex == 2) {
+			SmartDashboard.sendData("angle" + pathIndex, path[pathIndex].getAngle());
+			SmartDashboard.sendData("angle left" + pathIndex, turner.angleLeft());
+			SmartDashboard.sendData("gyro" + pathIndex, driveTrain.getGyro().getAngle());
+			SmartDashboard.sendData("isTurning" + pathIndex, isTurning);
+			SmartDashboard.sendData("distance" + pathIndex, path[pathIndex].getDistance());
+			SmartDashboard.sendData("point2", path[pathIndex].toString());
+			SmartDashboard.sendData("distance left" + pathIndex, mover.getAverageDistanceLeft());
+		}
+		
 		if (isTurning) {
-			turner.run();
 			SmartDashboard.sendData("angle", path[pathIndex].getAngle());
 			SmartDashboard.sendData("angle left", turner.angleLeft());
 			if (turner.isDone()) {
 				mover = new DriveTrainMover(driveTrain, path[pathIndex].getDistance(), speed);
 				isTurning = false;
 				currentHeading = path[pathIndex].getAngle();
+				return;
 			}
+			turner.run();
 		} else {
 			SmartDashboard.sendData("distance", path[pathIndex].getDistance());
 			SmartDashboard.sendData("distance left", mover.getAverageDistanceLeft());

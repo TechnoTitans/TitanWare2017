@@ -19,7 +19,7 @@ public class EdgeGearScore extends Autonomous {
 	public final double pixelFromCenter = 10; // pixel (guessing)
 	public final double turnSpeed = 3; // degrees
 	public final double distanceFromGoal = 3; // degrees
-	public final double speed = 0.7;
+	public final double speed = 0.2;
 	private boolean right;
 	private PiVisionReader vision;
 	private Timer timer;
@@ -28,8 +28,9 @@ public class EdgeGearScore extends Autonomous {
 	private Path path;
 	private PathPoint[] pathPoints = {
 		new PathPoint(0, 96),
-		new PathPoint(48, 48, false),
-		new PathPoint(0, 0, false)
+		new PathPoint(96, 0, true),
+		new PathPoint(0, -96, true),
+		new PathPoint(-96, 0, true)
 	};
 	/**
 	 * Places a gear when not starting in the middle
@@ -54,7 +55,7 @@ public class EdgeGearScore extends Autonomous {
 			case INIT_CASE:
 				timer.start();
 				//driveTrainMover = new DriveTrainMover(tankDrive, distance, speed);
-				path = new Path(tankDrive, pathPoints, 0.5);
+				path = new Path(tankDrive, pathPoints, speed);
 				nextState = State.DRIVE_PATH;
 				break;
 			case DRIVE_PATH:
