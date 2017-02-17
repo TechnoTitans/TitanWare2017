@@ -15,6 +15,7 @@ public class DriveTrainTurner {
 	private double speed;
 	private double angle;
 	private boolean done = false;
+	private final double ANGLE_TOLERANCE = 2;
 	/**
 	 * Creates a DriveTrainTurner
 	 * @param driveTrain -- the drive train
@@ -45,20 +46,17 @@ public class DriveTrainTurner {
 	}
 	
 	/**
-	 * Turns in place as long as the heading
-	 * @return true if it is done turning
+	 * Turns in place as long as the heading is less than the angle (within ANGLE_TOLERANCE)
 	 */
-	public boolean run() {
+	public void run() {
 		double heading = angleDiff(gyro.getAngle(), initialHeading);
 		SmartDashboard.sendData("angle", angle);
 		SmartDashboard.sendData("heading_turner", heading);
 		SmartDashboard.sendData("drive train turner heading", Math.abs(heading - angle));
-		if (!done && Math.abs(heading) <= Math.abs(angle) - 2) {
+		if (!done && Math.abs(heading) <= Math.abs(angle) - ANGLE_TOLERANCE) {
 			driveTrain.turnInPlace(angle < 0, speed);
-			return false;
 		} else {
 			done = true;
-			return true;
 		}
 	}
 	public double angleLeft() {
