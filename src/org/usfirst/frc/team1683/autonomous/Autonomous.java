@@ -2,8 +2,8 @@ package org.usfirst.frc.team1683.autonomous;
 
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.sensors.Encoder;
+
 import edu.wpi.first.wpilibj.Timer;
-import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 public abstract class Autonomous {
 	public static final double GYRO_ANGLE_TOLERANCE = 15.0;
