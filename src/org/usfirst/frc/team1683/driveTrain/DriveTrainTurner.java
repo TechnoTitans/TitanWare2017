@@ -53,7 +53,7 @@ public class DriveTrainTurner {
 		SmartDashboard.sendData("angle", angle);
 		SmartDashboard.sendData("heading_turner", heading);
 		SmartDashboard.sendData("drive train turner heading", Math.abs(heading - angle));
-		if (!done && Math.abs(heading - angle) >= 2) {
+		if (!done && Math.abs(heading) <= Math.abs(angle) - 2) {
 			driveTrain.turnInPlace(angle < 0, speed);
 			return false;
 		} else {

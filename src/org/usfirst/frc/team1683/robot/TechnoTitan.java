@@ -4,7 +4,6 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
-import org.usfirst.frc.team1683.autonomous.Dance;
 import org.usfirst.frc.team1683.autonomous.EdgeGearScore;
 import org.usfirst.frc.team1683.autonomous.MiddleGear;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
