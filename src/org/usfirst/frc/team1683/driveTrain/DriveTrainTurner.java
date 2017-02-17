@@ -50,8 +50,10 @@ public class DriveTrainTurner {
 	 */
 	public boolean run() {
 		double heading = angleDiff(gyro.getAngle(), initialHeading);
-		SmartDashboard.sendData("drive train turner heading", heading);
-		if (!done && Math.abs(heading) <= Math.abs(angle)) {
+		SmartDashboard.sendData("angle", angle);
+		SmartDashboard.sendData("heading_turner", heading);
+		SmartDashboard.sendData("drive train turner heading", Math.abs(heading - angle));
+		if (!done && Math.abs(heading - angle) >= 2) {
 			driveTrain.turnInPlace(angle < 0, speed);
 			return false;
 		} else {

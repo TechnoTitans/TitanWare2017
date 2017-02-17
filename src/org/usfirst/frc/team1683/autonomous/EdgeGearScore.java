@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
  *
  */
 public class EdgeGearScore extends Autonomous {
-	public final double distance = 96; // guessing distance (inches)
+	public final double distance = 48; // guessing distance (inches)
 	public final double pixelFromCenter = 10; // pixel (guessing)
 	public final double turnSpeed = 3; // degrees
 	public final double distanceFromGoal = 3; // degrees
@@ -27,10 +27,10 @@ public class EdgeGearScore extends Autonomous {
 	private DriveTrainMover driveTrainMover;
 	private Path path;
 	private PathPoint[] pathPoints = {
-		new PathPoint(0, 96),
-		new PathPoint(96, 0, true),
-		new PathPoint(0, -96, true),
-		new PathPoint(-96, 0, true)
+		new PathPoint(0, distance),
+		new PathPoint(distance, 0),
+		new PathPoint(0, -distance),
+		new PathPoint(-distance, 0)
 	};
 	/**
 	 * Places a gear when not starting in the middle

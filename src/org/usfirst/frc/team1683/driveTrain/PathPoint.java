@@ -37,7 +37,7 @@ public class PathPoint {
 		return y;
 	}
 	static void convertAbsoluteToRelative(PathPoint[] path) {
-		for (int i = 1; i < path.length; ++i) {
+		for (int i = path.length - 1; i > 0; --i) {
 			if (!path[i].isRelative()) {
 				path[i].setRelativeTo(path[i - 1]);
 			}

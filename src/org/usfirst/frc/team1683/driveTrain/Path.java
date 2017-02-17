@@ -76,22 +76,6 @@ public class Path {
 		if (isDone()) {
 			return;
 		}
-		SmartDashboard.sendData("path curPoint", path[pathIndex].toString());
-		SmartDashboard.sendData("isTurning", isTurning);
-		SmartDashboard.sendData("pathIndex", pathIndex);
-		SmartDashboard.sendData("pathIndexx[" + pathIndex + "]", Math.random());
-		SmartDashboard.sendData("currentHeading_path", currentHeading);
-		
-		if (pathIndex == 2) {
-			SmartDashboard.sendData("angle" + pathIndex, path[pathIndex].getAngle());
-			SmartDashboard.sendData("angle left" + pathIndex, turner.angleLeft());
-			SmartDashboard.sendData("gyro" + pathIndex, driveTrain.getGyro().getAngle());
-			SmartDashboard.sendData("isTurning" + pathIndex, isTurning);
-			SmartDashboard.sendData("distance" + pathIndex, path[pathIndex].getDistance());
-			SmartDashboard.sendData("point2", path[pathIndex].toString());
-			SmartDashboard.sendData("distance left" + pathIndex, mover.getAverageDistanceLeft());
-		}
-		
 		if (isTurning) {
 			SmartDashboard.sendData("angle", path[pathIndex].getAngle());
 			SmartDashboard.sendData("angle left", turner.angleLeft());
