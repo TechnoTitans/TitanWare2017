@@ -94,10 +94,11 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		curvedDrive.run();
+		//curvedDrive.run();
 
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
-		auto.run();
+		//auto.run();
+		curvedDrive.run();
 	}
 
 	@Override
@@ -110,8 +111,7 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		controls.run();
-		curvedDrive.run();
-
+		//curvedDrive.run();
 	}
 
 	@Override
