@@ -10,7 +10,7 @@ import org.usfirst.frc.team1683.driverStation.SmartDashboard;
  */
 public class Path {
 	private PathPoint[] path;
-	private double currentHeading = 90;
+	private double currentHeading;
 	private DriveTrainMover mover;
 	private DriveTrainTurner turner;
 	private DriveTrain driveTrain;
@@ -95,9 +95,6 @@ public class Path {
 				if (!isDone()) {
 					turner = new DriveTrainTurner(driveTrain, path[pathIndex].getAngle() - currentHeading, speed);
 					isTurning = true;
-				} else {
-					driveTrain.set(0);
-					driveTrain.stop();
 				}
 			}
 		}

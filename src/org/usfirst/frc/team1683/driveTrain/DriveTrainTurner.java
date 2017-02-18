@@ -18,9 +18,9 @@ public class DriveTrainTurner {
 	private final double ANGLE_TOLERANCE = 2;
 	/**
 	 * Creates a DriveTrainTurner
-	 * @param driveTrain -- the drive train
-	 * @param angle -- The angle, if above 180 or below -180, will be adjusted to be in that range (will not do multiple revolutions); positive indicates counter-clockwise
-	 * @param speed -- Speed between 0 and 1 normally, if negative will take a longer route to angle (will twist the opposite way)
+	 * @param driveTrain The drive train
+	 * @param angle The angle, if above 180 or below -180, will be adjusted to be in that range (will not do multiple revolutions); positive indicates counter-clockwise
+	 * @param speed Speed between 0 and 1 normally, if negative will take a longer route to angle (will twist the opposite way)
 	 */
 	public DriveTrainTurner(DriveTrain driveTrain, double angle, double speed) {
 		// positive angle = counter clockwise, negative = clockwise
