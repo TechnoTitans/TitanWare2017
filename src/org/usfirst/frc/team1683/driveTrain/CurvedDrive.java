@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class CurvedDrive {
 	public final static double width = 0.6985;
-	public final double speed = 0.6;
+	public final double speed = 0.2;
 
 	private Timer timer;
 	TankDrive drive;

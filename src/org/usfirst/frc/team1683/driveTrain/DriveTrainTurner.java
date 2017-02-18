@@ -20,7 +20,7 @@ public class DriveTrainTurner {
 	 * Creates a DriveTrainTurner
 	 * @param driveTrain The drive train
 	 * @param angle The angle, if above 180 or below -180, will be adjusted to be in that range (will not do multiple revolutions); positive indicates counter-clockwise
-	 * @param speed Speed between 0 and 1 normally, if negative will take a longer route to angle (will twist the opposite way)
+	 * @param speed Speed between 0 and 1 normally
 	 */
 	public DriveTrainTurner(DriveTrain driveTrain, double angle, double speed) {
 		// positive angle = counter clockwise, negative = clockwise
@@ -55,7 +55,7 @@ public class DriveTrainTurner {
 		SmartDashboard.sendData("heading_turner", heading);
 		SmartDashboard.sendData("drive train turner heading", Math.abs(heading - angle));
 		if (!done && Math.abs(heading) <= Math.abs(angle) - ANGLE_TOLERANCE) {
-			driveTrain.turnInPlace(angle < 0, speed);
+			driveTrain.turnInPlace((angle < 0)  != (speed < 0), Math.abs(speed));
 		} else {
 			driveTrain.set(0);
 			done = true;

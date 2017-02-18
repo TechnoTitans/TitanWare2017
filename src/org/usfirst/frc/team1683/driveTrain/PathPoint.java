@@ -57,7 +57,7 @@ public class PathPoint {
 		return isRelative;
 	}
 	public String toString() {
-		return x + ", " + y;
+		return x + ", " + y + ", " + getAngle();
 	}
 	void setRelativeTo(PathPoint other) {
 		x -= other.x;

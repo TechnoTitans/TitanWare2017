@@ -76,6 +76,7 @@ public class Path {
 		if (isDone()) {
 			return;
 		}
+		SmartDashboard.sendData("point", path[pathIndex].toString());
 		if (isTurning) {
 			SmartDashboard.sendData("angle", path[pathIndex].getAngle());
 			SmartDashboard.sendData("angle left", turner.angleLeft());
@@ -93,6 +94,8 @@ public class Path {
 			if (isMoverDone()) {
 				pathIndex++;
 				if (!isDone()) {
+					SmartDashboard.sendData("currentHeading_path", currentHeading);
+					SmartDashboard.sendData("nextAngle", path[pathIndex].getAngle());
 					turner = new DriveTrainTurner(driveTrain, path[pathIndex].getAngle() - currentHeading, speed);
 					isTurning = true;
 				}

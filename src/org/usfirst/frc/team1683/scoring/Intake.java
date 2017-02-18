@@ -25,7 +25,7 @@ public class Intake implements ScoringMotor {
 
 	@Override
 	public void turnOn() {
-		intakeMotor.set(0.9);
+		intakeMotor.set(-INTAKE_SPEED);
 		SmartDashboard.sendData("intake", "turning");
 	}
 

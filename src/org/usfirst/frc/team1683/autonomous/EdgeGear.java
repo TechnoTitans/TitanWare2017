@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.Timer;
 public class EdgeGear extends Autonomous {
 	public final double distance = 48; // guessing distance (inches)
 	public final double pixelFromCenter = 10; // pixel (guessing)
-	public final double turnSpeed = 3; // degrees
+	//public final double turnSpeed = 8; // degrees
 	public final double distanceFromGoal = 3; // degrees
-	public final double speed = 0.2;
+	public final double speed = -0.3;
 	private boolean right;
 	private PiVisionReader vision;
 	private Timer timer;
@@ -27,10 +27,8 @@ public class EdgeGear extends Autonomous {
 	private DriveTrainMover driveTrainMover;
 	private Path path;
 	private PathPoint[] pathPoints = {
-		new PathPoint(0, distance),
-		new PathPoint(distance, 0),
-		new PathPoint(0, -distance),
-		new PathPoint(-distance, 0)
+		new PathPoint(0, 73),
+		new PathPoint(-55, 37 ,true),
 	};
 	/**
 	 * Places a gear when not starting in the middle
@@ -56,6 +54,11 @@ public class EdgeGear extends Autonomous {
 				timer.start();
 				//driveTrainMover = new DriveTrainMover(tankDrive, distance, speed);
 				path = new Path(tankDrive, pathPoints, speed);
+				int ind = 0;
+				for(PathPoint point:pathPoints){
+					SmartDashboard.sendData("point values " + ind, point.toString());
+					++ind;
+				}
 				nextState = State.DRIVE_PATH;
 				break;
 			case DRIVE_PATH:
