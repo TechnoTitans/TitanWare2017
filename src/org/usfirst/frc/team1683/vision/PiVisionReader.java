@@ -45,8 +45,9 @@ public class PiVisionReader {
 		private final double CONFIDENCE_THRESHOLD = 0.4;
 		private final double CENTER_SENSITIVITY = 0.8; 
 		private final double CAMERA_WIDTH = 640;
+		private String camId;
 		Camera(int id, NetworkTable table) {
-			String camId = "Cam" + id + "_";
+			camId = "Cam" + id + "_";
 			cx1 = new VisionValue(camId + "Left_Center_X", table, CENTER_SENSITIVITY);
 			cx2 = new VisionValue(camId + "Right_Center_X", table, CENTER_SENSITIVITY);
 			cy1 = new VisionValue(camId + "Left_Center_Y", table, CENTER_SENSITIVITY);
@@ -81,7 +82,7 @@ public class PiVisionReader {
 			}
 		}
 		double getOffset(VisionValue known) {
-			return known.getValue();
+			return known.getValue() / CAMERA_WIDTH;
 		}
 		/**
 		 * Gets offset using only 1 cx
@@ -104,6 +105,7 @@ public class PiVisionReader {
 		public void log() {
 			cx1.log();
 			cx2.log();
+			SmartDashboard.sendData(camId + "offset", getOffset());
 		}
 	}
 	
@@ -131,7 +133,7 @@ public class PiVisionReader {
 			// left and right should use opposite nodes
 			return 1 - (right.getOffset(useCx1) + left.getOffset(!useCx1));
 		} else {
-			return right.getOffset() + left.getOffset();
+			return 1 - (right.getOffset() + left.getOffset());
 		}
 	}
 	public double getDistanceTarget() {
