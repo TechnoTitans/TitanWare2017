@@ -4,7 +4,6 @@ import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.Intake;
-import org.usfirst.frc.team1683.scoring.LEDStrip;
 import org.usfirst.frc.team1683.scoring.ScoringMotor;
 import org.usfirst.frc.team1683.scoring.Shooter;
 import org.usfirst.frc.team1683.scoring.Winch;
@@ -17,7 +16,6 @@ public class Controls {
 	Winch winch;
 	Shooter shooter;
 	Intake intake;
-	LEDStrip ledStrip;
 
 	boolean frontMode;
 	boolean toggleWinch;
@@ -34,14 +32,11 @@ public class Controls {
 		shooter = new Shooter(HWR.SHOOTER);
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
-		ledStrip = new LEDStrip(HWR.LED);
 
 		frontMode = true;
 		toggleWinch = false;
 		autoShooter = true;
 		fullPowerMode = false;
-
-		ledStrip.turnOn();
 	}
 
 	public void run() {
