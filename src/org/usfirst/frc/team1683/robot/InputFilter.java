@@ -4,14 +4,17 @@ public class InputFilter {
 
 	private double filterK;
 	private double oldOutput;
+	private boolean setInitOldOutput;
 
 	public InputFilter(double sensitivity) {
 		this.filterK = sensitivity;
+		setInitOldOutput = false;
 	}
 
 	public InputFilter(double sensitivity, double initOldOutput) {
 		this(sensitivity);
 		this.oldOutput = initOldOutput;
+		setInitOldOutput = true;
 	}
 
 	public double getFilterK() {
@@ -27,8 +30,17 @@ public class InputFilter {
 	}
 
 	public double filterInput(double input) {
+		if (!setInitOldOutput) {
+			// If no default old output was set, set it to the first input that comes in
+			oldOutput = input;
+			setInitOldOutput = true;
+		}
 		double output = input + filterK * (oldOutput - input);
 		oldOutput = output;
 		return output;
+	}
+	
+	public double getLastOutput() {
+		return oldOutput;
 	}
 }
