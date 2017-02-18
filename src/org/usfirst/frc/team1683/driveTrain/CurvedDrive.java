@@ -50,10 +50,10 @@ public class CurvedDrive {
 		SmartDashboard.sendData("Curved right speed",
 				speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
 
-		// drive.setRight(speed * (isTurningRight(t, false) ? 1 :
-		// ratioAngularVelocity(t, false)));
-		// drive.setLeft(speed * (isTurningRight(t, false) ?
-		// ratioAngularVelocity(t, false) : 1));
+//		 drive.setRight(speed * (isTurningRight(t, false) ? 1 :
+//		 ratioAngularVelocity(t, false)));
+//		 drive.setLeft(speed * (isTurningRight(t, false) ?
+//		 ratioAngularVelocity(t, false) : 1));
 
 		SmartDashboard.sendData("Antidrift", antiDrift(-1));
 		SmartDashboard.sendData("Antidrift", antiDrift(1));

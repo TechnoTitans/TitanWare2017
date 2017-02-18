@@ -18,17 +18,17 @@ public class Controls {
 	Shooter shooter;
 	Intake intake;
 	LEDStrip ledStrip;
-	
+
 	boolean frontMode;
 	boolean toggleWinch;
 	boolean autoShooter;
-	
-	
+	boolean fullPowerMode;
+
 	double rSpeed;
 	double lSpeed;
 	public final double MAX_JOYSTICK_SPEED = 1.0;
+	public final double SECOND_JOYSTICK_SPEED = 0.6;
 
-	
 	public Controls(DriveTrain drive) {
 		this.drive = drive;
 		shooter = new Shooter(HWR.SHOOTER);
@@ -39,6 +39,7 @@ public class Controls {
 		frontMode = true;
 		toggleWinch = false;
 		autoShooter = true;
+		fullPowerMode = false;
 
 		ledStrip.turnOn();
 	}
@@ -50,12 +51,21 @@ public class Controls {
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
 			frontMode = true;
 		}
+
+		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_POWER_MODE)) {
+			fullPowerMode = !fullPowerMode;
+		}
+
 		if (frontMode) {
-			lSpeed = -MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-			rSpeed = -MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+			lSpeed = -(fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED)
+					* DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+			rSpeed = -(fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED)
+					* DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 		} else {
-			lSpeed = MAX_JOYSTICK_SPEED * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
-			rSpeed = MAX_JOYSTICK_SPEED * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+			lSpeed = -(fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED)
+					* DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+			rSpeed = -(fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED)
+					* DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 		}
 
 		drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
