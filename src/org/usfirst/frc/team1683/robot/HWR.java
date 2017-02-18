@@ -46,5 +46,10 @@ public class HWR {
 	public static final int TURN_WINCH = HWP.BUTTON_5;
 	
 	public static final int TOGGLE_INTAKE = HWP.BUTTON_3;
-	public static final int TOGGLE_POWER_MODE = HWP.BUTTON_5;
+	
+	//drive power
+	public static final int FULL_POWER = HWP.BUTTON_5;
+	public static final int SECOND_POWER = HWP.BUTTON_4;
+	public static final int ADD_POWER = HWP.BUTTON_5;
+	public static final int SUBTRACT_POWER = HWP.BUTTON_4;
 }
