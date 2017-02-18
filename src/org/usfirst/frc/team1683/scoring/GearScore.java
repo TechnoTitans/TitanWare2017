@@ -20,7 +20,7 @@ public class GearScore {
 		this.speed = speed;
 	}
 	public void run() {
-		if (done) return;
+		/*if (done) return;
 		double distanceTarget = vision.getDistanceTarget();
 		double difference = Math.abs(distanceTarget - mover.getAverageDistanceLeft());
 		SmartDashboard.sendData("gear score vision distance", distanceTarget);
@@ -43,7 +43,15 @@ public class GearScore {
 				done = true;
 				return;
 			}
+		}*/
+		vision.update();
+		vision.log();
+		double offset = vision.getOffset();
+		SmartDashboard.sendData("error offset", offset);
+		if (offset == -1) {
+			offset = 0;
 		}
+		driveTrain.set(speed*(1-offset*ERROR_KP), speed*(1+offset*ERROR_KP));
 	}
 	public boolean isDone() {
 		return done;
