@@ -10,4 +10,7 @@ public class Victor extends edu.wpi.first.wpilibj.Victor {
 		super(channel);
 		super.setInverted(inverted);
 	}
+	public void set(double speed){
+		super.set(speed);
+	}
 }

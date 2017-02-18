@@ -30,6 +30,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	TankDrive drive;
 	Timer endGameTimer;
+	Timer timer;
 	// LightRing lightRing;
 	Autonomous auto;
 	LightRing lightRing;
@@ -105,6 +106,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		timer = new Timer();
 		drive.stop();
 		endGameTimer.start();
 	}

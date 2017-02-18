@@ -16,11 +16,12 @@ public class HWR {
 	public static final int WINCH2 = HWP.CAN_12;
 	public static final int SHOOTER = HWP.CAN_9;
 	public static final int INTAKE = HWP.CAN_10;
-	// Encoders
 	
+	public static final int LED = HWP.CAN_13;
 	public static final int GREEN_LIGHT_LOW = HWP.CAN_12; 
 	// Enable low level green light for cameras (Talon 9)
-
+	
+	//encoders
 	public static final int LEFT_DRIVE_ENCODER = HWP.CAN_6;
 	public static final int RIGHT_DRIVE_ENCODER = HWP.CAN_7;
 	public static final int SHOOTER_ENCODER = HWP.CAN_9;

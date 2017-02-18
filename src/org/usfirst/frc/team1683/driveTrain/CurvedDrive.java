@@ -4,6 +4,8 @@ import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
+import edu.wpi.first.wpilibj.Timer;
+
 /**
  * Curved drive to follow path based on a function y
  * 
@@ -16,24 +18,29 @@ public class CurvedDrive {
 	public final static double width = 0.6985;
 	public final double speed = 0.2;
 
+	private Timer timer;
 	TankDrive drive;
 	Gyro gyro;
-	public double t;
+	double t;
+
 	PathPoint[] points = { new PathPoint(0, 0), new PathPoint(0, 1), new PathPoint(1, 1), new PathPoint(2, 2),
 			new PathPoint(3, 5), };
 
 	public CurvedDrive(TankDrive drive, Gyro gyro) {
 		this.drive = drive;
 		this.gyro = gyro;
-		t = 1.0;
 		gyro.reset();
 		SmartDashboard.prefDouble("kp", 0.022);
 		SmartDashboard.sendData("kp", 0.022);
+		timer = new Timer();
+		timer.start();
+		t = 0.0;
 	}
 
 	public void run() {
-		t += 0.04;
-		SmartDashboard.sendData("t", t);
+		t = timer.get() / 5.00;
+		
+		SmartDashboard.sendData("Time(x)", t);
 		SmartDashboard.sendData("Function", function());
 		SmartDashboard.sendData("Curved Drive Ratio", ratioAngularVelocity(t, false));
 		SmartDashboard.sendData("Radius of Curve", calCurve());
@@ -42,9 +49,12 @@ public class CurvedDrive {
 				speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)));
 		SmartDashboard.sendData("Curved right speed",
 				speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
-		//drive.setRight(speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)));
-		//drive.setLeft(speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
-		
+
+		// drive.setRight(speed * (isTurningRight(t, false) ? 1 :
+		// ratioAngularVelocity(t, false)));
+		// drive.setLeft(speed * (isTurningRight(t, false) ?
+		// ratioAngularVelocity(t, false) : 1));
+
 		SmartDashboard.sendData("Antidrift", antiDrift(-1));
 		SmartDashboard.sendData("Antidrift", antiDrift(1));
 	}
@@ -79,15 +89,15 @@ public class CurvedDrive {
 
 	// meters from now on!!
 	private double function() {
-		return 0.02 * (0.1 * Math.pow(t, 4) - 4.0 * Math.pow(t, 3) + 51.0 * Math.pow(t, 2) - 220.0 * t + 172.9);
+		return 0.05 * (0.1 * Math.pow(t, 4) - 4.0 * Math.pow(t, 3) + 51.0 * Math.pow(t, 2) - 220.0 * t + 172.9);
 	}
 
 	private double derivFunction() {
-		return 0.02 * (0.4 * Math.pow(t, 3) - 12.0 * Math.pow(t, 2) + 102.0 * t - 220.0);
+		return 0.05 * (0.4 * Math.pow(t, 3) - 12.0 * Math.pow(t, 2) + 102.0 * t - 220.0);
 	}
 
 	private double deriv2Function() {
-		return 0.02 * (1.2 * Math.pow(t, 2) - 24.0 * t + 102.0);
+		return 0.05 * (1.2 * Math.pow(t, 2) - 24.0 * t + 102.0);
 	}
 
 	private double calCurve() {
