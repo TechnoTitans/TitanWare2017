@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Timer;
  * 
  *
  */
-public class EdgeGearScore extends Autonomous {
+public class EdgeGear extends Autonomous {
 	public final double distance = 48; // guessing distance (inches)
 	public final double pixelFromCenter = 10; // pixel (guessing)
 	public final double turnSpeed = 3; // degrees
@@ -37,7 +37,7 @@ public class EdgeGearScore extends Autonomous {
 	 * @param tankDrive
 	 * @param right True if on the right side, false if on the left side
 	 */
-	public EdgeGearScore(TankDrive tankDrive, boolean right) {
+	public EdgeGear(TankDrive tankDrive, boolean right) {
 		super(tankDrive);
 		vision = new PiVisionReader();
 		this.right = right;

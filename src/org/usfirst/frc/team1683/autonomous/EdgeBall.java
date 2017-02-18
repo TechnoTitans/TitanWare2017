@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
  * @author Yi Liu
  *
  */
-public class EdgeBallScore extends Autonomous {
+public class EdgeBall extends Autonomous {
 	public final double distance = 10; // guessing distance (inches)
 	public final double pixelFromCenter = 10; // pixel (guessing)
 	public final double turnSpeed = 3; // degrees
@@ -29,7 +29,7 @@ public class EdgeBallScore extends Autonomous {
 	 * @param right
 	 *            -- True if on the right side, false if on the left side
 	 */
-	public EdgeBallScore(TankDrive tankDrive, boolean right) {
+	public EdgeBall(TankDrive tankDrive, boolean right) {
 		super(tankDrive);
 		vision = new PiVisionReader();
 		this.right = right;
