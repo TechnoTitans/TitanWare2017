@@ -56,16 +56,13 @@ public class Controls {
 			fullPowerMode = !fullPowerMode;
 		}
 
+		double maxPower = fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED;
 		if (frontMode) {
-			lSpeed = -(fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED)
-					* DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-			rSpeed = -(fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED)
-					* DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+			lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+			rSpeed = -maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 		} else {
-			lSpeed = -(fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED)
-					* DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
-			rSpeed = -(fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED)
-					* DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+			lSpeed = maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+			rSpeed = maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 		}
 
 		drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
