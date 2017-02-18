@@ -47,10 +47,6 @@ public class MiddleGear extends Autonomous {
 	}
 
 	private void score() {
-		/*
-		 * piston.extend();
-		 */
-		SmartDashboard.sendData("piston", true);
 		SmartDashboard.sendData("elapsed time", timer.get());
 		if (timer.get() > 10) nextState = State.END_CASE;
 	}

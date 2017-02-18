@@ -45,6 +45,7 @@ public class Controls {
 	}
 
 	public void run() {
+		//drivetrain
 		SmartDashboard.sendData("Front(true) or back(false) mode", frontMode);
 		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL)) {
 			frontMode = false;
@@ -55,7 +56,6 @@ public class Controls {
 		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_POWER_MODE)) {
 			fullPowerMode = !fullPowerMode;
 		}
-
 		double maxPower = fullPowerMode ? MAX_JOYSTICK_SPEED : SECOND_JOYSTICK_SPEED;
 		if (frontMode) {
 			lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
@@ -67,14 +67,8 @@ public class Controls {
 
 		drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
 
+		//shooter
 		SmartDashboard.sendData("Zaxisaux", DriverStation.auxStick.getRawAxis(DriverStation.ZAxis));
-
-		// if (DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER)) {
-		// winch.turnWinch();
-		// } else
-		// winch.stop();
-
-		// SmartDashboard.sendData("speed of shooter", shooter.getSpeed());
 		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_SHOOTER_MODE)) {
 			autoShooter = !autoShooter;
 		}
@@ -87,6 +81,7 @@ public class Controls {
 			shooter.setSpeed(-(DriverStation.auxStick.getRawAxis(DriverStation.ZAxis) - 1) / 2);
 		}
 
+		//winch
 		if (DriverStation.auxStick.getRawButton(HWR.TURN_WINCH)) {
 			winch.turnOn();
 		} else if (DriverStation.auxStick.getRawButton(HWR.TURN_BACK_WINCH)) {
@@ -94,8 +89,9 @@ public class Controls {
 		} else {
 			winch.stop();
 		}
+		
+		//intake
 		toggle(HWR.TOGGLE_INTAKE, intake);
-		// toggle(HWR.TURN_WINCH,winch);
 	}
 
 	/*

@@ -2,8 +2,7 @@
 package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.autonomous.Autonomous;
-import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
-import org.usfirst.frc.team1683.autonomous.EdgeGearScore;
+import org.usfirst.frc.team1683.autonomous.EdgeGear;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.CurvedDrive;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
@@ -18,11 +17,9 @@ import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 
 public class TechnoTitan extends IterativeRobot {
-	public static AutonomousSwitcher switcher;
 	public static final boolean LEFT_REVERSE = false;
 	public static final boolean RIGHT_REVERSE = true;
 	public static final double WHEEL_RADIUS = 2.2135;
@@ -84,7 +81,7 @@ public class TechnoTitan extends IterativeRobot {
 		// CameraServer server = CameraServer.getInstance();
 		// server.setQuality(50);
 		// server.startAutomaticCapture("cam1");
-		
+
 		lightRing = new LightRing(HWR.GREEN_LIGHT_LOW);
 		vision = new PiVisionReader();
 	}
@@ -92,13 +89,13 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		gyro.reset();
-		auto = new EdgeGearScore(drive, false);
+		auto = new EdgeGear(drive, false);
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		curvedDrive.run();
-		
+
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 		auto.run();
 	}
@@ -112,12 +109,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.sendData("encoder left", drive.getLeftEncoder().getDistance());
-		SmartDashboard.sendData("encoder right", drive.getRightEncoder().getDistance());
 		controls.run();
-		//curvedDrive.run();
-		SmartDashboard.sendData("Ultrasonic", ultrasonic.getDistance());
-		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
+		curvedDrive.run();
 
 	}
 
