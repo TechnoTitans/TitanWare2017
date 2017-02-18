@@ -9,10 +9,6 @@ public class TankDrive implements DriveTrain {
 	private MotorGroup right;
 	private Gyro gyro;
 
-	// Will probably use to correct drift
-	@SuppressWarnings("unused")
-	private final double kp = 0.6;
-
 	public TankDrive(MotorGroup left, MotorGroup right) {
 		this.left = left;
 		this.right = right;
@@ -24,9 +20,7 @@ public class TankDrive implements DriveTrain {
 		this.gyro = gyro;
 		// this.gyro.reset();
 	}
-	/**
-	 * Sets the speed.
-	 */
+	
 	@Override
 	public void set(double speed) {
 		left.set(speed);
@@ -40,28 +34,12 @@ public class TankDrive implements DriveTrain {
 	public void setRight(double speed) {
 		right.set(speed);
 	}
-
-	/**
-	 * Sets speed of each motor group
-	 * 
-	 * @param leftSpeed
-	 *            -- speed of left motor group
-	 * @param rightSpeed
-	 *            -- speed of right motor group
-	 */
+	
 	public void set(double leftSpeed, double rightSpeed) {
 		left.set(leftSpeed);
 		right.set(rightSpeed);
 	}
-
-	/**
-	 * Turns in place
-	 * 
-	 * @param right
-	 *            -- True if should turn right (clockwise), false if left
-	 * @param speed
-	 *            -- Speed
-	 */
+	
 	public void turnInPlace(boolean right, double speed) {
 		if (right) {
 			set(speed, -speed);
@@ -69,10 +47,7 @@ public class TankDrive implements DriveTrain {
 			set(-speed, speed);
 		}
 	}
-
-	/**
-	 * Stop the drive train.
-	 */
+	
 	@Override
 	public void stop() {
 		left.enableBrakeMode(true);
@@ -81,9 +56,6 @@ public class TankDrive implements DriveTrain {
 		right.stop();
 	}
 
-	/**
-	 * Stop without braking.
-	 */
 	@Override
 	public void coast() {
 		left.enableBrakeMode(false);
@@ -92,9 +64,6 @@ public class TankDrive implements DriveTrain {
 		right.stop();
 	}
 
-	/**
-	 * Start driving.
-	 */
 	@Override
 	public void driveMode(double leftSpeed, double rightSpeed) {
 		left.enableBrakeMode(false);

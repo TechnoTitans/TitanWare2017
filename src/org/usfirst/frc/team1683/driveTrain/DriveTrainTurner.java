@@ -31,6 +31,7 @@ public class DriveTrainTurner {
 		angle = normalizeAngle(angle);
 		this.angle = angle;
 		this.speed = speed;
+		done = angle == 0;
 	}
 	
 	/**
@@ -56,6 +57,7 @@ public class DriveTrainTurner {
 		if (!done && Math.abs(heading) <= Math.abs(angle) - ANGLE_TOLERANCE) {
 			driveTrain.turnInPlace(angle < 0, speed);
 		} else {
+			driveTrain.set(0);
 			done = true;
 		}
 	}
