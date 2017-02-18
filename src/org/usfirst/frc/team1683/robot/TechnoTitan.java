@@ -99,7 +99,6 @@ public class TechnoTitan extends IterativeRobot {
 		curvedDrive.run();
 		
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
-		SmartDashboard.sendData("Robot time in milliseconds", vision.getTime() * 1000);
 		auto.run();
 	}
 
