@@ -26,7 +26,7 @@ public class Controls {
 	double lSpeed;
 	double maxPower;
 	public final double MAX_JOYSTICK_SPEED = 1.0;
-	public final double SECOND_JOYSTICK_SPEED = 0.6;
+	public final double SECOND_JOYSTICK_SPEED = 0.8;
 
 	public Controls(DriveTrain drive) {
 		this.drive = drive;
@@ -44,7 +44,7 @@ public class Controls {
 
 	public void run() {
 		// drivetrain
-		SmartDashboard.sendData("Front(true) or back(false) mode", frontMode);
+		SmartDashboard.sendData("Front(winch) or back(gear) mode", frontMode ? "winch" : "gear");
 		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL)) {
 			frontMode = false;
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
@@ -52,14 +52,16 @@ public class Controls {
 		}
 
 		if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
-			maxPower = 1.0;
+			maxPower = MAX_JOYSTICK_SPEED;
 		else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
-			maxPower = 0.6;
+			maxPower = SECOND_JOYSTICK_SPEED;
 		else if (DriverStation.leftStick.getRawButton(HWR.ADD_POWER))
 			maxPower += 0.01;
 		else if (DriverStation.leftStick.getRawButton(HWR.SUBTRACT_POWER))
 			maxPower -= 0.01;
-
+		if (maxPower > 1.0)
+			maxPower = 1.0;
+		SmartDashboard.sendData("current power", maxPower);
 		if (frontMode) {
 			lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 			rSpeed = -maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
@@ -92,14 +94,21 @@ public class Controls {
 		} else {
 			winch.stop();
 		}
+		SmartDashboard.sendData("winch voltage1",winch.getMotor1().getOutputVoltage());
+		SmartDashboard.sendData("winch voltage2",winch.getMotor2().getOutputVoltage());
 
 		// intake
 		toggle(HWR.TOGGLE_INTAKE, intake);
 	}
 
 	/*
+	 * 
+	 * doge
+	 * 
 	 * Checks if a button is pressed to toggle it. Since teleop is periodic,
 	 * needs to remember past button state to toggle
+	 * 
+	 * doge
 	 * 
 	 */
 	public static void toggle(int button, ScoringMotor motor) {

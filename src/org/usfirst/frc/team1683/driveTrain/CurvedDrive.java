@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class CurvedDrive {
 	public final static double width = 0.6985;
-	public final double speed = 0.2;
+	public final double speed = 0.6;
 
 	private Timer timer;
 	TankDrive drive;
@@ -38,7 +38,7 @@ public class CurvedDrive {
 	}
 
 	public void run() {
-		t = timer.get() / 5.00;
+		t = timer.get() / 3.00;
 		
 		SmartDashboard.sendData("Time(x)", t);
 		SmartDashboard.sendData("Function", function());
@@ -50,10 +50,10 @@ public class CurvedDrive {
 		SmartDashboard.sendData("Curved right speed",
 				speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
 
-//		 drive.setRight(speed * (isTurningRight(t, false) ? 1 :
-//		 ratioAngularVelocity(t, false)));
-//		 drive.setLeft(speed * (isTurningRight(t, false) ?
-//		 ratioAngularVelocity(t, false) : 1));
+		 drive.setRight(speed * (isTurningRight(t, false) ? 1 :
+		 ratioAngularVelocity(t, false)));
+		 drive.setLeft(speed * (isTurningRight(t, false) ?
+		 ratioAngularVelocity(t, false) : 1));
 
 		SmartDashboard.sendData("Antidrift", antiDrift(-1));
 		SmartDashboard.sendData("Antidrift", antiDrift(1));

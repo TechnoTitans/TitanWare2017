@@ -31,4 +31,10 @@ public class Winch implements ScoringMotor{
 		winchMotor1.coast();
 		winchMotor2.coast();
 	}
+	public TalonSRX getMotor1(){
+		return winchMotor1;
+	}
+	public TalonSRX getMotor2(){
+		return winchMotor2;
+	}
 }
