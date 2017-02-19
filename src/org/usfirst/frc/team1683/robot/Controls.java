@@ -45,7 +45,7 @@ public class Controls {
 
 	public void run() {
 		// drivetrain
-		SmartDashboard.sendData("Front(winch) or back(gear) mode", frontMode ? "winch" : "gear");
+		SmartDashboard.sendData("Front(gear) or back(intake) mode", frontMode ? "winch" : "gear");
 		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL)) {
 			frontMode = false;
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
