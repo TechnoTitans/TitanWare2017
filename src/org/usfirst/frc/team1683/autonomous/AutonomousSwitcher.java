@@ -33,7 +33,7 @@ public class AutonomousSwitcher {
 	Gyro gyro;
 	LinearActuator actuator;
 
-	public AutonomousSwitcher(DriveTrain driveTrain, BuiltInAccel accel) {
+	public AutonomousSwitcher(DriveTrain driveTrain) {
 		chooser = new SendableChooser();
 		chooser.addDefault(DEFAULT_AUTO.name(), DEFAULT_AUTO.name());
 		for (AutonomousMode mode : Autonomous.AutonomousMode.values()) {
@@ -43,7 +43,6 @@ public class AutonomousSwitcher {
 		edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putData("Auto to run", chooser);
 
 		this.driveTrain = driveTrain;
-		this.accel = accel;
 		updateAutoSelected();
 	}
 
@@ -57,7 +56,9 @@ public class AutonomousSwitcher {
 				// autoSelected = new TestAuto((TankDrive)driveTrain);
 				break;
 			case 0:
-				// case DO_NOTHING:
+				autoSelected = new DoNothing((TankDrive) driveTrain);
+			case 1:
+				autoSelected = new EdgeGear((TankDrive) driveTrain, false);
 			default:
 				autoSelected = new DoNothing((TankDrive) driveTrain);
 				break;

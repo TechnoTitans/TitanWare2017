@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.autonomous.Autonomous;
+import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.autonomous.EdgeGear;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.CurvedDrive;
@@ -30,6 +31,7 @@ public class TechnoTitan extends IterativeRobot {
 	Timer timer;
 	// LightRing lightRing;
 	Autonomous auto;
+	AutonomousSwitcher autoSwitch;
 	LightRing lightRing;
 	GyroTester gyroTester;
 	Gyro gyro;
@@ -51,7 +53,8 @@ public class TechnoTitan extends IterativeRobot {
 		new TalonSRX(HWR.AGITATOR, true).set(AGITATOR_SPEED);
 
 		gyro = new Gyro(HWR.GYRO);
-
+		autoSwitch = new AutonomousSwitcher(drive);
+		
 		AntiDrift left = new AntiDrift(gyro, -1);
 		AntiDrift right = new AntiDrift(gyro, 1);
 		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE, left);
@@ -89,7 +92,7 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		gyro.reset();
-		auto = new EdgeGear(drive, false);
+		auto = autoSwitch.getAutoSelected();//new EdgeGear(drive, false);
 		//g = new GearScore(drive, 96, 0);
 	}
 
