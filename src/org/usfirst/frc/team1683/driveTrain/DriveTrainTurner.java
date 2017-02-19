@@ -31,7 +31,8 @@ public class DriveTrainTurner {
 		angle = normalizeAngle(angle);
 		this.angle = angle;
 		this.speed = speed;
-		done = angle == 0;
+		// If the angle is close to zero, no need to turn, we are already done
+		done = Math.abs(angle) < ANGLE_TOLERANCE;
 	}
 	
 	/**
@@ -55,7 +56,8 @@ public class DriveTrainTurner {
 		SmartDashboard.sendData("heading_turner", heading);
 		SmartDashboard.sendData("drive train turner heading", Math.abs(heading - angle));
 		if (!done && Math.abs(heading) <= Math.abs(angle) - ANGLE_TOLERANCE) {
-			driveTrain.turnInPlace((angle < 0)  != (speed < 0), Math.abs(speed));
+			// If angle > 0, then it should turn counterclockwise so the "right" parameter should be false
+			driveTrain.turnInPlace(angle < 0, speed);
 		} else {
 			driveTrain.set(0);
 			done = true;
