@@ -11,18 +11,6 @@ import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.LinearActuator;
 
 public class AutonomousSwitcher {
-	// Autonomous autonomous;
-
-	// public AutonomousSwitcher(TankDrive tankDrive) {
-	// int autoMode = DriverStation.getInt("autonomousMode");
-	//
-	// if (autoMode == 1)
-	// autonomous = new ReachDefense(tankDrive);
-	// else if (autoMode == 2)
-	// autonomous = new DoNothing(tankDrive);
-	//
-	// // else autonomous = new DefaultAuto();
-	// }
 	public final AutonomousMode DEFAULT_AUTO = AutonomousMode.DO_NOTHING;
 	public Autonomous autoSelected;
 
@@ -59,6 +47,8 @@ public class AutonomousSwitcher {
 				autoSelected = new DoNothing((TankDrive) driveTrain);
 			case 1:
 				autoSelected = new EdgeGear((TankDrive) driveTrain, false);
+			case 2:
+				autoSelected = new EdgeGear((TankDrive) driveTrain, true);
 			default:
 				autoSelected = new DoNothing((TankDrive) driveTrain);
 				break;
