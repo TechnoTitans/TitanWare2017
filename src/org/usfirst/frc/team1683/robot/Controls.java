@@ -3,6 +3,7 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.scoring.GearScore;
 import org.usfirst.frc.team1683.scoring.Intake;
 import org.usfirst.frc.team1683.scoring.ScoringMotor;
 import org.usfirst.frc.team1683.scoring.Shooter;
@@ -13,6 +14,7 @@ public class Controls {
 	public static boolean[][] joystickCheckToggle = new boolean[3][11];
 
 	DriveTrain drive;
+	GearScore gearScore;
 	Winch winch;
 	Shooter shooter;
 	Intake intake;
@@ -21,6 +23,7 @@ public class Controls {
 	boolean toggleWinch;
 	boolean autoShooter;
 	boolean fullPowerMode;
+	boolean visionAidedMovement;
 
 	double rSpeed;
 	double lSpeed;
@@ -38,6 +41,7 @@ public class Controls {
 		toggleWinch = false;
 		autoShooter = true;
 		fullPowerMode = false;
+		visionAidedMovement = false;
 
 		SmartDashboard.prefDouble("shooterSpeed", 0.6);
 		maxPower = 0;
@@ -51,28 +55,36 @@ public class Controls {
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
 			frontMode = true;
 		}
-
-		if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
-			maxPower = MAX_JOYSTICK_SPEED;
-		else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
-			maxPower = SECOND_JOYSTICK_SPEED;
-		else if (DriverStation.leftStick.getRawButton(HWR.ADD_POWER))
-			maxPower += 0.01;
-		else if (DriverStation.leftStick.getRawButton(HWR.SUBTRACT_POWER))
-			maxPower -= 0.01;
-		if (maxPower > 1.0)
-			maxPower = 1.0;
-		SmartDashboard.sendData("current power", maxPower);
-		if (frontMode) {
-			lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-			rSpeed = -maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
-		} else {
-			lSpeed = maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
-			rSpeed = maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+		
+		if (checkToggle(HWR.LEFT_JOYSTICK, HWR.TOGGLE_VISION_AID)) {
+			visionAidedMovement = !visionAidedMovement;
 		}
-
-		drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
-
+		if(visionAidedMovement){
+			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
+				maxPower = MAX_JOYSTICK_SPEED;
+			else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
+				maxPower = SECOND_JOYSTICK_SPEED;
+			else if (DriverStation.leftStick.getRawButton(HWR.ADD_POWER))
+				maxPower += 0.01;
+			else if (DriverStation.leftStick.getRawButton(HWR.SUBTRACT_POWER))
+				maxPower -= 0.01;
+			if (maxPower > 1.0)
+				maxPower = 1.0;
+			SmartDashboard.sendData("current power", maxPower);
+			if (frontMode) {
+				lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+				rSpeed = -maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+			} else {
+				lSpeed = maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+				rSpeed = maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+			}
+			
+			drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
+		}
+		else{
+			gearScore.run();
+		}
+		
 		// shooter
 		SmartDashboard.sendData("Zaxisaux", DriverStation.auxStick.getRawAxis(DriverStation.ZAxis));
 		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_SHOOTER_MODE)) {

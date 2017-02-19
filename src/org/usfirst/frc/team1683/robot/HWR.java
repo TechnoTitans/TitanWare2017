@@ -52,4 +52,5 @@ public class HWR {
 	public static final int SECOND_POWER = HWP.BUTTON_4;
 	public static final int ADD_POWER = HWP.BUTTON_5;
 	public static final int SUBTRACT_POWER = HWP.BUTTON_4;
+	public static final int TOGGLE_VISION_AID = HWP.BUTTON_3;
 }
