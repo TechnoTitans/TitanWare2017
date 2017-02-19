@@ -9,7 +9,6 @@ import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.scoring.GearScore;
 import org.usfirst.frc.team1683.sensors.AnalogUltra;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
@@ -44,7 +43,6 @@ public class TechnoTitan extends IterativeRobot {
 	PiVisionReader vision;
 
 	CurvedDrive curvedDrive;
-	private GearScore g;
 
 	@Override
 	public void robotInit() {
@@ -97,7 +95,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		//curvedDrive.run();
+		//curvedDrive.run(); 
 		//g.run();
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 		auto.run();
