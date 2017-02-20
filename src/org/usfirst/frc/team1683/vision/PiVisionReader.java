@@ -46,7 +46,7 @@ public class PiVisionReader {
 	
 	public PiVisionReader() {
 		table = NetworkTable.getTable(tableName);
-		targetCenter = new VisionValue("Target_X", table, 0.6);
+		targetCenter = new VisionValue("X_Offset_From_Center", table, 0.6);
 		distance = new VisionValue("Distance", table, 0.9);
 		confidence = new VisionValue("Confidence", table, 0.3);
 	}
