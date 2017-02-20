@@ -39,12 +39,13 @@ public class Controls {
 		autoShooter = true;
 		fullPowerMode = false;
 
+		SmartDashboard.prefDouble("shooterSpeed", 0.6);
 		maxPower = 0;
 	}
 
 	public void run() {
 		// drivetrain
-		SmartDashboard.sendData("Front(winch) or back(gear) mode", frontMode ? "winch" : "gear");
+		SmartDashboard.sendData("Front(gear) or back(intake) mode", frontMode ? "winch" : "gear");
 		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL)) {
 			frontMode = false;
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
@@ -79,7 +80,7 @@ public class Controls {
 		}
 		if (autoShooter) {
 			if (DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER))
-				shooter.turnOn();
+				shooter.setSpeed(SmartDashboard.getDouble("shooterSpeed"));
 			else
 				shooter.stop();
 		} else {
@@ -94,8 +95,8 @@ public class Controls {
 		} else {
 			winch.stop();
 		}
-		SmartDashboard.sendData("winch voltage1",winch.getMotor1().getOutputVoltage());
-		SmartDashboard.sendData("winch voltage2",winch.getMotor2().getOutputVoltage());
+		SmartDashboard.sendData("winch voltage1", winch.getMotor1().getOutputVoltage());
+		SmartDashboard.sendData("winch voltage2", winch.getMotor2().getOutputVoltage());
 
 		// intake
 		toggle(HWR.TOGGLE_INTAKE, intake);
@@ -107,8 +108,6 @@ public class Controls {
 	 * 
 	 * Checks if a button is pressed to toggle it. Since teleop is periodic,
 	 * needs to remember past button state to toggle
-	 * 
-	 * doge
 	 * 
 	 */
 	public static void toggle(int button, ScoringMotor motor) {

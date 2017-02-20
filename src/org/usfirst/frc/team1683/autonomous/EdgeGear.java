@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
  *
  */
 public class EdgeGear extends Autonomous {
-	private final double speed = -0.3;
+	private final double speed = 0.3;
 	private boolean right;
 	private PiVisionReader vision;
 	private Timer timer;
