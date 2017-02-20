@@ -34,7 +34,7 @@ public abstract class Autonomous {
 	}
 
 	public static enum AutonomousMode {
-		DO_NOTHING, REACH_DEFENSE, BREACH_DEFENSE, TEST_AUTO, SHOOT_AT_TARGET
+		DO_NOTHING, EDGE_GEAR, EDGE_GEAR2, SQUARE_AUTO; 
 	}
 	
 	public boolean isAtEndCase() {
