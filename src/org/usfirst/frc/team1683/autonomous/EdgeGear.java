@@ -19,14 +19,14 @@ public class EdgeGear extends Autonomous {
 	private PiVisionReader vision;
 	private Timer timer;
 	private Path path;
-	private PathPoint[] pathPoints = {
-		new PathPoint(0, 73),
-		new PathPoint(-55, 37 ,true),
-	};
+	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55 * 0.9, 37 * 0.9, true), };
+
 	/**
 	 * Places a gear when not starting in the middle
+	 * 
 	 * @param tankDrive
-	 * @param right True if on the right side, false if on the left side
+	 * @param right
+	 *            True if on the right side, false if on the left side
 	 */
 	public EdgeGear(TankDrive tankDrive, boolean right) {
 		super(tankDrive);
@@ -45,10 +45,11 @@ public class EdgeGear extends Autonomous {
 		switch (presentState) {
 			case INIT_CASE:
 				timer.start();
-				//driveTrainMover = new DriveTrainMover(tankDrive, distance, speed);
+				// driveTrainMover = new DriveTrainMover(tankDrive, distance,
+				// speed);
 				path = new Path(tankDrive, pathPoints, speed);
 				int ind = 0;
-				for(PathPoint point:pathPoints){
+				for (PathPoint point : pathPoints) {
 					SmartDashboard.sendData("point values " + ind, point.toString());
 					++ind;
 				}
@@ -61,6 +62,7 @@ public class EdgeGear extends Autonomous {
 				}
 				break;
 			case END_CASE:
+				tankDrive.stop();
 				nextState = State.END_CASE;
 				break;
 			default:

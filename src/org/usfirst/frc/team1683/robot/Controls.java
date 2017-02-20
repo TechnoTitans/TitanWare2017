@@ -3,6 +3,7 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.scoring.Agitator;
 import org.usfirst.frc.team1683.scoring.GearScore;
 import org.usfirst.frc.team1683.scoring.Intake;
 import org.usfirst.frc.team1683.scoring.ScoringMotor;
@@ -18,6 +19,7 @@ public class Controls {
 	Winch winch;
 	Shooter shooter;
 	Intake intake;
+	Agitator agitator;
 
 	boolean frontMode;
 	boolean toggleWinch;
@@ -36,6 +38,9 @@ public class Controls {
 		shooter = new Shooter(HWR.SHOOTER);
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
+		agitator = new Agitator(HWR.AGITATOR);
+		
+		gearScore = new GearScore(drive, 100, 0.4);
 
 		frontMode = true;
 		toggleWinch = false;
@@ -59,7 +64,7 @@ public class Controls {
 		if (checkToggle(HWR.LEFT_JOYSTICK, HWR.TOGGLE_VISION_AID)) {
 			visionAidedMovement = !visionAidedMovement;
 		}
-		if(visionAidedMovement){
+		if(!visionAidedMovement){
 			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
 				maxPower = MAX_JOYSTICK_SPEED;
 			else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
@@ -110,6 +115,13 @@ public class Controls {
 		SmartDashboard.sendData("winch voltage1", winch.getMotor1().getOutputVoltage());
 		SmartDashboard.sendData("winch voltage2", winch.getMotor2().getOutputVoltage());
 
+		//agitator
+		if(DriverStation.auxStick.getRawButton(HWR.TURN_AGITATOR)){
+			agitator.turnOn();
+		}
+		else
+			agitator.stop();
+		
 		// intake
 		toggle(HWR.TOGGLE_INTAKE, intake);
 	}
