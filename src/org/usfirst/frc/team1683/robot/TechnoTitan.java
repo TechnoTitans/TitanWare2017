@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 
 public class TechnoTitan extends IterativeRobot {
-	public static final boolean LEFT_REVERSE = false;
-	public static final boolean RIGHT_REVERSE = true;
+	public static final boolean LEFT_REVERSE = true;
+	public static final boolean RIGHT_REVERSE = false;
 	public static final double WHEEL_RADIUS = 2.2135;
 	public static final double AGITATOR_SPEED = 1.00;
 
@@ -92,7 +92,7 @@ public class TechnoTitan extends IterativeRobot {
 	public void autonomousInit() {
 		gyro.reset();
 		//auto = new EdgeGear(drive, false);
-		g = new GearScore(drive, 96, 0);
+		g = new GearScore(drive, 96, -0.4);
 	}
 
 	@Override
