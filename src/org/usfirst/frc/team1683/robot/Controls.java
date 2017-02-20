@@ -35,12 +35,12 @@ public class Controls {
 
 	public Controls(DriveTrain drive) {
 		this.drive = drive;
-		shooter = new Shooter(HWR.SHOOTER);
+//		shooter = new Shooter(HWR.SHOOTER);
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
-		agitator = new Agitator(HWR.AGITATOR);
+//		agitator = new Agitator(HWR.AGITATOR);
 		
-		gearScore = new GearScore(drive, 100, 0.4);
+		gearScore = new GearScore(drive, 0.4);
 
 		frontMode = true;
 		toggleWinch = false;
@@ -49,7 +49,7 @@ public class Controls {
 		visionAidedMovement = false;
 
 		SmartDashboard.prefDouble("shooterSpeed", 0.6);
-		maxPower = 0;
+		maxPower = 1.0;
 	}
 
 	public void run() {
@@ -91,18 +91,18 @@ public class Controls {
 		}
 		
 		// shooter
-		SmartDashboard.sendData("Zaxisaux", DriverStation.auxStick.getRawAxis(DriverStation.ZAxis));
-		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_SHOOTER_MODE)) {
-			autoShooter = !autoShooter;
-		}
-		if (autoShooter) {
-			if (DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER))
-				shooter.setSpeed(SmartDashboard.getDouble("shooterSpeed"));
-			else
-				shooter.stop();
-		} else {
-			shooter.setSpeed(-(DriverStation.auxStick.getRawAxis(DriverStation.ZAxis) - 1) / 2);
-		}
+//		SmartDashboard.sendData("Zaxisaux", DriverStation.auxStick.getRawAxis(DriverStation.ZAxis));
+//		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_SHOOTER_MODE)) {
+//			autoShooter = !autoShooter;
+//		}
+//		if (autoShooter) {
+//			if (DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER))
+//				shooter.setSpeed(SmartDashboard.getDouble("shooterSpeed"));
+//			else
+//				shooter.stop();
+//		} else {
+//			shooter.setSpeed(-(DriverStation.auxStick.getRawAxis(DriverStation.ZAxis) - 1) / 2);
+//		}
 
 		// winch
 		if (DriverStation.auxStick.getRawButton(HWR.TURN_WINCH)) {
@@ -116,11 +116,11 @@ public class Controls {
 		SmartDashboard.sendData("winch voltage2", winch.getMotor2().getOutputVoltage());
 
 		//agitator
-		if(DriverStation.auxStick.getRawButton(HWR.TURN_AGITATOR)){
-			agitator.turnOn();
-		}
-		else
-			agitator.stop();
+//		if(DriverStation.auxStick.getRawButton(HWR.TURN_AGITATOR)){
+//			agitator.turnOn();
+//		}
+//		else
+//			agitator.stop();
 		
 		// intake
 		toggle(HWR.TOGGLE_INTAKE, intake);

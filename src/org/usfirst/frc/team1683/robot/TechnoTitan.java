@@ -81,12 +81,14 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		drive.stop();
+		
 		endGameTimer.start();
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		controls.run();
+		lightRing.turnOn();
 	}
 
 	@Override
