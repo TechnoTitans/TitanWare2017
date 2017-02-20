@@ -4,7 +4,7 @@ import org.usfirst.frc.team1683.driveTrain.Path;
 import org.usfirst.frc.team1683.driveTrain.PathPoint;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.vision.PiVisionReader;
+import org.usfirst.frc.team1683.scoring.GearScore;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -16,11 +16,10 @@ import edu.wpi.first.wpilibj.Timer;
 public class EdgeGear extends Autonomous {
 	private final double speed = 0.3;
 	private boolean right;
-	private PiVisionReader vision;
 	private Timer timer;
 	private Path path;
 	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55 * 0.9, 37 * 0.9, true), };
-
+	private GearScore gearScore;
 	/**
 	 * Places a gear when not starting in the middle
 	 * 
@@ -30,7 +29,6 @@ public class EdgeGear extends Autonomous {
 	 */
 	public EdgeGear(TankDrive tankDrive, boolean right) {
 		super(tankDrive);
-		vision = new PiVisionReader();
 		this.right = right;
 		timer = new Timer();
 		if (this.right) {
@@ -44,6 +42,7 @@ public class EdgeGear extends Autonomous {
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
+				gearScore = new GearScore(tankDrive, 0.4);
 				timer.start();
 				// driveTrainMover = new DriveTrainMover(tankDrive, distance,
 				// speed);
@@ -58,8 +57,11 @@ public class EdgeGear extends Autonomous {
 			case DRIVE_PATH:
 				path.run();
 				if (path.isDone()) {
-					nextState = State.END_CASE;
+					nextState = State.FIND_TARGET;
 				}
+				break;
+			case FIND_TARGET:
+				gearScore.run();
 				break;
 			case END_CASE:
 				tankDrive.stop();
