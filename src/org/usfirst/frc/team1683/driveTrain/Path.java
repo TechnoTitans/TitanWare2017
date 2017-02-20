@@ -84,9 +84,9 @@ public class Path {
 				mover = new DriveTrainMover(driveTrain, path[pathIndex].getDistance(), speed);
 				isTurning = false;
 				currentHeading = path[pathIndex].getAngle();
-				return;
+			} else {
+				turner.run();
 			}
-			turner.run();
 		} else {
 			SmartDashboard.sendData("distance", path[pathIndex].getDistance());
 			SmartDashboard.sendData("distance left", mover.getAverageDistanceLeft());
@@ -96,7 +96,7 @@ public class Path {
 				if (!isDone()) {
 					SmartDashboard.sendData("currentHeading_path", currentHeading);
 					SmartDashboard.sendData("nextAngle", path[pathIndex].getAngle());
-					turner = new DriveTrainTurner(driveTrain, path[pathIndex].getAngle() - currentHeading, speed);
+					turner = new DriveTrainTurner(driveTrain, path[pathIndex].getAngle() - currentHeading, Math.abs(speed));
 					isTurning = true;
 				}
 			}

@@ -46,7 +46,7 @@ public class GearScore {
 		}*/
 		vision.update();
 		vision.log();
-		double offset = vision.getOffset();
+		double offset = vision.getOffset(); // between -0.5 and 0.5
 		SmartDashboard.sendData("error offset", offset);
 		if (offset == -1) {
 			offset = 0;

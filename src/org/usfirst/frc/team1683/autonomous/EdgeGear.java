@@ -15,16 +15,10 @@ import edu.wpi.first.wpilibj.Timer;
  *
  */
 public class EdgeGear extends Autonomous {
-	public final double distance = 48; // guessing distance (inches)
-	public final double pixelFromCenter = 10; // pixel (guessing)
-	//public final double turnSpeed = 8; // degrees
-	public final double distanceFromGoal = 3; // degrees
-	public final double speed = -0.3;
+	private final double speed = -0.3;
 	private boolean right;
 	private PiVisionReader vision;
 	private Timer timer;
-	private MiddleGear moveForward;
-	private DriveTrainMover driveTrainMover;
 	private Path path;
 	private PathPoint[] pathPoints = {
 		new PathPoint(0, 73),
@@ -40,7 +34,7 @@ public class EdgeGear extends Autonomous {
 		vision = new PiVisionReader();
 		this.right = right;
 		timer = new Timer();
-		if (right) {
+		if (this.right) {
 			for (int i = 0; i < pathPoints.length; ++i) {
 				PathPoint p = pathPoints[i];
 				pathPoints[i] = new PathPoint(-p.getX(), p.getY());
@@ -66,30 +60,6 @@ public class EdgeGear extends Autonomous {
 				if (path.isDone()) {
 					nextState = State.END_CASE;
 				}
-				break;
-			case DRIVE_FORWARD:
-				driveTrainMover.runIteration();
-				SmartDashboard.sendData("encoder average distance", driveTrainMover.getAverageDistanceLeft());
-				if (driveTrainMover.areAnyFinished()) {
-					nextState = State.REALIGN;
-					timer.reset();
-				}
-				break;
-			case REALIGN:
-				/*
-				 * while(vision.isNull ||
-				 * vision.distanceFromCenter<pixelFromCenter){
-				 * tankDrive.turn(turnSpeed); }
-				 */
-				tankDrive.turnInPlace(!right, 0.2);
-				if (vision.getDistanceTarget() < pixelFromCenter || timer.get() > 6) {
-					nextState = State.APPROACH_GOAL;
-					tankDrive.set(0);
-					moveForward = new MiddleGear(tankDrive, 20);
-				}
-				break;
-			case APPROACH_GOAL:
-				moveForward.run();
 				break;
 			case END_CASE:
 				nextState = State.END_CASE;

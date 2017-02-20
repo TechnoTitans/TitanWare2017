@@ -91,16 +91,16 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		gyro.reset();
-		auto = new EdgeGear(drive, false);
-		//g = new GearScore(drive, 96, 0);
+		//auto = new EdgeGear(drive, false);
+		g = new GearScore(drive, 96, 0);
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		//curvedDrive.run();
-		//g.run();
-		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
-		auto.run();
+		g.run();
+		//SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
+		//auto.run();
 	}
 
 	@Override
