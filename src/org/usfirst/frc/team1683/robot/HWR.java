@@ -11,14 +11,14 @@ public class HWR {
 	public static final int LEFT_DRIVE_TRAIN_BACK = HWP.CAN_9;
 	//public static final int LIGHT_RING = HWP.CAN_10;
 	
-	public static final int AGITATOR = HWP.CAN_1;
+	public static final int AGITATOR = HWP.CAN_2;
 	public static final int WINCH1 = HWP.CAN_11;
 	public static final int WINCH2 = HWP.CAN_12;
-	public static final int SHOOTER = HWP.CAN_2;
+	public static final int SHOOTER = HWP.CAN_1;
 	public static final int INTAKE = HWP.CAN_10;
 	
 	public static final int LED = HWP.CAN_13;
-	public static final int GREEN_LIGHT_LOW = HWP.CAN_12; 
+	public static final int GREEN_LIGHT_LOW = HWP.CAN_3; 
 	// Enable low level green light for cameras (Talon 9)
 	
 	//encoders
@@ -44,6 +44,8 @@ public class HWR {
 	
 	public static final int TURN_BACK_WINCH = HWP.BUTTON_4;
 	public static final int TURN_WINCH = HWP.BUTTON_5;
+	
+	public static final int TURN_AGITATOR = HWP.BUTTON_10;
 	
 	public static final int TOGGLE_INTAKE = HWP.BUTTON_3;
 	

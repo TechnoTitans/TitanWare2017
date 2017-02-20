@@ -5,7 +5,7 @@ import org.usfirst.frc.team1683.robot.HWR;
 
 public class LightRing {
 	TalonSRX light;
-	final double MAX_BRIGHTNESS = 0.7;
+	final double MAX_BRIGHTNESS = -1.0;
 
 	public LightRing(int light) {
 		this.light = new TalonSRX(HWR.GREEN_LIGHT_LOW, true);

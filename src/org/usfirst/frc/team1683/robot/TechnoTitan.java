@@ -4,6 +4,7 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.autonomous.EdgeGear;
+import org.usfirst.frc.team1683.autonomous.SquareAuto;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.CurvedDrive;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
@@ -50,11 +51,8 @@ public class TechnoTitan extends IterativeRobot {
 	public void robotInit() {
 		ultrasonic = new AnalogUltra(HWR.ULTRASONIC);
 
-		new TalonSRX(HWR.AGITATOR, true).set(AGITATOR_SPEED);
-
 		gyro = new Gyro(HWR.GYRO);
-		autoSwitch = new AutonomousSwitcher(drive);
-		
+
 		AntiDrift left = new AntiDrift(gyro, -1);
 		AntiDrift right = new AntiDrift(gyro, 1);
 		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT, LEFT_REVERSE, left);
@@ -68,6 +66,7 @@ public class TechnoTitan extends IterativeRobot {
 				new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_MIDDLE, RIGHT_REVERSE));
 
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
+		
 		controls = new Controls(drive);
 
 		endGameTimer = new Timer();
@@ -86,20 +85,28 @@ public class TechnoTitan extends IterativeRobot {
 		// server.startAutomaticCapture("cam1");
 
 		lightRing = new LightRing(HWR.GREEN_LIGHT_LOW);
+		lightRing.turnOn();
+		
+		autoSwitch = new AutonomousSwitcher(drive);
+		
 		vision = new PiVisionReader();
 	}
 
 	@Override
 	public void autonomousInit() {
+		autoSwitch.setAuto();
 		gyro.reset();
-		auto = autoSwitch.getAutoSelected();//new EdgeGear(drive, false);
-		//g = new GearScore(drive, 96, 0);
+		lightRing.turnOn();
+		auto = autoSwitch.getAutoSelected();
+		//auto = new EdgeGear(drive, false);
+		// g = new GearScore(drive, 96, 0);
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		//curvedDrive.run(); 
-		//g.run();
+		// curvedDrive.run();
+		lightRing.turnOn();
+		// g.run();
 		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
 		auto.run();
 	}
@@ -114,7 +121,7 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		controls.run();
-		//curvedDrive.run();
+		// curvedDrive.run();
 
 	}
 
