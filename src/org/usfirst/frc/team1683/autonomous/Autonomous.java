@@ -24,8 +24,6 @@ public abstract class Autonomous {
 		this.tankDrive = tankDrive;
 		leftEncoder = tankDrive.getLeftEncoder();
 		rightEncoder = tankDrive.getRightEncoder();
-		org.usfirst.frc.team1683.vision.PiVisionReader visionReader = new org.usfirst.frc.team1683.vision.PiVisionReader();
-		
 		resetAuto();
 	}
 
@@ -33,10 +31,6 @@ public abstract class Autonomous {
 		INIT_CASE, END_CASE, DRIVE_FORWARD, FIND_TARGET, FIRE, REALIGN, STOP, APPROACH_GOAL, SCORE, DRIVE_FORWARD_WAITING, DRIVE_PATH;
 	}
 
-	public static enum AutonomousMode {
-		DO_NOTHING, EDGE_GEAR, EDGE_GEAR2, SQUARE_AUTO; 
-	}
-	
 	public boolean isAtEndCase() {
 		return presentState == State.END_CASE;
 	}
@@ -44,11 +38,13 @@ public abstract class Autonomous {
 	public void resetAuto() {
 		presentState = State.INIT_CASE;
 	}
-	public void stop(){
+
+	public void stop() {
 		presentState = State.STOP;
 	}
+
 	public void turnGreenLightOn() {
-		
+
 	}
 
 	public abstract void run();
