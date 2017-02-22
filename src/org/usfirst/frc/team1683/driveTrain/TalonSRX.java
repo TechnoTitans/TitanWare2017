@@ -126,6 +126,8 @@ public class TalonSRX extends CANTalon implements Motor {
 	 * @param angle
 	 *            -- angle in degrees
 	 */
+	
+	
 	public void PIDAngle(double angle) {
 		PIDPosition(angle / 360.0);
 	}
@@ -224,5 +226,9 @@ public class TalonSRX extends CANTalon implements Motor {
 	@Override
 	public boolean isReversed() {
 		return super.getInverted();
+	}
+
+	public void setSetPoint(double point) {
+		super.setSetpoint(point);
 	}
 }

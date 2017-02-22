@@ -10,7 +10,10 @@ public class LightRing {
 	public LightRing(int light) {
 		this.light = new TalonSRX(HWR.GREEN_LIGHT_LOW, true);
 	}
-
+	
+	public void setBrightness(double brightness){
+		light.set(brightness);
+	}
 	public void turnOn() {
 		light.set(MAX_BRIGHTNESS);
 	}

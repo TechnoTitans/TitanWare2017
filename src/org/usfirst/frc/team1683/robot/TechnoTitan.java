@@ -23,6 +23,8 @@ public class TechnoTitan extends IterativeRobot {
 	TankDrive drive;
 	Timer endGameTimer;
 	
+	PiVisionReader piReader;
+	
 	Autonomous auto;
 	AutonomousSwitcher autoSwitch;
 	
@@ -39,6 +41,9 @@ public class TechnoTitan extends IterativeRobot {
 	public void robotInit() {
 		endGameTimer = new Timer();
 		gyro = new Gyro(HWR.GYRO);
+		
+		piReader = new PiVisionReader();
+		
 
 		AntiDrift left = new AntiDrift(gyro, -1);
 		AntiDrift right = new AntiDrift(gyro, 1);
@@ -55,11 +60,11 @@ public class TechnoTitan extends IterativeRobot {
 		rightGroup.enableAntiDrift(right);
 		
 		autoSwitch = new AutonomousSwitcher(drive);
-		controls = new Controls(drive);
-		//curvedDrive = new CurvedDrive(drive, gyro);
-
+		
 		lightRing = new LightRing(HWR.GREEN_LIGHT_LOW);
-		lightRing.turnOn();		
+		controls = new Controls(drive, lightRing, piReader);
+		//curvedDrive = new CurvedDrive(drive, gyro);
+	
 		vision = new PiVisionReader();
 	}
 
@@ -74,7 +79,6 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		lightRing.turnOn();
 		auto.run();
 	}
 
@@ -88,7 +92,6 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		controls.run();
-		lightRing.turnOn();
 	}
 
 	@Override

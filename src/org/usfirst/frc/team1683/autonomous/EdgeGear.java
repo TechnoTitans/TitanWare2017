@@ -42,7 +42,6 @@ public class EdgeGear extends Autonomous {
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
-				gearScore = new GearScore(tankDrive, 0.4);
 				timer.start();
 				// driveTrainMover = new DriveTrainMover(tankDrive, distance,
 				// speed);
@@ -61,7 +60,6 @@ public class EdgeGear extends Autonomous {
 				}
 				break;
 			case FIND_TARGET:
-				gearScore.run();
 				break;
 			case END_CASE:
 				tankDrive.stop();

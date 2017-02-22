@@ -28,7 +28,13 @@ public class MotorGroup extends ArrayList<Motor> {
 			super.add(motor);
 		}
 	}
-
+	public ArrayList<Motor> getMotor(){
+		ArrayList<Motor> motors = new ArrayList<Motor>();
+		for (Motor motor : this){
+			motors.add(motor);
+		}
+		return motors;
+	}
 	/**
 	 * Constructor -- just a list of motors
 	 *
