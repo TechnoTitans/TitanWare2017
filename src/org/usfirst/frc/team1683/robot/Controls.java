@@ -9,6 +9,8 @@ import org.usfirst.frc.team1683.scoring.Intake;
 import org.usfirst.frc.team1683.scoring.ScoringMotor;
 import org.usfirst.frc.team1683.scoring.Shooter;
 import org.usfirst.frc.team1683.scoring.Winch;
+import org.usfirst.frc.team1683.vision.LightRing;
+import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 public class Controls {
 	public static boolean[] toggle = new boolean[11];
@@ -20,51 +22,54 @@ public class Controls {
 	Shooter shooter;
 	Intake intake;
 	Agitator agitator;
+	LightRing light;
 
 	boolean frontMode;
 	boolean toggleWinch;
-	boolean autoShooter;
+	// boolean autoShooter;
 	boolean fullPowerMode;
 	boolean visionAidedMovement;
 
 	double rSpeed;
 	double lSpeed;
 	double maxPower;
+
+	double brightness;
 	public final double MAX_JOYSTICK_SPEED = 1.0;
 	public final double SECOND_JOYSTICK_SPEED = 0.8;
 
-	public Controls(DriveTrain drive) {
+	public Controls(DriveTrain drive, LightRing light, PiVisionReader piReader) {
 		this.drive = drive;
-//		shooter = new Shooter(HWR.SHOOTER);
+		this.light = light;
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
-//		agitator = new Agitator(HWR.AGITATOR);
-		
-		gearScore = new GearScore(drive, 0.4);
+
+		gearScore = new GearScore(drive, 0.4, piReader);
 
 		frontMode = true;
 		toggleWinch = false;
-		autoShooter = true;
 		fullPowerMode = false;
 		visionAidedMovement = false;
 
-		SmartDashboard.prefDouble("shooterSpeed", 0.6);
 		maxPower = 1.0;
+		brightness = -1.0;
+		SmartDashboard.prefDouble("brightness", brightness);
 	}
 
 	public void run() {
 		// drivetrain
-		SmartDashboard.sendData("Front(gear) or back(intake) mode", frontMode ? "winch" : "gear");
+		SmartDashboard.sendData("front(intake) or back(gear) mode", frontMode ? "intake" : "gear");
 		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL)) {
 			frontMode = false;
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
 			frontMode = true;
 		}
-		
+
 		if (checkToggle(HWR.LEFT_JOYSTICK, HWR.TOGGLE_VISION_AID)) {
 			visionAidedMovement = !visionAidedMovement;
 		}
-		if(!visionAidedMovement){
+		SmartDashboard.sendData("Vision Aided", visionAidedMovement);
+		if (!visionAidedMovement) {
 			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
 				maxPower = MAX_JOYSTICK_SPEED;
 			else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
@@ -75,7 +80,7 @@ public class Controls {
 				maxPower -= 0.01;
 			if (maxPower > 1.0)
 				maxPower = 1.0;
-			SmartDashboard.sendData("current power", maxPower);
+			SmartDashboard.sendData("Drive Power", maxPower);
 			if (frontMode) {
 				lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 				rSpeed = -maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
@@ -83,53 +88,28 @@ public class Controls {
 				lSpeed = maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 				rSpeed = maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 			}
-			
+
 			drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
-		}
-		else{
+		} else {
 			gearScore.run();
 		}
-		
-		// shooter
-//		SmartDashboard.sendData("Zaxisaux", DriverStation.auxStick.getRawAxis(DriverStation.ZAxis));
-//		if (checkToggle(HWR.AUX_JOYSTICK, HWR.TOGGLE_SHOOTER_MODE)) {
-//			autoShooter = !autoShooter;
-//		}
-//		if (autoShooter) {
-//			if (DriverStation.auxStick.getRawButton(HWR.SPIN_SHOOTER))
-//				shooter.setSpeed(SmartDashboard.getDouble("shooterSpeed"));
-//			else
-//				shooter.stop();
-//		} else {
-//			shooter.setSpeed(-(DriverStation.auxStick.getRawAxis(DriverStation.ZAxis) - 1) / 2);
-//		}
+
+		// light ring
+		brightness = SmartDashboard.getDouble("brightness");
+		SmartDashboard.sendData("Lightring Brightness", brightness);
+		light.setBrightness(brightness);
+
+		// intake
+		if (DriverStation.auxStick.getRawButton(HWR.TURN_INTAKE)) {
+			intake.turnOn();
+		} else
+			intake.stop();
 
 		// winch
-		if (DriverStation.auxStick.getRawButton(HWR.TURN_WINCH)) {
-			winch.turnOn();
-		} else if (DriverStation.auxStick.getRawButton(HWR.TURN_BACK_WINCH)) {
-			winch.turnOtherWay();
-		} else {
-			winch.stop();
-		}
-		SmartDashboard.sendData("winch voltage1", winch.getMotor1().getOutputVoltage());
-		SmartDashboard.sendData("winch voltage2", winch.getMotor2().getOutputVoltage());
-
-		//agitator
-//		if(DriverStation.auxStick.getRawButton(HWR.TURN_AGITATOR)){
-//			agitator.turnOn();
-//		}
-//		else
-//			agitator.stop();
-		
-		// intake
-		toggle(HWR.TOGGLE_INTAKE, intake);
+		toggle(HWR.TOGGLE_WINCH, winch);
 	}
 
 	/*
-	 * 
-	 * doge
-	 * 
 	 * Checks if a button is pressed to toggle it. Since teleop is periodic,
 	 * needs to remember past button state to toggle
 	 * 
@@ -140,10 +120,8 @@ public class Controls {
 		}
 		if (toggle[button - 1]) {
 			motor.turnOn();
-			SmartDashboard.sendData("intake clicked", "true");
 		} else {
 			motor.stop();
-			SmartDashboard.sendData("intake clicked", "false");
 		}
 	}
 
