@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1683.driveTrain;
 
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
 /**
@@ -52,9 +51,6 @@ public class DriveTrainTurner {
 	 */
 	public void run() {
 		double heading = angleDiff(gyro.getAngle(), initialHeading);
-		SmartDashboard.sendData("angle", angle);
-		SmartDashboard.sendData("heading_turner", heading);
-		SmartDashboard.sendData("drive train turner heading", Math.abs(heading - angle));
 		if (!done && Math.abs(heading) <= Math.abs(angle) - ANGLE_TOLERANCE) {
 			// If angle > 0, then it should turn counterclockwise so the "right" parameter should be false
 			driveTrain.turnInPlace(angle < 0, speed);

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1683.scoring;
 
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 
 /*
@@ -26,12 +25,10 @@ public class Agitator implements ScoringMotor {
 	@Override
 	public void turnOn() {
 		intakeMotor.set(-AGITATOR_SPEED);
-		SmartDashboard.sendData("intake", "turning");
 	}
 
 	@Override
 	public void stop() {
 		intakeMotor.set(0);
-		SmartDashboard.sendData("intake2", "stop");
 	}
 }

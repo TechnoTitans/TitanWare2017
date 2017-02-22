@@ -76,10 +76,7 @@ public class Path {
 		if (isDone()) {
 			return;
 		}
-		SmartDashboard.sendData("point", path[pathIndex].toString());
 		if (isTurning) {
-			SmartDashboard.sendData("angle", path[pathIndex].getAngle());
-			SmartDashboard.sendData("angle left", turner.angleLeft());
 			if (turner.isDone()) {
 				mover = new DriveTrainMover(driveTrain, path[pathIndex].getDistance(), speed);
 				isTurning = false;
@@ -88,8 +85,6 @@ public class Path {
 				turner.run();
 			}
 		} else {
-			SmartDashboard.sendData("distance", path[pathIndex].getDistance());
-			SmartDashboard.sendData("distance left", mover.getAverageDistanceLeft());
 			mover.runIteration();
 			if (isMoverDone()) {
 				pathIndex++;

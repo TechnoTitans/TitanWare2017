@@ -17,13 +17,12 @@ public class HWR {
 	//public static final int SHOOTER = HWP.CAN_1;
 	public static final int INTAKE = HWP.CAN_10;
 	
-	public static final int LED = HWP.CAN_13;
 	public static final int GREEN_LIGHT_LOW = HWP.CAN_3; 
 	// Enable low level green light for cameras (Talon 9)
 	
 	//encoders
-	public static final int LEFT_DRIVE_ENCODER = HWP.CAN_6;
-	public static final int RIGHT_DRIVE_ENCODER = HWP.CAN_7;
+	public static final int LEFT_DRIVE_ENCODER = HWP.CAN_7;
+	public static final int RIGHT_DRIVE_ENCODER = HWP.CAN_6;
 	public static final int SHOOTER_ENCODER = HWP.CAN_9;
 
 	// Joysticks
@@ -42,12 +41,12 @@ public class HWR {
 	//public static final int SPIN_SHOOTER = HWP.BUTTON_1;
 	//public static final int TOGGLE_SHOOTER_MODE = HWP.BUTTON_8;
 	
-	public static final int TURN_BACK_WINCH = HWP.BUTTON_4;
-	public static final int TURN_WINCH = HWP.BUTTON_5;
+	public static final int TOGGLE_BACK_WINCH = HWP.BUTTON_11;
+	public static final int TOGGLE_WINCH = HWP.BUTTON_3;
 	
 	//public static final int TURN_AGITATOR = HWP.BUTTON_10;
 	
-	public static final int TOGGLE_INTAKE = HWP.BUTTON_3;
+	public static final int TURN_INTAKE = HWP.BUTTON_2;
 	
 	//drive
 	public static final int FULL_POWER = HWP.BUTTON_5;
