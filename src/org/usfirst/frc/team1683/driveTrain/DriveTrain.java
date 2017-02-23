@@ -35,4 +35,8 @@ public interface DriveTrain {
 	 * @param speed Speed of motors
 	 */
 	public void turnInPlace(boolean right, double speed);
+
+	public void setLeft(double speed);
+
+	public void setRight(double speed);
 }
