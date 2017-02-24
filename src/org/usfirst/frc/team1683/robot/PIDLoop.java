@@ -1,7 +1,7 @@
-package org.usfirst.frc.team1683.scoring;
+package org.usfirst.frc.team1683.robot;
 
-import org.usfirst.frc.team1683.driveTrain.Motor;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -11,10 +11,13 @@ public class PIDLoop extends PIDSubsystem {
 	private final double TOLERANCE = 0.05;
 	private MotorGroup motors;
 	private TalonSRX talon;
+	
+	private String identifier;
 
-	public PIDLoop(double p, double i, double d, MotorGroup motors) {
+	public PIDLoop(double p, double i, double d, MotorGroup motors, String identifier) {
 		super(p, i, d);
 		this.motors = motors;
+		this.identifier = identifier;
 	}
 
 	public PIDLoop(double p, double i, double d, TalonSRX talon) {
@@ -30,6 +33,7 @@ public class PIDLoop extends PIDSubsystem {
 	protected void initDefaultCommand() {
 		setAbsoluteTolerance(TOLERANCE);
 		getPIDController().setContinuous(false);
+		setOutputRange(-1, 1);
 	}
 
 	@Override
@@ -39,18 +43,15 @@ public class PIDLoop extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
+		SmartDashboard.sendData("output PID "+identifier, output);
 		if (motors != null) {
-			for (Motor motor : motors) {
-				if (motor instanceof TalonSRX) {
-					((TalonSRX) motor).pidWrite(output);
-				}
-			}
+			motors.set(output);
 		} else if (talon != null) {
-			talon.pidWrite(output);
+			talon.set(output);
 		}
 	}
-	
-	public double getPIDPosition(){
+
+	public double getPIDPosition() {
 		return super.getPosition();
 	}
 

@@ -41,6 +41,7 @@ public class Controls {
 	public Controls(DriveTrain drive, LightRing light, PiVisionReader piReader) {
 		this.drive = drive;
 		this.light = light;
+		
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
 
@@ -52,7 +53,7 @@ public class Controls {
 		visionAidedMovement = false;
 
 		maxPower = 1.0;
-		brightness = -1.0;
+		brightness = 1.0;
 		SmartDashboard.prefDouble("brightness", brightness);
 	}
 
@@ -70,6 +71,8 @@ public class Controls {
 		}
 		SmartDashboard.sendData("Vision Aided", visionAidedMovement);
 		if (!visionAidedMovement) {
+			gearScore.disable();
+			
 			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
 				maxPower = MAX_JOYSTICK_SPEED;
 			else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
@@ -80,6 +83,7 @@ public class Controls {
 				maxPower -= 0.01;
 			if (maxPower > 1.0)
 				maxPower = 1.0;
+			
 			SmartDashboard.sendData("Drive Power", maxPower);
 			if (frontMode) {
 				lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
@@ -90,9 +94,12 @@ public class Controls {
 			}
 
 			drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
-		} else {
+		}
+		else{
+			gearScore.enable();
 			gearScore.run();
 		}
+		
 
 		// light ring
 		brightness = SmartDashboard.getDouble("brightness");

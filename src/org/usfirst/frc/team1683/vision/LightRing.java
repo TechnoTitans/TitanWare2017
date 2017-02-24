@@ -11,8 +11,9 @@ public class LightRing {
 		this.light = new TalonSRX(HWR.GREEN_LIGHT_LOW, true);
 	}
 	
+	//takes positive values from 0.0 to 1.0
 	public void setBrightness(double brightness){
-		light.set(brightness);
+		light.set(-brightness);
 	}
 	public void turnOn() {
 		light.set(MAX_BRIGHTNESS);

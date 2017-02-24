@@ -7,6 +7,7 @@ import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.vision.LightRing;
@@ -63,7 +64,6 @@ public class TechnoTitan extends IterativeRobot {
 		
 		lightRing = new LightRing(HWR.GREEN_LIGHT_LOW);
 		controls = new Controls(drive, lightRing, piReader);
-		//curvedDrive = new CurvedDrive(drive, gyro);
 	
 		vision = new PiVisionReader();
 	}
@@ -85,7 +85,7 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		drive.stop();
-		
+		SmartDashboard.sendData("gyro", gyro.getAngle());
 		endGameTimer.start();
 	}
 
