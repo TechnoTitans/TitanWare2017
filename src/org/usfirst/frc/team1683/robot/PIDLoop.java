@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
  */
 public class PIDLoop extends PIDSubsystem {
 	private final double TOLERANCE = 0.05;
-	
+
 	private DriveTrain drive;
 	private TalonSRX talon;
 
@@ -92,5 +92,9 @@ public class PIDLoop extends PIDSubsystem {
 	public void enablePID() {
 		super.enable();
 		disabled = false;
+	}
+
+	public void setPID(double p, double i, double d) {
+		super.getPIDController().setPID(p, i, d);
 	}
 }
