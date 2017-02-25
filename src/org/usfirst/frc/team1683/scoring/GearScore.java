@@ -8,7 +8,6 @@ import org.usfirst.frc.team1683.robot.PIDLoop;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 public class GearScore {
-	private DriveTrain driveTrain;
 	private PiVisionReader vision;
 
 	private double errorKP;
@@ -16,36 +15,29 @@ public class GearScore {
 
 	private final double DISTANCE_STOP = 2;
 	private final double CONFIDENCE_CUTOFF = 0.3;
-	private double speed;
 
 	private boolean done;
 
-	PIDLoop leftDrive;
-	//PIDLoop rightDrive;
+	PIDLoop drive;
+	private double speed;
 
 	double offset;
 	double setPoint;
 
 	public GearScore(DriveTrain driveTrain, double speed, PiVisionReader vision) {
 		this.vision = vision;
-		this.driveTrain = driveTrain;
 		this.speed = speed;
-		
-		offset = 0.7;
-		
+
+		offset = 0.0;
 
 		errorKP = 2.3;
 		speedKP = 1.3;
-		setPoint = 0.5;
+		setPoint = 0.0;
 
-		// PID
 		SmartDashboard.prefDouble("errorkp", errorKP);
 		SmartDashboard.prefDouble("speedkp", speedKP);
 
-		SmartDashboard.prefDouble("setPoint", setPoint);
-
-		 leftDrive = new PIDLoop(0.005, 0, 0, driveTrain.getLeftGroup(), "left");
-		 //rightDrive = new PIDLoop(-0.005, 0, 0, driveTrain.getRightGroup(), "right");
+		drive = new PIDLoop(2.3, 0, 0, driveTrain, 0.3);
 
 	}
 
@@ -53,10 +45,7 @@ public class GearScore {
 		errorKP = SmartDashboard.getDouble("errorkp");
 		speedKP = SmartDashboard.getDouble("speedkp");
 
-		setPoint = SmartDashboard.getDouble("setPoint");
-
 		vision.update();
-		vision.log();
 
 		// offset = vision.getOffset(); // between -0.5 and 0.5
 		double confidence = 1.0;// vision.getConfidence();
@@ -71,36 +60,20 @@ public class GearScore {
 		if (confidence > CONFIDENCE_CUTOFF) {
 			SmartDashboard.sendData("Vision Aided is:", "working");
 
-			SmartDashboard.sendData("left speed vision", speed * (1 - offset * errorKP));
-			SmartDashboard.sendData("right speed vision", speed * (1 + offset * errorKP));
-			// driveTrain.setLeft(speed * (1 - offset * errorKP));
-			// driveTrain.setRight(speed * (1 + offset * errorKP));
+			drive.setInput(offset);
 
-			// PID
-			leftDrive.setInput(offset);
-			//rightDrive.setInput(offset);
-
-			leftDrive.setSetpoint(setPoint);
-			//rightDrive.setSetpoint(setPoint);
-
-			SmartDashboard.sendData("PID Left Position", leftDrive.getPIDPosition());
-			//SmartDashboard.sendData("PID Right Position", rightDrive.getPIDPosition());
-			SmartDashboard.sendData("PID Left Setpoint", leftDrive.getSetpoint());
-			//SmartDashboard.sendData("PID Right Setpoint", rightDrive.getSetpoint());
+			drive.setSetpoint(setPoint);
 		} else {
-			driveTrain.stop();
 			SmartDashboard.sendData("Vision Aided is:", "not seeing target");
 		}
 	}
-	
-	public void disable(){
-		leftDrive.disable();
-		//rightDrive.disable();
+
+	public void disable() {
+		drive.stopPID();
 	}
-	
-	public void enable(){
-		leftDrive.enable();
-		//rightDrive.enable();
+
+	public void enable() {
+		drive.enablePID();
 	}
 
 	public void changeSpeed() {

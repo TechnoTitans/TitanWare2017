@@ -1,32 +1,47 @@
 package org.usfirst.frc.team1683.robot;
 
+import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
+/**
+ * 
+ * @author Yi Liu
+ * 
+ */
 public class PIDLoop extends PIDSubsystem {
-	private double input;
 	private final double TOLERANCE = 0.05;
-	private MotorGroup motors;
-	private TalonSRX talon;
 	
-	private String identifier;
+	private DriveTrain drive;
+	private TalonSRX talon;
 
-	public PIDLoop(double p, double i, double d, MotorGroup motors, String identifier) {
+	private double input;
+	private boolean disabled;
+	private double speed;
+
+	public PIDLoop(double p, double i, double d, DriveTrain drive, double speed) {
 		super(p, i, d);
-		this.motors = motors;
-		this.identifier = identifier;
+		this.drive = drive;
+		this.speed = speed;
+
+		disabled = true;
 	}
 
 	public PIDLoop(double p, double i, double d, TalonSRX talon) {
 		super(p, i, d);
 		this.talon = talon;
+		disabled = true;
 	}
 
 	public void setInput(double input) {
 		this.input = input;
+	}
+
+	public void setSpeed(double speed) {
+		this.speed = speed;
 	}
 
 	@Override
@@ -43,11 +58,14 @@ public class PIDLoop extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		SmartDashboard.sendData("output PID "+identifier, output);
-		if (motors != null) {
-			motors.set(output);
-		} else if (talon != null) {
-			talon.set(output);
+		if (!disabled) {
+			SmartDashboard.sendData("PID Output ", speed * (1 - output));
+			if (drive != null) {
+				drive.getLeftGroup().set(speed * (1 + output));
+				drive.getRightGroup().set(speed * (1 - output));
+			} else if (talon != null) {
+				talon.set(output);
+			}
 		}
 	}
 
@@ -55,14 +73,24 @@ public class PIDLoop extends PIDSubsystem {
 		return super.getPosition();
 	}
 
-	// return 0 if neither found, 1 if motorgroup, -1 if talon
+	// return 0 if neither found, 1 if drivetrain, -1 if talon
 	public int getType() {
-		if (motors != null) {
+		if (drive != null) {
 			return 1;
 		}
 		if (talon != null) {
 			return -1;
 		}
 		return 0;
+	}
+
+	public void stopPID() {
+		super.disable();
+		disabled = true;
+	}
+
+	public void enablePID() {
+		super.enable();
+		disabled = false;
 	}
 }

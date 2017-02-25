@@ -12,6 +12,11 @@ import org.usfirst.frc.team1683.scoring.Winch;
 import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
+/**
+ * 
+ * @author Yi Liu
+ * 
+ */
 public class Controls {
 	public static boolean[] toggle = new boolean[11];
 	public static boolean[][] joystickCheckToggle = new boolean[3][11];
@@ -41,11 +46,11 @@ public class Controls {
 	public Controls(DriveTrain drive, LightRing light, PiVisionReader piReader) {
 		this.drive = drive;
 		this.light = light;
-		
+
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
 
-		gearScore = new GearScore(drive, 0.2, piReader);
+		gearScore = new GearScore(drive, 0.4, piReader);
 
 		frontMode = true;
 		toggleWinch = false;
@@ -59,7 +64,7 @@ public class Controls {
 
 	public void run() {
 		// drivetrain
-		SmartDashboard.sendData("front(intake) or back(gear) mode", frontMode ? "intake" : "gear");
+		SmartDashboard.sendData("Front(intake) or Back(gear) mode", frontMode ? "intake" : "gear");
 		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL)) {
 			frontMode = false;
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
@@ -72,7 +77,7 @@ public class Controls {
 		SmartDashboard.sendData("Vision Aided", visionAidedMovement);
 		if (!visionAidedMovement) {
 			gearScore.disable();
-			
+
 			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
 				maxPower = MAX_JOYSTICK_SPEED;
 			else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
@@ -83,7 +88,7 @@ public class Controls {
 				maxPower -= 0.01;
 			if (maxPower > 1.0)
 				maxPower = 1.0;
-			
+
 			SmartDashboard.sendData("Drive Power", maxPower);
 			if (frontMode) {
 				lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
@@ -94,12 +99,10 @@ public class Controls {
 			}
 
 			drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
-		}
-		else{
+		} else {
 			gearScore.enable();
 			gearScore.run();
 		}
-		
 
 		// light ring
 		brightness = SmartDashboard.getDouble("brightness");
@@ -113,7 +116,7 @@ public class Controls {
 			intake.stop();
 
 		// winch
-		toggle(HWR.TOGGLE_WINCH, winch);
+		toggleMotor(HWR.TOGGLE_WINCH, winch);
 	}
 
 	/*
@@ -121,7 +124,7 @@ public class Controls {
 	 * needs to remember past button state to toggle
 	 * 
 	 */
-	public static void toggle(int button, ScoringMotor motor) {
+	public static void toggleMotor(int button, ScoringMotor motor) {
 		if (checkToggle(HWR.AUX_JOYSTICK, button)) {
 			toggle[button - 1] = !toggle[button - 1];
 		}
