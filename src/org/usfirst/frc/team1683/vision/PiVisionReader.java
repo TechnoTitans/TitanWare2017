@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1683.vision;
 
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class PiVisionReader {
@@ -41,10 +39,11 @@ public class PiVisionReader {
 			return value;
 		}
 
-		void log() {
-			SmartDashboard.sendData(name + "_unfiltered", table.getNumber(name, -1));
-			SmartDashboard.sendData(name + "_filtered", getValue());
-		}
+		// void log() {
+		// SmartDashboard.sendData(name + "_unfiltered", table.getNumber(name,
+		// -1));
+		// SmartDashboard.sendData(name + "_filtered", getValue());
+		// }
 	}
 
 	private VisionValue targetCenter, distance, confidence;
@@ -75,11 +74,11 @@ public class PiVisionReader {
 		confidence.update();
 	}
 
-	public void log() {
-		targetCenter.log();
-		distance.log();
-		confidence.log();
-	}
+	// public void log() {
+	// targetCenter.log();
+	// distance.log();
+	// confidence.log();
+	// }
 
 	public double getConfidence() {
 		return confidence.getValue();

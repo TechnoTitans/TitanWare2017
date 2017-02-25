@@ -19,7 +19,7 @@ public class EdgeGear extends Autonomous {
 	private Timer timer;
 	private Path path;
 	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55 * 0.9, 37 * 0.9, true), };
-	private GearScore gearScore;
+
 	/**
 	 * Places a gear when not starting in the middle
 	 * 
