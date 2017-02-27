@@ -50,7 +50,7 @@ public class Controls {
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
 
-		gearScore = new GearScore(drive, 0.4, piReader);
+		gearScore = new GearScore(drive, 0.2, piReader);
 
 		frontMode = true;
 		toggleWinch = false;

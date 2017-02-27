@@ -64,8 +64,7 @@ public class TechnoTitan extends IterativeRobot {
 		
 		lightRing = new LightRing(HWR.GREEN_LIGHT_LOW);
 		controls = new Controls(drive, lightRing, piReader);
-	
-		vision = new PiVisionReader();
+		lightRing.turnOn();
 	}
 
 	@Override
@@ -74,7 +73,6 @@ public class TechnoTitan extends IterativeRobot {
 		auto = autoSwitch.getAutoSelected();
 		
 		gyro.reset();
-		lightRing.turnOn();
 	}
 
 	@Override

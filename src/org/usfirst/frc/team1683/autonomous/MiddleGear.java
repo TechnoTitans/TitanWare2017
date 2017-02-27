@@ -50,7 +50,7 @@ public class MiddleGear extends Autonomous {
 		SmartDashboard.sendData("elapsed time", timer.get());
 		if (timer.get() > 10) nextState = State.END_CASE;
 	}
-	public void run() {
+	public void run() {//TODO feedback
 		switch (presentState) {
 			case INIT_CASE:
 				timer = new Timer();

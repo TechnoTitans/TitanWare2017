@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1683.scoring;
 
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
+import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
+import org.usfirst.frc.team1683.driveTrain.MotorMover;
 import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.robot.HWR;
@@ -22,20 +24,23 @@ public class GearScore {
 	private final double DISTANCE_STOP = 2;
 	private final double CONFIDENCE_CUTOFF = 0.3;
 
-	private boolean done;
-
 	PIDLoop drive;
 	private double p;
 	private double i;
 	private double d;
+	
+	private DriveTrainMover mover;
+	private DriveTrain driveTrain;
 
 	private double speed;
+	private double lastdistance;
 
 	public GearScore(DriveTrain driveTrain, double speed, PiVisionReader vision) {
 		this.vision = vision;
 		this.speed = speed;
+		this.driveTrain = driveTrain;
 
-		p = 2.3;
+		p = 1.8;
 		i = 0;
 		d = 0;
 		
@@ -43,21 +48,29 @@ public class GearScore {
 		speedKP = 1.3;
 		SmartDashboard.prefDouble("errorkp", errorKP);
 		SmartDashboard.prefDouble("speedkp", speedKP);
+		
+		SmartDashboard.prefDouble("gearspeed", speed);
 
-		drive = new PIDLoop(2.3, 0, 0, driveTrain, speed);
-
+		drive = new PIDLoop(p, i, d, driveTrain, speed);
+		SmartDashboard.prefDouble("ap", p);
+		SmartDashboard.prefDouble("ai", i);
+		SmartDashboard.prefDouble("ad", d);
 	}
 
 	public void run() {
 		errorKP = SmartDashboard.getDouble("errorkp");
 		speedKP = SmartDashboard.getDouble("speedkp");
 		brightKP = SmartDashboard.getDouble("brightkp");
+		
+		speed = SmartDashboard.getDouble("gearspeed");
+		drive.setSpeed(speed);
 
 		vision.update();
 
 		double offset = vision.getOffset(); // between -0.5 and 0.5
 		double confidence = vision.getConfidence();
 		SmartDashboard.sendData("GearScore offset", offset);
+		SmartDashboard.sendData("GearScore confidence", confidence);
 
 		if (DriverStation.leftStick.getRawButton(2)) {
 			setPID();
@@ -71,8 +84,23 @@ public class GearScore {
 			SmartDashboard.sendData("Vision Aided is:", "working");
 			drive.setInput(offset);
 			drive.setSetpoint(0);
+			lastdistance = vision.getDistanceTarget();
+			SmartDashboard.sendData("lastdistance1", lastdistance);
 		} else {
 			SmartDashboard.sendData("Vision Aided is:", "not seeing target");
+			drive.stopPID();
+			SmartDashboard.sendData("lastdistance", lastdistance);
+			if(mover == null){
+				driveTrain.stop();
+				mover = new DriveTrainMover(driveTrain, lastdistance, 0.5);
+			}
+			if(!mover.areAnyFinished()){
+				mover.runIteration();
+			}
+			else{
+				driveTrain.stop();
+			}
+			
 		}
 	}
 
@@ -98,8 +126,4 @@ public class GearScore {
 //		}
 //		this.speed = vision.getDistanceTarget() * speedKP;
 //	}
-
-	public boolean isDone() {
-		return done;
-	}
 }

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
-import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 import edu.wpi.first.wpilibj.TalonSRX;
@@ -48,7 +47,6 @@ public class PIDLoop extends PIDSubsystem {
 	protected void initDefaultCommand() {
 		setAbsoluteTolerance(TOLERANCE);
 		getPIDController().setContinuous(false);
-		setOutputRange(-1, 1);
 	}
 
 	@Override
@@ -58,11 +56,12 @@ public class PIDLoop extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
+		SmartDashboard.sendData("GearScoreDisabled", disabled);
 		if (!disabled) {
 			SmartDashboard.sendData("PID Output ", speed * (1 - output));
 			if (drive != null) {
-				drive.getLeftGroup().set(speed * (1 + output));
-				drive.getRightGroup().set(speed * (1 - output));
+				drive.getLeftGroup().set(speed * (1 - output));
+				drive.getRightGroup().set(speed * (1 + output));
 			} else if (talon != null) {
 				talon.set(output);
 			}
@@ -70,7 +69,7 @@ public class PIDLoop extends PIDSubsystem {
 	}
 
 	public double getPIDPosition() {
-		return super.getPosition();
+		return getPosition();
 	}
 
 	// return 0 if neither found, 1 if drivetrain, -1 if talon
@@ -85,16 +84,16 @@ public class PIDLoop extends PIDSubsystem {
 	}
 
 	public void stopPID() {
-		super.disable();
+		disable();
 		disabled = true;
 	}
 
 	public void enablePID() {
-		super.enable();
+		enable();
 		disabled = false;
 	}
 
 	public void setPID(double p, double i, double d) {
-		super.getPIDController().setPID(p, i, d);
+		getPIDController().setPID(p, i, d);
 	}
 }

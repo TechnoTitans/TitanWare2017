@@ -22,8 +22,10 @@ public class PiVisionReader {
 		}
 
 		void update() {
+			String confidenceName = "Cam0_Confidence";
 			double inp = table.getNumber(name, -1);
-			double confidence = table.getNumber("Cam1_Confidence", 0) * this.sensitivity;
+			double confidence = table.getNumber(confidenceName, 0) * this.sensitivity;
+			if (name.equals(confidenceName)) confidence = 1;
 			if (confidence > 0) {
 				if (!receivedOne) {
 					// If this is the first value, there is no other value to go
@@ -50,9 +52,9 @@ public class PiVisionReader {
 
 	public PiVisionReader() {
 		table = NetworkTable.getTable(tableName);
-		targetCenter = new VisionValue("Cam1_X_Offset_From_Center", table, 1.0);
-		distance = new VisionValue("Distance", table, 0.9);
-		confidence = new VisionValue("Cam1_Confidence", table, 0.3);
+		targetCenter = new VisionValue("Cam0_X_Offset_From_Center", table, 0.01);
+		distance = new VisionValue("Cam0_Distance", table, 0.1);
+		confidence = new VisionValue("Cam0_Confidence", table, 0.9);
 	}
 
 	/**
