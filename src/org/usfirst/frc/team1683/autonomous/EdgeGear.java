@@ -5,6 +5,7 @@ import org.usfirst.frc.team1683.driveTrain.PathPoint;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.GearScore;
+import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -14,6 +15,8 @@ import edu.wpi.first.wpilibj.Timer;
  *
  */
 public class EdgeGear extends Autonomous {
+	private GearScore gearScore;
+	
 	private final double speed = 0.3;
 	private boolean right;
 	private Timer timer;
@@ -30,6 +33,8 @@ public class EdgeGear extends Autonomous {
 	public EdgeGear(TankDrive tankDrive, boolean right) {
 		super(tankDrive);
 		this.right = right;
+		gearScore = new GearScore(tankDrive, 0.2, new PiVisionReader());
+		
 		timer = new Timer();
 		if (this.right) {
 			for (int i = 0; i < pathPoints.length; ++i) {
@@ -60,6 +65,7 @@ public class EdgeGear extends Autonomous {
 				}
 				break;
 			case FIND_TARGET:
+				//gearScore.run();
 				break;
 			case END_CASE:
 				tankDrive.stop();

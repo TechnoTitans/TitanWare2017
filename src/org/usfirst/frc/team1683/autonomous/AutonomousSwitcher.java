@@ -21,8 +21,9 @@ public class AutonomousSwitcher {
 		chooser = new SendableChooser();
 		chooser.addDefault("Do nothing", new DoNothing(tankDrive));
 		chooser.addObject("Square Auto", new SquareAuto(tankDrive));
-		chooser.addObject("Edge Gear", new EdgeGear(tankDrive, false));
-		chooser.addObject("Edge Gear2", new EdgeGear(tankDrive, true));
+		chooser.addObject("Edge Gear Left", new EdgeGear(tankDrive, false));
+		chooser.addObject("Edge Gear Right", new EdgeGear(tankDrive, true));
+		chooser.addObject("MiddleGear", new MiddleGear(tankDrive));
 		
 		SmartDashboard.putData("Auto to run", chooser);
 	}

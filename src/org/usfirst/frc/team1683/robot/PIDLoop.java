@@ -59,6 +59,8 @@ public class PIDLoop extends PIDSubsystem {
 		SmartDashboard.sendData("GearScoreDisabled", disabled);
 		if (!disabled) {
 			SmartDashboard.sendData("PID Output ", speed * (1 - output));
+			SmartDashboard.sendData("PIDLeft", speed * (1 - output));
+			SmartDashboard.sendData("PIDRight", speed * (1 + output));
 			if (drive != null) {
 				drive.getLeftGroup().set(speed * (1 - output));
 				drive.getRightGroup().set(speed * (1 + output));

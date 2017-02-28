@@ -2,13 +2,11 @@ package org.usfirst.frc.team1683.scoring;
 
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
-import org.usfirst.frc.team1683.driveTrain.MotorMover;
 import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.robot.PIDLoop;
-import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
+
 /**
  * 
  * @author Yi Liu
@@ -19,88 +17,89 @@ public class GearScore {
 
 	private double errorKP;
 	private double speedKP;
-	private double brightKP;
 
-	private final double DISTANCE_STOP = 2;
-	private final double CONFIDENCE_CUTOFF = 0.3;
+	private final double CONFIDENCE_CUTOFF = 0.28;
 
 	PIDLoop drive;
 	private double p;
 	private double i;
 	private double d;
-	
+
 	private DriveTrainMover mover;
 	private DriveTrain driveTrain;
 
 	private double speed;
 	private double lastdistance;
+	private boolean isRunningPID;
+
+	public boolean isDone;
 
 	public GearScore(DriveTrain driveTrain, double speed, PiVisionReader vision) {
 		this.vision = vision;
 		this.speed = speed;
 		this.driveTrain = driveTrain;
 
+		isDone = false;
+		isRunningPID = true;
 		p = 1.8;
 		i = 0;
 		d = 0;
-		
+		SmartDashboard.prefDouble("ap", p);
+		SmartDashboard.prefDouble("ai", i);
+		SmartDashboard.prefDouble("ad", d);
+
 		errorKP = 2.3;
 		speedKP = 1.3;
 		SmartDashboard.prefDouble("errorkp", errorKP);
 		SmartDashboard.prefDouble("speedkp", speedKP);
-		
 		SmartDashboard.prefDouble("gearspeed", speed);
 
 		drive = new PIDLoop(p, i, d, driveTrain, speed);
-		SmartDashboard.prefDouble("ap", p);
-		SmartDashboard.prefDouble("ai", i);
-		SmartDashboard.prefDouble("ad", d);
 	}
 
 	public void run() {
+		vision.update();
+
 		errorKP = SmartDashboard.getDouble("errorkp");
 		speedKP = SmartDashboard.getDouble("speedkp");
-		brightKP = SmartDashboard.getDouble("brightkp");
-		
+
 		speed = SmartDashboard.getDouble("gearspeed");
 		drive.setSpeed(speed);
 
-		vision.update();
-
 		double offset = vision.getOffset(); // between -0.5 and 0.5
 		double confidence = vision.getConfidence();
+		double distance = vision.getDistanceTarget();
 		SmartDashboard.sendData("GearScore offset", offset);
 		SmartDashboard.sendData("GearScore confidence", confidence);
+		SmartDashboard.sendData("GearScore distance", distance);
 
 		if (DriverStation.leftStick.getRawButton(2)) {
 			setPID();
 		}
-		
-//		SmartDashboard.sendData("Gear Speed", speed);
-//		drive.setSpeed(speed);
-//		changeBasedDistance();
 
-		if (confidence > CONFIDENCE_CUTOFF) {
-			SmartDashboard.sendData("Vision Aided is:", "working");
+		if (confidence < CONFIDENCE_CUTOFF)
+			isRunningPID = false;
+
+		if (isRunningPID) {
+			SmartDashboard.sendData("Vision Aided:", "working");
 			drive.setInput(offset);
 			drive.setSetpoint(0);
-			lastdistance = vision.getDistanceTarget();
-			SmartDashboard.sendData("lastdistance1", lastdistance);
+			lastdistance = distance;
+			SmartDashboard.sendData("Last Distance1", lastdistance);
 		} else {
-			SmartDashboard.sendData("Vision Aided is:", "not seeing target");
+			SmartDashboard.sendData("Vision Aided:", "can't see target");
 			drive.stopPID();
-			SmartDashboard.sendData("lastdistance", lastdistance);
-			if(mover == null){
+			SmartDashboard.sendData("Last Distance", lastdistance);
+			if (mover == null) {
 				driveTrain.stop();
-				mover = new DriveTrainMover(driveTrain, lastdistance, 0.5);
+				mover = new DriveTrainMover(driveTrain, lastdistance, speed);
 			}
-			if(!mover.areAnyFinished()){
+			if (mover != null && !mover.areAnyFinished()) {
 				mover.runIteration();
-			}
-			else{
+			} else {
 				driveTrain.stop();
+				isDone = true;
 			}
-			
 		}
 	}
 
@@ -113,17 +112,21 @@ public class GearScore {
 
 	public void disable() {
 		drive.stopPID();
+		mover = null;
 	}
 
 	public void enable() {
 		drive.enablePID();
 	}
 
-//	public void changeBasedDistance() {
-//		if (vision.getDistanceTarget() < DISTANCE_STOP) {
-//			speed = 0;
-//			return;
-//		}
-//		this.speed = vision.getDistanceTarget() * speedKP;
-//	}
+	public boolean isDone() {
+		return isDone;
+	}
+	// public void changeBasedDistance() {
+	// if (vision.getDistanceTarget() < DISTANCE_STOP) {
+	// speed = 0;
+	// return;
+	// }
+	// this.speed = vision.getDistanceTarget() * speedKP;
+	// }
 }

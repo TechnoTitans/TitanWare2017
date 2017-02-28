@@ -77,13 +77,13 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		SmartDashboard.sendData("gyro", gyro.getAngle());
 		auto.run();
 	}
 
 	@Override
 	public void teleopInit() {
 		drive.stop();
-		SmartDashboard.sendData("gyro", gyro.getAngle());
 		endGameTimer.start();
 	}
 
