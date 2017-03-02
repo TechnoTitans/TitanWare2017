@@ -20,5 +20,8 @@ public class SquareAuto extends Autonomous {
 		if (!path.isDone()) {
 			path.run();
 		}
+		else{
+			tankDrive.stop();
+		}
 	}
 }

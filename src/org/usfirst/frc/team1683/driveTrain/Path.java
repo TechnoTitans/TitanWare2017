@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1683.driveTrain;
 
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+
 /**
  * 
  * @author Pran
@@ -78,6 +80,7 @@ public class Path {
 				mover = new DriveTrainMover(driveTrain, path[pathIndex].getDistance(), speed);
 				isTurning = false;
 				currentHeading = path[pathIndex].getAngle();
+				driveTrain.stop();
 			} else {
 				turner.run();
 			}
@@ -85,7 +88,9 @@ public class Path {
 			mover.runIteration();
 			if (isMoverDone()) {
 				pathIndex++;
+				SmartDashboard.sendData("pathIndex", pathIndex);
 				if (!isDone()) {
+					SmartDashboard.sendData("path length", path.length);
 					turner = new DriveTrainTurner(driveTrain, path[pathIndex].getAngle() - currentHeading, Math.abs(speed));
 					isTurning = true;
 				}

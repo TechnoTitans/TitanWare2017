@@ -14,7 +14,7 @@ public class DriveTrainTurner {
 	private double speed;
 	private double angle;
 	private boolean done = false;
-	private final double ANGLE_TOLERANCE = 2;
+	private final double ANGLE_TOLERANCE = 4;
 	/**
 	 * Creates a DriveTrainTurner
 	 * @param driveTrain The drive train

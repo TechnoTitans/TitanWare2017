@@ -2,7 +2,6 @@ package org.usfirst.frc.team1683.scoring;
 
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
-import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.robot.PIDLoop;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
@@ -18,12 +17,9 @@ public class GearScore {
 	private double errorKP;
 	private double speedKP;
 
-	private final double CONFIDENCE_CUTOFF = 0.28;
+	private final double CONFIDENCE_CUTOFF = 0.3;
 
 	PIDLoop drive;
-	private double p;
-	private double i;
-	private double d;
 
 	private DriveTrainMover mover;
 	private DriveTrain driveTrain;
@@ -34,19 +30,13 @@ public class GearScore {
 
 	public boolean isDone;
 
-	public GearScore(DriveTrain driveTrain, double speed, PiVisionReader vision) {
+	public GearScore(DriveTrain driveTrain, double speed, PiVisionReader vision, double p, double i, double d) {
 		this.vision = vision;
 		this.speed = speed;
 		this.driveTrain = driveTrain;
 
 		isDone = false;
 		isRunningPID = true;
-		p = 1.8;
-		i = 0;
-		d = 0;
-		SmartDashboard.prefDouble("ap", p);
-		SmartDashboard.prefDouble("ai", i);
-		SmartDashboard.prefDouble("ad", d);
 
 		errorKP = 2.3;
 		speedKP = 1.3;
@@ -73,11 +63,7 @@ public class GearScore {
 		SmartDashboard.sendData("GearScore confidence", confidence);
 		SmartDashboard.sendData("GearScore distance", distance);
 
-		if (DriverStation.leftStick.getRawButton(2)) {
-			setPID();
-		}
-
-		if (confidence < CONFIDENCE_CUTOFF)
+		if (confidence < CONFIDENCE_CUTOFF || distance < 40)
 			isRunningPID = false;
 
 		if (isRunningPID) {
@@ -103,15 +89,9 @@ public class GearScore {
 		}
 	}
 
-	public void setPID() {
-		p = SmartDashboard.getDouble("ap");
-		i = SmartDashboard.getDouble("ai");
-		d = SmartDashboard.getDouble("ad");
-		drive.setPID(p, i, d);
-	}
-
 	public void disable() {
 		drive.stopPID();
+		isRunningPID = true;
 		mover = null;
 	}
 

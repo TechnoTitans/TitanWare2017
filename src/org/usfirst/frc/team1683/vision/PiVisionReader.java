@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1683.vision;
 
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class PiVisionReader {
@@ -25,7 +27,8 @@ public class PiVisionReader {
 			String confidenceName = "Cam0_Confidence";
 			double inp = table.getNumber(name, -1);
 			double confidence = table.getNumber(confidenceName, 0) * this.sensitivity;
-			if (name.equals(confidenceName)) confidence = 1;
+			if (name.equals(confidenceName))
+				confidence = 1;
 			if (confidence > 0) {
 				if (!receivedOne) {
 					// If this is the first value, there is no other value to go
@@ -40,20 +43,16 @@ public class PiVisionReader {
 		double getValue() {
 			return value;
 		}
-
-		// void log() {
-		// SmartDashboard.sendData(name + "_unfiltered", table.getNumber(name,
-		// -1));
-		// SmartDashboard.sendData(name + "_filtered", getValue());
-		// }
 	}
 
-	private VisionValue targetCenter, distance, confidence;
+	private VisionValue targetCenter1, targetCenter2, distance1, distance2, confidence;
 
 	public PiVisionReader() {
 		table = NetworkTable.getTable(tableName);
-		targetCenter = new VisionValue("Cam0_X_Offset_From_Center", table, 0.5);
-		distance = new VisionValue("Cam0_Distance", table, 0.1);
+		targetCenter1 = new VisionValue("Cam0_X_Offset_From_Center", table, 1.0);
+		targetCenter2 = new VisionValue("Cam1_X_Offset_From_Center", table, 1.0);
+		distance1 = new VisionValue("Cam0_Distance", table, 0.1);
+		distance2 = new VisionValue("Cam1_Distance", table, 0.1);
 		confidence = new VisionValue("Cam0_Confidence", table, 0.9);
 	}
 
@@ -63,24 +62,37 @@ public class PiVisionReader {
 	 *         on the left
 	 */
 	public double getOffset() {
-		return targetCenter.getValue() / 100.0;
+		double offset1 = targetCenter1.getValue();
+		double offset2 = targetCenter2.getValue();
+		
+		double offset = 0.0;
+		if(offset1 == 0.0 && offset2 ==0.0){
+			offset = 0.0;
+		}
+		else if(offset1 == 0.0){
+			offset = offset2 + 5;
+		}
+		else if(offset2 == 0.0){
+			offset2 = offset1 - 5;
+		}
+		else{
+			offset = (offset1 + offset2) / 100.0;
+		}
+		SmartDashboard.sendData("visionoffset", offset);
+		return offset;
 	}
 
 	public double getDistanceTarget() {
-		return distance.getValue();
+		return (distance1.getValue() + distance2.getValue()) / 2;
 	}
 
 	public void update() {
-		targetCenter.update();
-		distance.update();
+		targetCenter1.update();
+		targetCenter2.update();
+		distance1.update();
+		distance2.update();
 		confidence.update();
 	}
-
-	// public void log() {
-	// targetCenter.log();
-	// distance.log();
-	// confidence.log();
-	// }
 
 	public double getConfidence() {
 		return confidence.getValue();

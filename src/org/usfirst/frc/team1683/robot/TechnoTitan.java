@@ -13,6 +13,7 @@ import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -60,11 +61,10 @@ public class TechnoTitan extends IterativeRobot {
 		leftGroup.enableAntiDrift(left);
 		rightGroup.enableAntiDrift(right);
 		
-		autoSwitch = new AutonomousSwitcher(drive);
+		autoSwitch = new AutonomousSwitcher(drive, piReader);
 		
-		lightRing = new LightRing(HWR.GREEN_LIGHT_LOW);
 		controls = new Controls(drive, lightRing, piReader);
-		lightRing.turnOn();
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	@Override

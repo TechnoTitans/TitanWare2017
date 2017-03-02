@@ -43,16 +43,29 @@ public class Controls {
 	double brightness;
 	public final double MAX_JOYSTICK_SPEED = 1.0;
 	public final double SECOND_JOYSTICK_SPEED = 0.8;
+	public final double THIRD_JOYSTICK_SPEED = 0.6;
+	public final double FOURTH_JOYSTICK_SPEED = 0.6;
+
+	private double p;
+	private double i;
+	private double d;
 
 	public Controls(DriveTrain drive, LightRing light, PiVisionReader piReader) {
 		this.drive = drive;
 		this.light = light;
 		this.piReader = piReader;
 
+		p = 1.8;
+		i = 0;
+		d = 0;
+		SmartDashboard.prefDouble("ap", p);
+		SmartDashboard.prefDouble("ai", i);
+		SmartDashboard.prefDouble("ad", d);
+
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
 
-		gearScore = new GearScore(drive, 0.2, piReader);
+		gearScore = new GearScore(drive, 0.2, piReader, p, i, d);
 
 		frontMode = true;
 		toggleWinch = false;
@@ -76,11 +89,13 @@ public class Controls {
 		if (checkToggle(HWR.LEFT_JOYSTICK, HWR.TOGGLE_VISION_AID)) {
 			visionAidedMovement = !visionAidedMovement;
 		}
+
 		SmartDashboard.sendData("Vision Aided", visionAidedMovement);
 		if (!visionAidedMovement) {
 			if (gearScore != null) {
 				gearScore.disable();
 				gearScore = null;
+				getPID();
 			}
 
 			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
@@ -88,11 +103,9 @@ public class Controls {
 			else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
 				maxPower = SECOND_JOYSTICK_SPEED;
 			else if (DriverStation.leftStick.getRawButton(HWR.ADD_POWER))
-				maxPower += 0.01;
+				maxPower = THIRD_JOYSTICK_SPEED;
 			else if (DriverStation.leftStick.getRawButton(HWR.SUBTRACT_POWER))
-				maxPower -= 0.01;
-			if (maxPower > 1.0)
-				maxPower = 1.0;
+				maxPower = FOURTH_JOYSTICK_SPEED;
 
 			SmartDashboard.sendData("Drive Power", maxPower);
 			if (frontMode) {
@@ -106,27 +119,16 @@ public class Controls {
 			drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
 		} else {
 			if (gearScore == null) {
-				gearScore = new GearScore(drive, 0.2, piReader);
+				gearScore = new GearScore(drive, 0.2, piReader, p, i, d);
 			}
 			gearScore.enable();
 			gearScore.run();
+
+			if (piReader.getConfidence() < 0.3 || piReader.getDistanceTarget() < 40) {
+				winch.turnOn();
+			} else
+				winch.stop();
 		}
-
-		// light ring
-//		brightness = SmartDashboard.getDouble("brightness");
-//		SmartDashboard.sendData("Lightring Brightness", brightness);
-//		light.setBrightness(brightness);
-
-//		piReader.update();
-//		SmartDashboard.sendData("confidencecontrols", piReader.getConfidence());
-//		if (piReader.getConfidence() < 0.28) {
-//			SmartDashboard.sendData("winch is truning", true);
-//			winch.turnOn();
-//		}
-//		else{
-//			SmartDashboard.sendData("winch is truning", false);
-//			winch.stop();
-//		}
 
 		// intake
 		if (DriverStation.auxStick.getRawButton(HWR.TURN_INTAKE)) {
@@ -135,7 +137,13 @@ public class Controls {
 			intake.stop();
 
 		// winch
-		//toggleMotor(HWR.TOGGLE_WINCH, winch);
+		// toggleMotor(HWR.TOGGLE_WINCH, winch);
+	}
+
+	public void getPID() {
+		p = SmartDashboard.getDouble("ap");
+		i = SmartDashboard.getDouble("ai");
+		d = SmartDashboard.getDouble("ad");
 	}
 
 	/*

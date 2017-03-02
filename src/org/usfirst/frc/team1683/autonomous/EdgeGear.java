@@ -15,13 +15,14 @@ import edu.wpi.first.wpilibj.Timer;
  *
  */
 public class EdgeGear extends Autonomous {
-	private GearScore gearScore;
-	
-	private final double speed = 0.3;
+	GearScore gearScore;
+	PiVisionReader piReader;
+
+	private final double speed = 0.2;
 	private boolean right;
 	private Timer timer;
 	private Path path;
-	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55 * 0.9, 37 * 0.9, true), };
+	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55 * 0.01, 37 * 0.01, true), };
 
 	/**
 	 * Places a gear when not starting in the middle
@@ -30,11 +31,11 @@ public class EdgeGear extends Autonomous {
 	 * @param right
 	 *            True if on the right side, false if on the left side
 	 */
-	public EdgeGear(TankDrive tankDrive, boolean right) {
+	public EdgeGear(TankDrive tankDrive, boolean right, PiVisionReader piReader) {
 		super(tankDrive);
 		this.right = right;
-		gearScore = new GearScore(tankDrive, 0.2, new PiVisionReader());
-		
+		this.piReader = piReader;
+
 		timer = new Timer();
 		if (this.right) {
 			for (int i = 0; i < pathPoints.length; ++i) {
@@ -61,11 +62,14 @@ public class EdgeGear extends Autonomous {
 			case DRIVE_PATH:
 				path.run();
 				if (path.isDone()) {
+					tankDrive.stop();
 					nextState = State.FIND_TARGET;
+					gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0);
 				}
 				break;
 			case FIND_TARGET:
-				//gearScore.run();
+				gearScore.enable();
+				gearScore.run();
 				break;
 			case END_CASE:
 				tankDrive.stop();
@@ -75,7 +79,7 @@ public class EdgeGear extends Autonomous {
 				break;
 		}
 		SmartDashboard.sendData("timer", timer.get());
-		SmartDashboard.sendData("Edge gear state", presentState.toString());
+		SmartDashboard.sendData("Auto State", presentState.toString());
 		presentState = nextState;
 	}
 }
