@@ -65,7 +65,7 @@ public class Controls {
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		intake = new Intake(HWR.INTAKE);
 
-		gearScore = new GearScore(drive, 0.2, piReader, p, i, d);
+		gearScore = new GearScore(drive, 0.2, piReader, p, i, d, "Cont");
 
 		frontMode = true;
 		toggleWinch = false;
@@ -119,7 +119,7 @@ public class Controls {
 			drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
 		} else {
 			if (gearScore == null) {
-				gearScore = new GearScore(drive, 0.2, piReader, p, i, d);
+				gearScore = new GearScore(drive, 0.2, piReader, p, i, d, "Cont");
 			}
 			gearScore.enable();
 			gearScore.run();

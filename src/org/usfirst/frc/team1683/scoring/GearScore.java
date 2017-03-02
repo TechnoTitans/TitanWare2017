@@ -20,6 +20,7 @@ public class GearScore {
 	private final double CONFIDENCE_CUTOFF = 0.3;
 
 	PIDLoop drive;
+	String identifier;
 
 	private DriveTrainMover mover;
 	private DriveTrain driveTrain;
@@ -30,10 +31,12 @@ public class GearScore {
 
 	public boolean isDone;
 
-	public GearScore(DriveTrain driveTrain, double speed, PiVisionReader vision, double p, double i, double d) {
+	public GearScore(DriveTrain driveTrain, double speed, PiVisionReader vision, double p, double i, double d,
+			String identifier) {
 		this.vision = vision;
 		this.speed = speed;
 		this.driveTrain = driveTrain;
+		this.identifier = identifier;
 
 		isDone = false;
 		isRunningPID = true;
@@ -44,7 +47,7 @@ public class GearScore {
 		SmartDashboard.prefDouble("speedkp", speedKP);
 		SmartDashboard.prefDouble("gearspeed", speed);
 
-		drive = new PIDLoop(p, i, d, driveTrain, speed);
+		drive = new PIDLoop(p, i, d, driveTrain, speed, identifier);
 	}
 
 	public void run() {
@@ -59,23 +62,26 @@ public class GearScore {
 		double offset = vision.getOffset(); // between -0.5 and 0.5
 		double confidence = vision.getConfidence();
 		double distance = vision.getDistanceTarget();
-		SmartDashboard.sendData("GearScore offset", offset);
-		SmartDashboard.sendData("GearScore confidence", confidence);
-		SmartDashboard.sendData("GearScore distance", distance);
+		SmartDashboard.sendData(identifier + " GearScore offset", offset);
+		SmartDashboard.sendData(identifier + " GearScore confidence", confidence);
+		SmartDashboard.sendData(identifier + " GearScore distance", distance);
 
-		if (confidence < CONFIDENCE_CUTOFF || distance < 40)
+		if (confidence < CONFIDENCE_CUTOFF || distance < 24){
+			if(lastdistance == 0.0)
+				lastdistance = distance;
 			isRunningPID = false;
+		}
 
 		if (isRunningPID) {
-			SmartDashboard.sendData("Vision Aided:", "working");
+			SmartDashboard.sendData(identifier + " Vision Aided:", "working");
 			drive.setInput(offset);
 			drive.setSetpoint(0);
 			lastdistance = distance;
-			SmartDashboard.sendData("Last Distance1", lastdistance);
+			SmartDashboard.sendData(identifier + " Distance", lastdistance);
 		} else {
-			SmartDashboard.sendData("Vision Aided:", "can't see target");
+			SmartDashboard.sendData(identifier + " Vision Aided:", "can't see target");
 			drive.stopPID();
-			SmartDashboard.sendData("Last Distance", lastdistance);
+			SmartDashboard.sendData(identifier + " Last Distance", lastdistance);
 			if (mover == null) {
 				driveTrain.stop();
 				mover = new DriveTrainMover(driveTrain, lastdistance, speed);

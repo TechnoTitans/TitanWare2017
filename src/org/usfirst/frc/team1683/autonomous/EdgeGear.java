@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Edge gear scoring
- * 
  *
  */
 public class EdgeGear extends Autonomous {
@@ -64,10 +63,13 @@ public class EdgeGear extends Autonomous {
 				if (path.isDone()) {
 					tankDrive.stop();
 					nextState = State.FIND_TARGET;
-					gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0);
+					gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0, "edge");
 				}
 				break;
 			case FIND_TARGET:
+				if(gearScore == null){
+					SmartDashboard.sendData("GearScoreIs", "disabled");
+				}
 				gearScore.enable();
 				gearScore.run();
 				break;

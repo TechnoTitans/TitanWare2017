@@ -16,15 +16,17 @@ public class PIDLoop extends PIDSubsystem {
 
 	private DriveTrain drive;
 	private TalonSRX talon;
+	private String identifier;
 
 	private double input;
 	private boolean disabled;
 	private double speed;
 
-	public PIDLoop(double p, double i, double d, DriveTrain drive, double speed) {
+	public PIDLoop(double p, double i, double d, DriveTrain drive, double speed, String identifier) {
 		super(p, i, d);
 		this.drive = drive;
 		this.speed = speed;
+		this.identifier = identifier;
 
 		disabled = true;
 	}
@@ -58,9 +60,9 @@ public class PIDLoop extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		SmartDashboard.sendData("GearScoreDisabled", disabled);
 		if (!disabled) {
-			SmartDashboard.sendData("PID Output ", speed * (1 - output));
-			SmartDashboard.sendData("PIDLeft", speed * (1 - output));
-			SmartDashboard.sendData("PIDRight", speed * (1 + output));
+			SmartDashboard.sendData(identifier + " PID Output ", speed * (1 - output));
+			SmartDashboard.sendData(identifier + " PIDLeft", speed * (1 - output));
+			SmartDashboard.sendData(identifier + " PIDRight", speed * (1 + output));
 			if (drive != null) {
 				drive.getLeftGroup().set(speed * (1 - output));
 				drive.getRightGroup().set(speed * (1 + output));
