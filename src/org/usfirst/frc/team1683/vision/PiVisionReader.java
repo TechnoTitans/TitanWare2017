@@ -64,18 +64,15 @@ public class PiVisionReader {
 	public double getOffset() {
 		double offset1 = targetCenter1.getValue();
 		double offset2 = targetCenter2.getValue();
-		
+
 		double offset = 0.0;
-		if(offset1 == 0.0 && offset2 ==0.0){
+		if (offset1 == 0.0 && offset2 == 0.0) {
 			offset = 0.0;
-		}
-		else if(offset1 == 0.0){
+		} else if (offset1 == 0.0) {
 			offset = offset2 + 5;
-		}
-		else if(offset2 == 0.0){
+		} else if (offset2 == 0.0) {
 			offset2 = offset1 - 5;
-		}
-		else{
+		} else {
 			offset = (offset1 + offset2) / 100.0;
 		}
 		SmartDashboard.sendData("visionoffset", offset);

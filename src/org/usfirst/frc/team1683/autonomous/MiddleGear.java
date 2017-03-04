@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class MiddleGear extends Autonomous {
 
 	private final double distance;
-	private static final double DEFAULT_DISTANCE = 20096;
+	private static final double DEFAULT_DISTANCE = 112;
 	private final double pixelFromCenter = 10; // pixel (guessing)
 	private final double turnSpeed = 3;
 	private final double distanceFromGoal = 3; // degrees
@@ -30,10 +30,14 @@ public class MiddleGear extends Autonomous {
 	private DriveTrainMover driveTrainMover;
 
 	GearScore gearScore;
+	PiVisionReader piReader;
+	DriveTrainMover mover;
 
-	public MiddleGear(TankDrive tankDrive) {
+	public MiddleGear(TankDrive tankDrive, PiVisionReader piReader) {
 		this(tankDrive, DEFAULT_DISTANCE);
-		gearScore = new GearScore(tankDrive, 0.3, new PiVisionReader(), 1.7, 0.0001, 0, "edge");
+		this.piReader = piReader;
+		gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0, "edge");
+		presentState = State.INIT_CASE;
 	}
 
 	public MiddleGear(TankDrive tankDrive, double distance) {
@@ -47,15 +51,19 @@ public class MiddleGear extends Autonomous {
 			case INIT_CASE:
 				timer = new Timer();
 				timer.start();
-				nextState = State.DRIVE_FORWARD;
-				break;
-			case DRIVE_FORWARD:
-				gearScore.run();
-				if (timer.get() > 10) {
-					gearScore.disable();
-					nextState = State.END_CASE;
+				piReader.update();
+				if (piReader.getConfidence() == 0.0 || 5==5) {
+					nextState = State.NON_VISION_AIDED;
+					mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.4);
 				}
 				break;
+			case NON_VISION_AIDED:
+				mover.runIteration();
+				SmartDashboard.sendData("distance left non vision aided middle gear", mover.getAverageDistanceLeft());
+				if (mover.areAnyFinished() || timer.get() > 4) {
+					tankDrive.stop();
+					nextState = State.END_CASE;
+				}
 			case END_CASE:
 				nextState = State.END_CASE;
 				break;
@@ -63,6 +71,7 @@ public class MiddleGear extends Autonomous {
 				break;
 		}
 		SmartDashboard.sendData("Middle gear state", presentState.toString());
+		SmartDashboard.sendData("middle gear timer", timer.get());
 		presentState = nextState;
 	}
 }

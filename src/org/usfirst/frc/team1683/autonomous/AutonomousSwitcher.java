@@ -24,14 +24,16 @@ public class AutonomousSwitcher {
 		chooser.addObject("Square Auto", new SquareAuto(tankDrive));
 		chooser.addObject("Edge Gear Left", new EdgeGear(tankDrive, false, piReader));
 		chooser.addObject("Edge Gear Right", new EdgeGear(tankDrive, true, piReader));
-		chooser.addObject("MiddleGear", new MiddleGear(tankDrive));
-		
+		chooser.addObject("MiddleGear", new MiddleGear(tankDrive, piReader));
+		chooser.addObject("PassLine", new PassLine(tankDrive));
+
 		SmartDashboard.putData("Auto to run", chooser);
 	}
-	public void setAuto(){
+
+	public void setAuto() {
 		autoSelected = (Autonomous) chooser.getSelected();
 	}
-	
+
 	public Autonomous getAutoSelected() {
 		return autoSelected;
 	}

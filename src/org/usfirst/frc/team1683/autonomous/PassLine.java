@@ -26,6 +26,7 @@ public class PassLine extends Autonomous {
 			case DRIVE_FORWARD:
 				mover.runIteration();
 				if (mover.areAnyFinished()) {
+					tankDrive.stop();
 					nextState = State.STOP;
 				}
 			case STOP:

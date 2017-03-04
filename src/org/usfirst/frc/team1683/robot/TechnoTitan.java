@@ -4,6 +4,7 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
+import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
@@ -24,12 +25,12 @@ public class TechnoTitan extends IterativeRobot {
 
 	TankDrive drive;
 	Timer endGameTimer;
-	
+
 	PiVisionReader piReader;
-	
+
 	Autonomous auto;
 	AutonomousSwitcher autoSwitch;
-	
+
 	LightRing lightRing;
 	Gyro gyro;
 
@@ -43,9 +44,8 @@ public class TechnoTitan extends IterativeRobot {
 	public void robotInit() {
 		endGameTimer = new Timer();
 		gyro = new Gyro(HWR.GYRO);
-		
+
 		piReader = new PiVisionReader();
-		
 
 		AntiDrift left = new AntiDrift(gyro, -1);
 		AntiDrift right = new AntiDrift(gyro, 1);
@@ -60,25 +60,34 @@ public class TechnoTitan extends IterativeRobot {
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
 		leftGroup.enableAntiDrift(left);
 		rightGroup.enableAntiDrift(right);
-		
+
 		autoSwitch = new AutonomousSwitcher(drive, piReader);
-		
+
 		controls = new Controls(drive, lightRing, piReader);
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 
+	private DriveTrainMover mover;
+	// private Timer timer;
+
 	@Override
 	public void autonomousInit() {
 		autoSwitch.setAuto();
-		auto = autoSwitch.getAutoSelected();
-		
+		// auto = autoSwitch.getAutoSelected();
 		gyro.reset();
+		mover = new DriveTrainMover(drive, 112, 0.4);
+		// timer.start();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		SmartDashboard.sendData("gyro", gyro.getAngle());
-		auto.run();
+		// auto.run();
+		mover.runIteration();
+		if (mover.areAnyFinished()) {// || timer.get() > 4) {
+			drive.stop();
+			SmartDashboard.sendData("distance left", mover.getAverageDistanceLeft());
+		}
 	}
 
 	@Override
