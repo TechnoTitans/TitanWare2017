@@ -10,7 +10,7 @@ import org.usfirst.frc.team1683.driveTrain.TankDrive;
  *
  */
 public class PassLine extends Autonomous {
-	public final double distance = 48; // inches
+	public final double distance = 300; // inches
 	DriveTrainMover mover;
 
 	public PassLine(TankDrive tankDrive) {

@@ -18,6 +18,7 @@ public class GearScore {
 	private double speedKP;
 
 	private final double CONFIDENCE_CUTOFF = 0.3;
+	private final double DISTANCE_NOT_SEEN = 67;
 
 	PIDLoop drive;
 	String identifier;
@@ -70,7 +71,7 @@ public class GearScore {
 
 		if (confidence < CONFIDENCE_CUTOFF || distance < 24){
 			if(lastdistance == 0.0)
-				lastdistance = distance;
+				lastdistance = DISTANCE_NOT_SEEN;
 			isRunningPID = false;
 		}
 		if(isEnabled){

@@ -49,9 +49,9 @@ public class HWR {
 	public static final int TURN_INTAKE = HWP.BUTTON_2;
 	
 	//drive
-	public static final int FULL_POWER = HWP.BUTTON_5;
-	public static final int SECOND_POWER = HWP.BUTTON_4;
-	public static final int ADD_POWER = HWP.BUTTON_5;
-	public static final int SUBTRACT_POWER = HWP.BUTTON_4;
+	public static final int FULL_POWER = HWP.BUTTON_11;
+	public static final int SECOND_POWER = HWP.BUTTON_10;
+	public static final int THIRD_POWER = HWP.BUTTON_6;
+	public static final int FOURTH_POWER = HWP.BUTTON_7;
 	public static final int TOGGLE_VISION_AID = HWP.BUTTON_3;
 }
