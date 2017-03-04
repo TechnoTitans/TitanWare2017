@@ -43,7 +43,7 @@ public class Controls {
 	double brightness;
 	public final double MAX_JOYSTICK_SPEED = 1.0;
 	public final double SECOND_JOYSTICK_SPEED = 0.8;
-	public final double THIRD_JOYSTICK_SPEED = 0.6;
+	public final double THIRD_JOYSTICK_SPEED = 0.7;
 	public final double FOURTH_JOYSTICK_SPEED = 0.6;
 
 	private double p;
@@ -123,11 +123,6 @@ public class Controls {
 			}
 			gearScore.enable();
 			gearScore.run();
-
-			if (piReader.getConfidence() < 0.3 || piReader.getDistanceTarget() < 40) {
-				winch.turnOn();
-			} else
-				winch.stop();
 		}
 
 		// intake
@@ -137,7 +132,7 @@ public class Controls {
 			intake.stop();
 
 		// winch
-		// toggleMotor(HWR.TOGGLE_WINCH, winch);
+		toggleMotor(HWR.TOGGLE_WINCH, winch);
 	}
 
 	public void getPID() {

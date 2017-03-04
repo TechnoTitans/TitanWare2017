@@ -28,6 +28,7 @@ public class GearScore {
 	private double speed;
 	private double lastdistance;
 	private boolean isRunningPID;
+	private boolean isEnabled;
 
 	public boolean isDone;
 
@@ -40,6 +41,7 @@ public class GearScore {
 
 		isDone = false;
 		isRunningPID = true;
+		isEnabled = true;
 
 		errorKP = 2.3;
 		speedKP = 1.3;
@@ -71,48 +73,45 @@ public class GearScore {
 				lastdistance = distance;
 			isRunningPID = false;
 		}
-
-		if (isRunningPID) {
-			SmartDashboard.sendData(identifier + " Vision Aided:", "working");
-			drive.setInput(offset);
-			drive.setSetpoint(0);
-			lastdistance = distance;
-			SmartDashboard.sendData(identifier + " Distance", lastdistance);
-		} else {
-			SmartDashboard.sendData(identifier + " Vision Aided:", "can't see target");
-			drive.stopPID();
-			SmartDashboard.sendData(identifier + " Last Distance", lastdistance);
-			if (mover == null) {
-				driveTrain.stop();
-				mover = new DriveTrainMover(driveTrain, lastdistance, speed);
-			}
-			if (mover != null && !mover.areAnyFinished()) {
-				mover.runIteration();
+		if(isEnabled){
+			if (isRunningPID) {
+				SmartDashboard.sendData(identifier + " Vision Aided:", "working");
+				drive.setInput(offset);
+				drive.setSetpoint(0);
+				lastdistance = distance;
+				SmartDashboard.sendData(identifier + " Distance", lastdistance);
 			} else {
-				driveTrain.stop();
-				isDone = true;
+				SmartDashboard.sendData(identifier + " Vision Aided:", "can't see target");
+				drive.stopPID();
+				SmartDashboard.sendData(identifier + " Last Distance", lastdistance);
+				if (mover == null) {
+					driveTrain.stop();
+					mover = new DriveTrainMover(driveTrain, lastdistance, speed);
+				}
+				if (mover != null && !mover.areAnyFinished()) {
+					mover.runIteration();
+				} else {
+					driveTrain.stop();
+					isDone = true;
+				}
 			}
 		}
 	}
 
 	public void disable() {
 		drive.stopPID();
-		isRunningPID = true;
 		mover = null;
+		isEnabled = false;
+		driveTrain.stop();
+		
 	}
 
 	public void enable() {
 		drive.enablePID();
+		isEnabled = true;
 	}
 
 	public boolean isDone() {
 		return isDone;
 	}
-	// public void changeBasedDistance() {
-	// if (vision.getDistanceTarget() < DISTANCE_STOP) {
-	// speed = 0;
-	// return;
-	// }
-	// this.speed = vision.getDistanceTarget() * speedKP;
-	// }
 }

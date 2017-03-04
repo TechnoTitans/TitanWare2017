@@ -67,9 +67,6 @@ public class EdgeGear extends Autonomous {
 				}
 				break;
 			case FIND_TARGET:
-				if(gearScore == null){
-					SmartDashboard.sendData("GearScoreIs", "disabled");
-				}
 				gearScore.enable();
 				gearScore.run();
 				break;
