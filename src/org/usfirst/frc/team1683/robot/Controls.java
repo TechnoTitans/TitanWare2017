@@ -102,9 +102,9 @@ public class Controls {
 				maxPower = MAX_JOYSTICK_SPEED;
 			else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
 				maxPower = SECOND_JOYSTICK_SPEED;
-			else if (DriverStation.leftStick.getRawButton(HWR.ADD_POWER))
+			else if (DriverStation.leftStick.getRawButton(HWR.THIRD_POWER))
 				maxPower = THIRD_JOYSTICK_SPEED;
-			else if (DriverStation.leftStick.getRawButton(HWR.SUBTRACT_POWER))
+			else if (DriverStation.leftStick.getRawButton(HWR.FOURTH_POWER))
 				maxPower = FOURTH_JOYSTICK_SPEED;
 
 			SmartDashboard.sendData("Drive Power", maxPower);

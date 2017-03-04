@@ -51,19 +51,16 @@ public class MiddleGear extends Autonomous {
 			case INIT_CASE:
 				timer = new Timer();
 				timer.start();
-				piReader.update();
-				if (piReader.getConfidence() == 0.0 || 5==5) {
-					nextState = State.NON_VISION_AIDED;
-					mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.4);
-				}
+				nextState = State.NON_VISION_AIDED;
+				mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.4);
 				break;
 			case NON_VISION_AIDED:
 				mover.runIteration();
-				SmartDashboard.sendData("distance left non vision aided middle gear", mover.getAverageDistanceLeft());
 				if (mover.areAnyFinished() || timer.get() > 4) {
 					tankDrive.stop();
 					nextState = State.END_CASE;
 				}
+				break;
 			case END_CASE:
 				nextState = State.END_CASE;
 				break;

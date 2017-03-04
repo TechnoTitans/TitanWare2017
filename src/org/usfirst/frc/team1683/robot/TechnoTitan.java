@@ -66,28 +66,18 @@ public class TechnoTitan extends IterativeRobot {
 		controls = new Controls(drive, lightRing, piReader);
 		CameraServer.getInstance().startAutomaticCapture();
 	}
-
-	private DriveTrainMover mover;
-	// private Timer timer;
-
+	
 	@Override
 	public void autonomousInit() {
 		autoSwitch.setAuto();
-		// auto = autoSwitch.getAutoSelected();
+		auto = autoSwitch.getAutoSelected();
 		gyro.reset();
-		mover = new DriveTrainMover(drive, 112, 0.4);
-		// timer.start();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		SmartDashboard.sendData("gyro", gyro.getAngle());
-		// auto.run();
-		mover.runIteration();
-		if (mover.areAnyFinished()) {// || timer.get() > 4) {
-			drive.stop();
-			SmartDashboard.sendData("distance left", mover.getAverageDistanceLeft());
-		}
+		auto.run();
 	}
 
 	@Override
