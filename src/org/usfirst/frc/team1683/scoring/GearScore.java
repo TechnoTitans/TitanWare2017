@@ -69,12 +69,12 @@ public class GearScore {
 		SmartDashboard.sendData(identifier + " GearScore confidence", confidence);
 		SmartDashboard.sendData(identifier + " GearScore distance", distance);
 
-		if (confidence < CONFIDENCE_CUTOFF || distance < 24){
-			if(lastdistance == 0.0)
+		if (confidence < CONFIDENCE_CUTOFF || distance < 10) {
+			if (lastdistance == 0.0)
 				lastdistance = DISTANCE_NOT_SEEN;
 			isRunningPID = false;
 		}
-		if(isEnabled){
+		if (isEnabled) {
 			if (isRunningPID) {
 				SmartDashboard.sendData(identifier + " Vision Aided:", "working");
 				drive.setInput(offset);
@@ -104,7 +104,7 @@ public class GearScore {
 		mover = null;
 		isEnabled = false;
 		driveTrain.stop();
-		
+
 	}
 
 	public void enable() {

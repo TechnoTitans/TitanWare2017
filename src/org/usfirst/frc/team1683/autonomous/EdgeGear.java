@@ -17,11 +17,11 @@ public class EdgeGear extends Autonomous {
 	GearScore gearScore;
 	PiVisionReader piReader;
 
-	private final double speed = 0.2;
+	private final double speed = 0.3;
 	private boolean right;
 	private Timer timer;
 	private Path path;
-	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55 * 0.01, 37 * 0.01, true), };
+	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55 * 0.001, 37 * 0.001, true), };
 
 	/**
 	 * Places a gear when not starting in the middle

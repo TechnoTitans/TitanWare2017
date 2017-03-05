@@ -50,8 +50,6 @@ public class HWR {
 	
 	//drive
 	public static final int FULL_POWER = HWP.BUTTON_11;
-	public static final int SECOND_POWER = HWP.BUTTON_10;
-	public static final int THIRD_POWER = HWP.BUTTON_6;
-	public static final int FOURTH_POWER = HWP.BUTTON_7;
+	public static final int SECOND_POWER = HWP.BUTTON_6;
 	public static final int TOGGLE_VISION_AID = HWP.BUTTON_3;
 }

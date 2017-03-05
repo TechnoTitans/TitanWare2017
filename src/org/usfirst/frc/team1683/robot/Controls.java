@@ -42,9 +42,7 @@ public class Controls {
 
 	double brightness;
 	public final double MAX_JOYSTICK_SPEED = 1.0;
-	public final double SECOND_JOYSTICK_SPEED = 0.8;
-	public final double THIRD_JOYSTICK_SPEED = 0.7;
-	public final double FOURTH_JOYSTICK_SPEED = 0.6;
+	public final double SECOND_JOYSTICK_SPEED = 0.7;
 
 	private double p;
 	private double i;
@@ -100,12 +98,8 @@ public class Controls {
 
 			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
 				maxPower = MAX_JOYSTICK_SPEED;
-			else if (DriverStation.rightStick.getRawButton(HWR.SECOND_POWER))
+			else if (DriverStation.leftStick.getRawButton(HWR.SECOND_POWER))
 				maxPower = SECOND_JOYSTICK_SPEED;
-			else if (DriverStation.leftStick.getRawButton(HWR.THIRD_POWER))
-				maxPower = THIRD_JOYSTICK_SPEED;
-			else if (DriverStation.leftStick.getRawButton(HWR.FOURTH_POWER))
-				maxPower = FOURTH_JOYSTICK_SPEED;
 
 			SmartDashboard.sendData("Drive Power", maxPower);
 			if (frontMode) {
