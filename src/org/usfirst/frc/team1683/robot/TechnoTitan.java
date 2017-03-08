@@ -4,7 +4,6 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
-import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
@@ -66,7 +65,7 @@ public class TechnoTitan extends IterativeRobot {
 		controls = new Controls(drive, lightRing, piReader);
 		CameraServer.getInstance().startAutomaticCapture();
 	}
-	
+
 	@Override
 	public void autonomousInit() {
 		autoSwitch.setAuto();

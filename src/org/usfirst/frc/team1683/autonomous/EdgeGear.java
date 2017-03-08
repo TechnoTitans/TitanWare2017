@@ -6,7 +6,6 @@ import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.GearScore;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
-
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -16,26 +15,25 @@ import edu.wpi.first.wpilibj.Timer;
 public class EdgeGear extends Autonomous {
 	GearScore gearScore;
 	PiVisionReader piReader;
-
-	private final double speed = 0.3;
 	private boolean right;
-	private Timer timer;
 	private Path path;
+	
+	private boolean shakeRight = true;
+	private Timer timer;
+	private Timer timer2;
+	
+	private final double SPEED = 0.3;
+
 	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55, 37, true), };
 
-	/**
-	 * Places a gear when not starting in the middle
-	 * 
-	 * @param tankDrive
-	 * @param right
-	 *            True if on the right side, false if on the left side
-	 */
 	public EdgeGear(TankDrive tankDrive, boolean right, PiVisionReader piReader) {
 		super(tankDrive);
 		this.right = right;
 		this.piReader = piReader;
 
 		timer = new Timer();
+		timer2 = new Timer();
+		
 		if (this.right) {
 			for (int i = 0; i < pathPoints.length; ++i) {
 				PathPoint p = pathPoints[i];
@@ -48,29 +46,41 @@ public class EdgeGear extends Autonomous {
 		switch (presentState) {
 			case INIT_CASE:
 				timer.start();
-				// driveTrainMover = new DriveTrainMover(tankDrive, distance,
-				// speed);
-				path = new Path(tankDrive, pathPoints, speed);
-				int ind = 0;
-				for (PathPoint point : pathPoints) {
-					SmartDashboard.sendData("point values " + ind, point.toString());
-					++ind;
-				}
+				path = new Path(tankDrive, pathPoints, SPEED);
 				nextState = State.DRIVE_PATH;
 				break;
 			case DRIVE_PATH:
 				path.run();
-				if (path.isDone() || timer.get() > 13) {
+				if (path.isDone() || timer.get() > 6) {
 					tankDrive.stop();
 					nextState = State.FIND_TARGET;
-					//gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0, "edge");
+					gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0, "edge");
+					timer2.start();
 				}
 				break;
 			case FIND_TARGET:
-				nextState = State.END_CASE;
+				gearScore.run();
+				gearScore.enable();
+				if (gearScore.isDone() || timer.get() > 10) {
+					gearScore.disable();
+					tankDrive.stop();
+					nextState = State.SHAKE;
+					timer2.start();
+				}
+				break;
+			case SHAKE:
+				if (timer.get() > 14) {
+					nextState = State.END_CASE;
+					tankDrive.stop();
+				} else {
+					tankDrive.turnInPlace(shakeRight, 0.15);
+					if (timer2.get() > 0.18) {
+						shakeRight = !shakeRight;
+						timer2.reset();
+					}
+				}
 				break;
 			case END_CASE:
-				tankDrive.stop();
 				nextState = State.END_CASE;
 				break;
 			default:
