@@ -21,7 +21,7 @@ public class EdgeGear extends Autonomous {
 	private boolean right;
 	private Timer timer;
 	private Path path;
-	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55 * 0.001, 37 * 0.001, true), };
+	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55, 37, true), };
 
 	/**
 	 * Places a gear when not starting in the middle
@@ -60,15 +60,14 @@ public class EdgeGear extends Autonomous {
 				break;
 			case DRIVE_PATH:
 				path.run();
-				if (path.isDone()) {
+				if (path.isDone() || timer.get() > 13) {
 					tankDrive.stop();
 					nextState = State.FIND_TARGET;
-					gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0, "edge");
+					//gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0, "edge");
 				}
 				break;
 			case FIND_TARGET:
-				gearScore.enable();
-				gearScore.run();
+				nextState = State.END_CASE;
 				break;
 			case END_CASE:
 				tankDrive.stop();

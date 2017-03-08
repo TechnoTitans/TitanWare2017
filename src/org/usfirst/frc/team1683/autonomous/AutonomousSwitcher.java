@@ -20,11 +20,11 @@ public class AutonomousSwitcher {
 
 	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader) {
 		chooser = new SendableChooser();
-		chooser.addDefault("Do nothing", new DoNothing(tankDrive));
+		chooser.addObject("Do nothing", new DoNothing(tankDrive));
 		chooser.addObject("Square Auto", new SquareAuto(tankDrive));
 		chooser.addObject("Edge Gear Left", new EdgeGear(tankDrive, false, piReader));
 		chooser.addObject("Edge Gear Right", new EdgeGear(tankDrive, true, piReader));
-		chooser.addObject("MiddleGear", new MiddleGear(tankDrive, piReader));
+		chooser.addDefault("MiddleGear", new MiddleGear(tankDrive, piReader));
 		chooser.addObject("PassLine", new PassLine(tankDrive));
 
 		SmartDashboard.putData("Auto to run", chooser);

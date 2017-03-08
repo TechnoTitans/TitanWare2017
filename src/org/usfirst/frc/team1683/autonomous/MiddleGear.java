@@ -27,8 +27,10 @@ public class MiddleGear extends Autonomous {
 	private final double distanceFromGoal = 3; // degrees
 	private final double speed = 0.5;
 	private Timer timer;
+	private Timer timer2;
 	private DriveTrainMover driveTrainMover;
 
+	private boolean shakeRight = true;
 	GearScore gearScore;
 	PiVisionReader piReader;
 	DriveTrainMover mover;
@@ -48,24 +50,46 @@ public class MiddleGear extends Autonomous {
 
 	public void run() {// TODO feedback
 		switch (presentState) {
-			case INIT_CASE:
-				timer = new Timer();
-				timer.start();
+		case INIT_CASE:
+			timer = new Timer();
+			timer2 = new Timer();
+			nextState = State.DRIVE_FORWARD;
+			mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.3);
+			break;
+		case DRIVE_FORWARD:
+			mover.runIteration();
+			if (mover.areAnyFinished()) {
+				tankDrive.stop();
+				mover = new DriveTrainMover(tankDrive, -1, 0.3);
 				nextState = State.NON_VISION_AIDED;
-				mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.3);
-				break;
-			case NON_VISION_AIDED:
-				mover.runIteration();
-				if (mover.areAnyFinished() || timer.get() > 4) {
-					tankDrive.stop();
-					nextState = State.END_CASE;
-				}
-				break;
-			case END_CASE:
+			}
+			break;
+		case NON_VISION_AIDED:
+			mover.runIteration();
+			if (mover.areAnyFinished()) {
+				tankDrive.stop();
+				nextState = State.SHAKE;
+				timer.start();
+				timer2.start();
+			}
+			break;
+		case SHAKE:
+			if (timer2.get() > 3) {
 				nextState = State.END_CASE;
-				break;
-			default:
-				break;
+				tankDrive.stop();
+			} else {
+				tankDrive.turnInPlace(shakeRight, 0.15);
+				if (timer.get() > 0.18 ) {
+					shakeRight = !shakeRight;
+					timer.reset();
+				}
+			}
+			break;
+		case END_CASE:
+			nextState = State.END_CASE;
+			break;
+		default:
+			break;
 		}
 		SmartDashboard.sendData("Middle gear state", presentState.toString());
 		SmartDashboard.sendData("middle gear timer", timer.get());

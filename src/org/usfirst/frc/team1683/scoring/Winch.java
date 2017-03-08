@@ -10,7 +10,7 @@ public class Winch implements ScoringMotor{
 	TalonSRX winchMotor2;
 	
 	LimitSwitch limitSwitch;
-	public static final double LIFT_SPEED = 0.75;//TODO
+	public static final double LIFT_SPEED = 0.95;//TODO
 
 	public Winch(int channel1, int channel2){//, LimitSwitch limitSwitch) {
 		this.winchMotor1 = new TalonSRX(channel1, false);
