@@ -27,9 +27,9 @@ public class PassLine extends Autonomous {
 				mover.runIteration();
 				if (mover.areAnyFinished()) {
 					tankDrive.stop();
-					nextState = State.STOP;
+					nextState = State.END_CASE;
 				}
-			case STOP:
+			case END_CASE:
 				tankDrive.set(0);
 				break;
 			default:

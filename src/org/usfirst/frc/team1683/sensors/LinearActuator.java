@@ -47,10 +47,10 @@ public class LinearActuator extends TalonSRX {
 		// to
 		// rotations
 
-		SmartDashboard.sendData("Talon " + super.getDeviceID(), "Position(inches)" + posInInches);
-		SmartDashboard.sendData("Talon " + super.getDeviceID(), "Position(rotations)" + super.getPosition());
+		SmartDashboard.sendData("Talon " + super.getDeviceID(), "Position(inches)" + posInInches, false);
+		SmartDashboard.sendData("Talon " + super.getDeviceID(), "Position(rotations)" + super.getPosition(), false);
 
-		SmartDashboard.sendData("Linear Actuator error", super.getError());
+		SmartDashboard.sendData("Linear Actuator error", super.getError(), false);
 	}
 
 	public double clampInches(double posInInches) {

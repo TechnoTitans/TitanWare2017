@@ -61,10 +61,10 @@ public class MiddleGear extends Autonomous {
 			if (mover.areAnyFinished()) {
 				tankDrive.stop();
 				mover = new DriveTrainMover(tankDrive, -1, 0.3);
-				nextState = State.NON_VISION_AIDED;
+				nextState = State.BACK_UP;
 			}
 			break;
-		case NON_VISION_AIDED:
+		case BACK_UP:
 			mover.runIteration();
 			if (mover.areAnyFinished()) {
 				tankDrive.stop();
@@ -91,8 +91,8 @@ public class MiddleGear extends Autonomous {
 		default:
 			break;
 		}
-		SmartDashboard.sendData("Middle gear state", presentState.toString());
-		SmartDashboard.sendData("middle gear timer", timer.get());
+		SmartDashboard.sendData("Auto State", presentState.toString(), true);
+		SmartDashboard.sendData("Auto Timer", timer.get(), true);
 		presentState = nextState;
 	}
 }

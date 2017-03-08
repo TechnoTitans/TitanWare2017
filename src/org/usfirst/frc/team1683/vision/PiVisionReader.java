@@ -75,7 +75,7 @@ public class PiVisionReader {
 		} else {
 			offset = (offset1 + offset2) / 100.0;
 		}
-		SmartDashboard.sendData("visionoffset", offset);
+		SmartDashboard.sendData("visionoffset", offset, false);
 		return offset;
 	}
 

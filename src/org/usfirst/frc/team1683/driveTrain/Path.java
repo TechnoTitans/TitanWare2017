@@ -88,9 +88,9 @@ public class Path {
 			mover.runIteration();
 			if (isMoverDone()) {
 				pathIndex++;
-				SmartDashboard.sendData("pathIndex", pathIndex);
+				SmartDashboard.sendData("pathIndex", pathIndex, false);
 				if (!isDone()) {
-					SmartDashboard.sendData("path length", path.length);
+					SmartDashboard.sendData("path length", path.length, false);
 					turner = new DriveTrainTurner(driveTrain, path[pathIndex].getAngle() - currentHeading, Math.abs(speed));
 					isTurning = true;
 				}

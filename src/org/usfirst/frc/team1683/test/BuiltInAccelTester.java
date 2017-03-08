@@ -9,11 +9,11 @@ public class BuiltInAccelTester {
   public BuiltInAccelTester() { accel = new BuiltInAccel(); }
 
   public void test() {
-    SmartDashboard.sendData("X", accel.getX());
-    SmartDashboard.sendData("Y", accel.getY());
-    SmartDashboard.sendData("Z", accel.getZ());
-    SmartDashboard.sendData("isFlat", accel.isFlat());
-    SmartDashboard.sendData("Angle XZ", accel.getAngleXZ());
-    SmartDashboard.sendData("Angle YZ", accel.getAngleYZ());
+    SmartDashboard.sendData("X", accel.getX(), false);
+    SmartDashboard.sendData("Y", accel.getY(), false);
+    SmartDashboard.sendData("Z", accel.getZ(), false);
+    SmartDashboard.sendData("isFlat", accel.isFlat(), false);
+    SmartDashboard.sendData("Angle XZ", accel.getAngleXZ(), false);
+    SmartDashboard.sendData("Angle YZ", accel.getAngleYZ(), false);
   }
 }

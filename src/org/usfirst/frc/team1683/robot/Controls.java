@@ -30,32 +30,26 @@ public class Controls {
 	LightRing light;
 	PiVisionReader piReader;
 
-	boolean frontMode;
-	boolean toggleWinch;
-	// boolean autoShooter;
-	boolean fullPowerMode;
-	boolean visionAidedMovement;
+	boolean frontMode = true;
+	boolean toggleWinch = false;
+	boolean visionAidedMovement = false;
 
 	double rSpeed;
 	double lSpeed;
-	double maxPower;
+	double maxPower = 1.0;
 
-	double brightness;
 	public final double MAX_JOYSTICK_SPEED = 1.0;
 	public final double SECOND_JOYSTICK_SPEED = 0.7;
 
-	private double p;
-	private double i;
-	private double d;
+	private double p = 1.8;
+	private double i = 0.0;
+	private double d = 0.0;
 
 	public Controls(DriveTrain drive, LightRing light, PiVisionReader piReader) {
 		this.drive = drive;
 		this.light = light;
 		this.piReader = piReader;
 
-		p = 1.8;
-		i = 0;
-		d = 0;
 		SmartDashboard.prefDouble("ap", p);
 		SmartDashboard.prefDouble("ai", i);
 		SmartDashboard.prefDouble("ad", d);
@@ -64,20 +58,11 @@ public class Controls {
 		intake = new Intake(HWR.INTAKE);
 
 		gearScore = new GearScore(drive, 0.2, piReader, p, i, d, "Cont");
-
-		frontMode = true;
-		toggleWinch = false;
-		fullPowerMode = false;
-		visionAidedMovement = false;
-
-		maxPower = 1.0;
-		brightness = 1.0;
-		SmartDashboard.prefDouble("brightness", brightness);
 	}
 
 	public void run() {
 		// drivetrain
-		SmartDashboard.sendData("Front(intake) or Back(gear) mode", frontMode ? "intake" : "gear");
+		SmartDashboard.sendData("Front(intake) or Back(gear) mode", frontMode ? "intake" : "gear", true);
 		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL)) {
 			frontMode = false;
 		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
@@ -88,7 +73,7 @@ public class Controls {
 			visionAidedMovement = !visionAidedMovement;
 		}
 
-		SmartDashboard.sendData("Vision Aided", visionAidedMovement);
+		SmartDashboard.sendData("Vision Aided", visionAidedMovement, true);
 		if (!visionAidedMovement) {
 			if (gearScore != null) {
 				gearScore.disable();
@@ -101,7 +86,7 @@ public class Controls {
 			else if (DriverStation.leftStick.getRawButton(HWR.SECOND_POWER))
 				maxPower = SECOND_JOYSTICK_SPEED;
 
-			SmartDashboard.sendData("Drive Power", maxPower);
+			SmartDashboard.sendData("Drive Power", maxPower, true);
 			if (frontMode) {
 				lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 				rSpeed = -maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);

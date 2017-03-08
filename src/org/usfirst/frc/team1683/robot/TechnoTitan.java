@@ -7,7 +7,6 @@ import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.vision.LightRing;
@@ -23,9 +22,10 @@ public class TechnoTitan extends IterativeRobot {
 	public static final double WHEEL_RADIUS = 2.2135;
 
 	TankDrive drive;
-	Timer endGameTimer;
+	Controls controls;
 
 	PiVisionReader piReader;
+	CameraServer server;
 
 	Autonomous auto;
 	AutonomousSwitcher autoSwitch;
@@ -35,9 +35,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
-
-	Controls controls;
-	PiVisionReader vision;
+	
+	Timer endGameTimer;
 
 	@Override
 	public void robotInit() {
@@ -63,7 +62,10 @@ public class TechnoTitan extends IterativeRobot {
 		autoSwitch = new AutonomousSwitcher(drive, piReader);
 
 		controls = new Controls(drive, lightRing, piReader);
-		CameraServer.getInstance().startAutomaticCapture();
+
+		server = CameraServer.getInstance();
+		server.setQuality(50);
+		server.startAutomaticCapture("cam0");
 	}
 
 	@Override
@@ -75,7 +77,6 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		SmartDashboard.sendData("gyro", gyro.getAngle());
 		auto.run();
 	}
 

@@ -28,7 +28,7 @@ public abstract class Autonomous {
 	}
 
 	public static enum State {
-		INIT_CASE, END_CASE, DRIVE_FORWARD, FIND_TARGET, FIRE, REALIGN, STOP, APPROACH_GOAL, SCORE, DRIVE_FORWARD_WAITING, DRIVE_PATH, NON_VISION_AIDED, SHAKE;
+		INIT_CASE, END_CASE, DRIVE_FORWARD, APPROACH_GOAL, DRIVE_PATH, BACK_UP, SHAKE;
 	}
 
 	public boolean isAtEndCase() {
@@ -40,7 +40,7 @@ public abstract class Autonomous {
 	}
 
 	public void stop() {
-		presentState = State.STOP;
+		presentState = State.END_CASE;
 	}
 
 	public void turnGreenLightOn() {

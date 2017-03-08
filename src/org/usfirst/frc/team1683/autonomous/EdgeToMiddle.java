@@ -49,8 +49,8 @@ public class EdgeToMiddle extends Autonomous {
 			default:
 				break;
 		}
-		SmartDashboard.sendData("timer", timer.get());
-		SmartDashboard.sendData("Edge gear state", presentState.toString());
+		SmartDashboard.sendData("Auto Timer", timer.get(), true);
+		SmartDashboard.sendData("Auto State", presentState.toString(), true);
 		presentState = nextState;
 	}
 }

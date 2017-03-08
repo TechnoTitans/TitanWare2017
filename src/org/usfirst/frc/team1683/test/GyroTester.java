@@ -12,6 +12,6 @@ public class GyroTester {
 	}
 
 	public void test() {
-		SmartDashboard.sendData("Gyro Angle", gyro.getRaw());
+		SmartDashboard.sendData("Gyro Angle", gyro.getRaw(), false);
 	}
 }

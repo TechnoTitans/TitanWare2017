@@ -15,7 +15,6 @@ public class DriverStation {
 	public static Joystick rightStick = new Joystick(HWR.RIGHT_JOYSTICK);
 	public static Joystick auxStick = new Joystick(HWR.AUX_JOYSTICK);
 
-	// TODO
 	/*
 	 * public static boolean antiBounce(int joystick, int button) { boolean
 	 * pressed = false;

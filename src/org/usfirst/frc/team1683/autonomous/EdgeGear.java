@@ -1,11 +1,13 @@
 package org.usfirst.frc.team1683.autonomous;
 
+import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
 import org.usfirst.frc.team1683.driveTrain.Path;
 import org.usfirst.frc.team1683.driveTrain.PathPoint;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.GearScore;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
+
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -17,6 +19,7 @@ public class EdgeGear extends Autonomous {
 	PiVisionReader piReader;
 	private boolean right;
 	private Path path;
+	private DriveTrainMover mover;
 	
 	private boolean shakeRight = true;
 	private Timer timer;
@@ -53,18 +56,27 @@ public class EdgeGear extends Autonomous {
 				path.run();
 				if (path.isDone() || timer.get() > 6) {
 					tankDrive.stop();
-					nextState = State.FIND_TARGET;
+					nextState = State.APPROACH_GOAL;
 					gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0, "edge");
 					timer2.start();
 				}
 				break;
-			case FIND_TARGET:
+			case APPROACH_GOAL:
 				gearScore.run();
 				gearScore.enable();
 				if (gearScore.isDone() || timer.get() > 10) {
 					gearScore.disable();
+					mover = new DriveTrainMover(tankDrive, -1, 0.3);
+
+					nextState = State.BACK_UP;
+				}
+				break;
+			case BACK_UP:
+				mover.runIteration();
+				if (mover.areAnyFinished()) {
 					tankDrive.stop();
 					nextState = State.SHAKE;
+					timer.start();
 					timer2.start();
 				}
 				break;
@@ -86,8 +98,8 @@ public class EdgeGear extends Autonomous {
 			default:
 				break;
 		}
-		SmartDashboard.sendData("timer", timer.get());
-		SmartDashboard.sendData("Auto State", presentState.toString());
+		SmartDashboard.sendData("Auto Timer", timer.get(), true);
+		SmartDashboard.sendData("Auto State", presentState.toString(), true);
 		presentState = nextState;
 	}
 }

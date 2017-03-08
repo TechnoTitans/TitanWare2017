@@ -65,9 +65,9 @@ public class GearScore {
 		double offset = vision.getOffset(); // between -0.5 and 0.5
 		double confidence = vision.getConfidence();
 		double distance = vision.getDistanceTarget();
-		SmartDashboard.sendData(identifier + " GearScore offset", offset);
-		SmartDashboard.sendData(identifier + " GearScore confidence", confidence);
-		SmartDashboard.sendData(identifier + " GearScore distance", distance);
+		SmartDashboard.sendData(identifier + " GearScore offset", offset, false);
+		SmartDashboard.sendData(identifier + " GearScore confidence", confidence, false);
+		SmartDashboard.sendData(identifier + " GearScore distance", distance, false);
 
 		if (confidence < CONFIDENCE_CUTOFF || distance < 10) {
 			if (lastdistance == 0.0)
@@ -76,15 +76,15 @@ public class GearScore {
 		}
 		if (isEnabled) {
 			if (isRunningPID) {
-				SmartDashboard.sendData(identifier + " Vision Aided:", "working");
+				SmartDashboard.sendData(identifier + " Vision Aided:", "working", false);
 				drive.setInput(offset);
 				drive.setSetpoint(0);
 				lastdistance = distance;
-				SmartDashboard.sendData(identifier + " Distance", lastdistance);
+				SmartDashboard.sendData(identifier + " Distance", lastdistance, false);
 			} else {
-				SmartDashboard.sendData(identifier + " Vision Aided:", "can't see target");
+				SmartDashboard.sendData(identifier + " Vision Aided:", "can't see target", false);
 				drive.stopPID();
-				SmartDashboard.sendData(identifier + " Last Distance", lastdistance);
+				SmartDashboard.sendData(identifier + " Last Distance", lastdistance, false);
 				if (mover == null) {
 					driveTrain.stop();
 					mover = new DriveTrainMover(driveTrain, lastdistance, speed);

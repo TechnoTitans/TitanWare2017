@@ -31,7 +31,7 @@ public class CurvedDrive {
 		this.gyro = gyro;
 		gyro.reset();
 		SmartDashboard.prefDouble("kp", 0.022);
-		SmartDashboard.sendData("kp", 0.022);
+		SmartDashboard.sendData("kp", 0.022, false);
 		timer = new Timer();
 		timer.start();
 		t = 0.0;
@@ -40,33 +40,33 @@ public class CurvedDrive {
 	public void run() {
 		t = timer.get() / 3.00;
 		
-		SmartDashboard.sendData("Time(x)", t);
-		SmartDashboard.sendData("Function", function());
-		SmartDashboard.sendData("Curved Drive Ratio", ratioAngularVelocity(t, false));
-		SmartDashboard.sendData("Radius of Curve", calCurve());
+		SmartDashboard.sendData("Time(x)", t, false);
+		SmartDashboard.sendData("Function", function(), false);
+		SmartDashboard.sendData("Curved Drive Ratio", ratioAngularVelocity(t, false), false);
+		SmartDashboard.sendData("Radius of Curve", calCurve(), false);
 
 		SmartDashboard.sendData("Curved left speed",
-				speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)));
+				speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)), false);
 		SmartDashboard.sendData("Curved right speed",
-				speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
+				speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1), false);
 
 		 drive.setRight(speed * (isTurningRight(t, false) ? 1 :
 		 ratioAngularVelocity(t, false)));
 		 drive.setLeft(speed * (isTurningRight(t, false) ?
 		 ratioAngularVelocity(t, false) : 1));
 
-		SmartDashboard.sendData("Antidrift", antiDrift(-1));
-		SmartDashboard.sendData("Antidrift", antiDrift(1));
+		SmartDashboard.sendData("Antidrift", antiDrift(-1), false);
+		SmartDashboard.sendData("Antidrift", antiDrift(1), false);
 	}
 
 	public double antiDrift(int right) {
 		double error = currentAngle() - gyro.getAngle();
-		SmartDashboard.sendData("gyro angle", gyro.getAngle());
+		SmartDashboard.sendData("gyro angle", gyro.getAngle(), false);
 
 		double correction = SmartDashboard.getDouble("kp") * error / 2.0;
-		SmartDashboard.sendData("Anti - Curved Speed Received", speed);
-		SmartDashboard.sendData("Anti - Curved Correction", correction);
-		SmartDashboard.sendData("Anti - Curved Corrected Speed", limitSpeed(speed - correction * right));
+		SmartDashboard.sendData("Anti - Curved Speed Received", speed, false);
+		SmartDashboard.sendData("Anti - Curved Correction", correction, false);
+		SmartDashboard.sendData("Anti - Curved Corrected Speed", limitSpeed(speed - correction * right), false);
 		return limitSpeed(speed - correction * right);
 	}
 

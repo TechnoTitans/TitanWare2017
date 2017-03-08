@@ -11,7 +11,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param val
 	 *            double Input value
 	 */
-	public static void sendData(String key, double val) {
+	public static void sendData(String key, double val, boolean isForDriver) {
 		try {
 			edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
 		} catch (IllegalArgumentException e) {
@@ -26,7 +26,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param val
 	 *            int Input value
 	 */
-	public static void sendData(String key, int val) {
+	public static void sendData(String key, int val, boolean isForDriver) {
 		try {
 			edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
 		} catch (IllegalArgumentException e) {
@@ -41,7 +41,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param val
 	 *            String Input value
 	 */
-	public static void sendData(String key, String val) {
+	public static void sendData(String key, String val, boolean isForDriver) {
 		try {
 			edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putString(key, val);
 		} catch (IllegalArgumentException e) {
@@ -56,7 +56,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param val
 	 *            boolean Input value
 	 */
-	public static void sendData(String key, boolean val) {
+	public static void sendData(String key, boolean val, boolean isForDriver) {
 		try {
 			edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putBoolean(key, val);
 		} catch (IllegalArgumentException e) {

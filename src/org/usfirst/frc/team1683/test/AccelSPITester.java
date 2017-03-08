@@ -13,8 +13,8 @@ public class AccelSPITester {
   }
 
   public void test() {
-    SmartDashboard.sendData("X normal", accel.getX());
-    SmartDashboard.sendData("Y normal", accel.getY());
-    SmartDashboard.sendData("Z normal", accel.getZ());
+    SmartDashboard.sendData("X normal", accel.getX(), false);
+    SmartDashboard.sendData("Y normal", accel.getY(), false);
+    SmartDashboard.sendData("Z normal", accel.getZ(), false);
   }
 }
