@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1683.driverStation;
 
+import org.usfirst.frc.team1683.robot.TechnoTitan;
+
 import edu.wpi.first.wpilibj.Preferences;
 
 public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDashboard {
@@ -11,10 +13,14 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param val
 	 *            double Input value
 	 */
+	
+	@SuppressWarnings("unused")
 	public static void sendData(String key, double val, boolean isForDriver) {
-		try {
-			edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
-		} catch (IllegalArgumentException e) {
+		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
+			try {
+				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
+			} catch (IllegalArgumentException e) {
+			}
 		}
 	}
 
@@ -26,10 +32,13 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param val
 	 *            int Input value
 	 */
+	@SuppressWarnings("unused")
 	public static void sendData(String key, int val, boolean isForDriver) {
-		try {
-			edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
-		} catch (IllegalArgumentException e) {
+		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
+			try {
+				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
+			} catch (IllegalArgumentException e) {
+			}
 		}
 	}
 
@@ -41,10 +50,13 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param val
 	 *            String Input value
 	 */
+	@SuppressWarnings("unused")
 	public static void sendData(String key, String val, boolean isForDriver) {
-		try {
-			edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putString(key, val);
-		} catch (IllegalArgumentException e) {
+		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
+			try {
+				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putString(key, val);
+			} catch (IllegalArgumentException e) {
+			}
 		}
 	}
 
@@ -56,10 +68,13 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param val
 	 *            boolean Input value
 	 */
+	@SuppressWarnings("unused")
 	public static void sendData(String key, boolean val, boolean isForDriver) {
-		try {
-			edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putBoolean(key, val);
-		} catch (IllegalArgumentException e) {
+		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
+			try {
+				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putBoolean(key, val);
+			} catch (IllegalArgumentException e) {
+			}
 		}
 	}
 

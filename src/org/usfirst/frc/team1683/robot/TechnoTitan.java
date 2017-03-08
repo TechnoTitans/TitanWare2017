@@ -35,11 +35,15 @@ public class TechnoTitan extends IterativeRobot {
 
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
-	
+
 	Timer endGameTimer;
+
+	//Make sure to change this value during competition
+	public static final boolean isCompetitionTime = false;
 
 	@Override
 	public void robotInit() {
+
 		endGameTimer = new Timer();
 		gyro = new Gyro(HWR.GYRO);
 
