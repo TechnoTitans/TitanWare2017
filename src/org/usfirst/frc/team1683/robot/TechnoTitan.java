@@ -38,8 +38,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	Timer endGameTimer;
 
-	//Make sure to change this value during competition
-	public static final boolean isCompetitionTime = false;
+	// TODO Make sure to change this value during competition
+	public static final boolean isCompetitionTime = true;
 
 	@Override
 	public void robotInit() {
@@ -68,9 +68,8 @@ public class TechnoTitan extends IterativeRobot {
 		controls = new Controls(drive, lightRing, piReader);
 
 		server = CameraServer.getInstance();
-		server.setQuality(50);
-		server.startAutomaticCapture("cam0");
-		
+		server.startAutomaticCapture();
+
 	}
 
 	@Override

@@ -73,6 +73,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 */
 	@SuppressWarnings("unused")
 	public static void sendData(String key, boolean val, boolean isForDriver) {
+		double warning; // I hate warnings
 		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
 			try {
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putBoolean(key, val);

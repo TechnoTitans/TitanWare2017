@@ -20,11 +20,11 @@ public class EdgeGear extends Autonomous {
 	private boolean right;
 	private Path path;
 	private DriveTrainMover mover;
-	
+
 	private boolean shakeRight = true;
 	private Timer timer;
 	private Timer timer2;
-	
+
 	private final double SPEED = 0.3;
 
 	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55, 37, true), };
@@ -36,7 +36,7 @@ public class EdgeGear extends Autonomous {
 
 		timer = new Timer();
 		timer2 = new Timer();
-		
+
 		if (this.right) {
 			for (int i = 0; i < pathPoints.length; ++i) {
 				PathPoint p = pathPoints[i];

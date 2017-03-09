@@ -45,15 +45,16 @@ public class PiVisionReader {
 		}
 	}
 
-	private VisionValue targetCenter1, targetCenter2, distance1, distance2, confidence;
+	private VisionValue targetCenter1, targetCenter2, distance1, distance2, confidence1, confidence2;
 
 	public PiVisionReader() {
 		table = NetworkTable.getTable(tableName);
-		targetCenter1 = new VisionValue("Cam0_X_Offset_From_Center", table, 1.0);
-		targetCenter2 = new VisionValue("Cam1_X_Offset_From_Center", table, 1.0);
-		distance1 = new VisionValue("Cam0_Distance", table, 0.1);
-		distance2 = new VisionValue("Cam1_Distance", table, 0.1);
-		confidence = new VisionValue("Cam0_Confidence", table, 0.9);
+		targetCenter1 = new VisionValue("Cam1_X_Offset_From_Center", table, 1.0);
+		targetCenter2 = new VisionValue("Cam2_X_Offset_From_Center", table, 1.0);
+		distance1 = new VisionValue("Cam1_Distance", table, 0.1);
+		distance2 = new VisionValue("Cam2_Distance", table, 0.1);
+		confidence1 = new VisionValue("Cam1_Confidence", table, 0.9);
+		confidence2 = new VisionValue("Cam2_Confidence", table, 0.9);
 	}
 
 	/**
@@ -88,10 +89,11 @@ public class PiVisionReader {
 		targetCenter2.update();
 		distance1.update();
 		distance2.update();
-		confidence.update();
+		confidence1.update();
+		confidence2.update();
 	}
 
 	public double getConfidence() {
-		return confidence.getValue();
+		return Math.max(confidence1.getValue(), confidence2.getValue());
 	}
 }

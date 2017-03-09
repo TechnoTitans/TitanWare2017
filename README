@@ -9,5 +9,4 @@ In src/org/usfirst/frc/team1683/ there are the following directories:
   * robot - the main class and ports
   * sensors - self explanatory
   * scoring - contains programs for scoring gears, shooting balls, and turning winch
-  * test - self-explanatory; not for a grade
   * vision - computer vision (deprecated; offloading to RasPi3 instead)

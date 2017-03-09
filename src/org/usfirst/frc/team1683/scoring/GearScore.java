@@ -14,8 +14,7 @@ import org.usfirst.frc.team1683.vision.PiVisionReader;
 public class GearScore {
 	private PiVisionReader vision;
 
-	private double errorKP;
-	private double speedKP;
+	private double errorKP = 2.3;
 
 	private final double CONFIDENCE_CUTOFF = 0.3;
 	private final double DISTANCE_NOT_SEEN = 67;
@@ -28,10 +27,10 @@ public class GearScore {
 
 	private double speed;
 	private double lastdistance;
-	private boolean isRunningPID;
-	private boolean isEnabled;
+	private boolean isRunningPID = true;
+	private boolean isEnabled = true;
 
-	public boolean isDone;
+	public boolean isDone = false;
 
 	public GearScore(DriveTrain driveTrain, double speed, PiVisionReader vision, double p, double i, double d,
 			String identifier) {
@@ -40,14 +39,7 @@ public class GearScore {
 		this.driveTrain = driveTrain;
 		this.identifier = identifier;
 
-		isDone = false;
-		isRunningPID = true;
-		isEnabled = true;
-
-		errorKP = 2.3;
-		speedKP = 1.3;
 		SmartDashboard.prefDouble("errorkp", errorKP);
-		SmartDashboard.prefDouble("speedkp", speedKP);
 		SmartDashboard.prefDouble("gearspeed", speed);
 
 		drive = new PIDLoop(p, i, d, driveTrain, speed, identifier);
@@ -57,7 +49,6 @@ public class GearScore {
 		vision.update();
 
 		errorKP = SmartDashboard.getDouble("errorkp");
-		speedKP = SmartDashboard.getDouble("speedkp");
 
 		speed = SmartDashboard.getDouble("gearspeed");
 		drive.setSpeed(speed);
@@ -76,7 +67,7 @@ public class GearScore {
 		}
 		if (isEnabled) {
 			if (isRunningPID) {
-				SmartDashboard.sendData(identifier + " Vision Aided:", "working", false);
+				SmartDashboard.sendData(identifier + " Vision Aided:", "working", true);
 				drive.setInput(offset);
 				drive.setSetpoint(0);
 				lastdistance = distance;
@@ -110,6 +101,10 @@ public class GearScore {
 	public void enable() {
 		drive.enablePID();
 		isEnabled = true;
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
 	}
 
 	public boolean isDone() {

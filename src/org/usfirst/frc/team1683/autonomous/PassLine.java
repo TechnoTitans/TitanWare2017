@@ -18,7 +18,7 @@ public class PassLine extends Autonomous {
 	}
 
 	public void run() {
-		switch(presentState){
+		switch (presentState) {
 			case INIT_CASE:
 				mover = new DriveTrainMover(tankDrive, distance, 0.5);
 				nextState = State.DRIVE_FORWARD;

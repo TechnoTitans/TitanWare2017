@@ -50,46 +50,46 @@ public class MiddleGear extends Autonomous {
 
 	public void run() {// TODO feedback
 		switch (presentState) {
-		case INIT_CASE:
-			timer = new Timer();
-			timer2 = new Timer();
-			nextState = State.DRIVE_FORWARD;
-			mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.3);
-			break;
-		case DRIVE_FORWARD:
-			mover.runIteration();
-			if (mover.areAnyFinished()) {
-				tankDrive.stop();
-				mover = new DriveTrainMover(tankDrive, -1, 0.3);
-				nextState = State.BACK_UP;
-			}
-			break;
-		case BACK_UP:
-			mover.runIteration();
-			if (mover.areAnyFinished()) {
-				tankDrive.stop();
-				nextState = State.SHAKE;
-				timer.start();
-				timer2.start();
-			}
-			break;
-		case SHAKE:
-			if (timer2.get() > 3) {
-				nextState = State.END_CASE;
-				tankDrive.stop();
-			} else {
-				tankDrive.turnInPlace(shakeRight, 0.15);
-				if (timer.get() > 0.18 ) {
-					shakeRight = !shakeRight;
-					timer.reset();
+			case INIT_CASE:
+				timer = new Timer();
+				timer2 = new Timer();
+				nextState = State.DRIVE_FORWARD;
+				mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.3);
+				break;
+			case DRIVE_FORWARD:
+				mover.runIteration();
+				if (mover.areAnyFinished()) {
+					tankDrive.stop();
+					mover = new DriveTrainMover(tankDrive, -1, 0.3);
+					nextState = State.BACK_UP;
 				}
-			}
-			break;
-		case END_CASE:
-			nextState = State.END_CASE;
-			break;
-		default:
-			break;
+				break;
+			case BACK_UP:
+				mover.runIteration();
+				if (mover.areAnyFinished()) {
+					tankDrive.stop();
+					nextState = State.SHAKE;
+					timer.start();
+					timer2.start();
+				}
+				break;
+			case SHAKE:
+				if (timer2.get() > 3) {
+					nextState = State.END_CASE;
+					tankDrive.stop();
+				} else {
+					tankDrive.turnInPlace(shakeRight, 0.15);
+					if (timer.get() > 0.18) {
+						shakeRight = !shakeRight;
+						timer.reset();
+					}
+				}
+				break;
+			case END_CASE:
+				nextState = State.END_CASE;
+				break;
+			default:
+				break;
 		}
 		SmartDashboard.sendData("Auto State", presentState.toString(), true);
 		SmartDashboard.sendData("Auto Timer", timer.get(), true);
