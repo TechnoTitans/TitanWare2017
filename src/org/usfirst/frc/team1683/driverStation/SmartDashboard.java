@@ -13,9 +13,10 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param val
 	 *            double Input value
 	 */
-	
+
 	@SuppressWarnings("unused")
 	public static void sendData(String key, double val, boolean isForDriver) {
+		double warning; // I hate warnings
 		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
 			try {
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
@@ -34,6 +35,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 */
 	@SuppressWarnings("unused")
 	public static void sendData(String key, int val, boolean isForDriver) {
+		double warning; // I hate warnings
 		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
 			try {
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
@@ -52,6 +54,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 */
 	@SuppressWarnings("unused")
 	public static void sendData(String key, String val, boolean isForDriver) {
+		double warning; // I hate warnings
 		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
 			try {
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putString(key, val);

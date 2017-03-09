@@ -3,11 +3,9 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
 import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.scoring.Agitator;
 import org.usfirst.frc.team1683.scoring.GearScore;
 import org.usfirst.frc.team1683.scoring.Intake;
 import org.usfirst.frc.team1683.scoring.ScoringMotor;
-import org.usfirst.frc.team1683.scoring.Shooter;
 import org.usfirst.frc.team1683.scoring.Winch;
 import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
@@ -24,9 +22,7 @@ public class Controls {
 	DriveTrain drive;
 	GearScore gearScore;
 	Winch winch;
-	Shooter shooter;
 	Intake intake;
-	Agitator agitator;
 	LightRing light;
 	PiVisionReader piReader;
 
@@ -80,7 +76,6 @@ public class Controls {
 				gearScore = null;
 				getPID();
 			}
-
 			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
 				maxPower = MAX_JOYSTICK_SPEED;
 			else if (DriverStation.leftStick.getRawButton(HWR.SECOND_POWER))
@@ -94,7 +89,6 @@ public class Controls {
 				lSpeed = maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 				rSpeed = maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 			}
-
 			drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
 		} else {
 			if (gearScore == null) {
