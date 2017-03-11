@@ -4,7 +4,6 @@ import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.Gyro;
-import org.usfirst.frc.team1683.sensors.LinearActuator;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -16,7 +15,6 @@ public class AutonomousSwitcher {
 
 	BuiltInAccel accel;
 	Gyro gyro;
-	LinearActuator actuator;
 
 	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader) {
 		chooser = new SendableChooser();
