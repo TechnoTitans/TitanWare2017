@@ -1,42 +1,35 @@
 package org.usfirst.frc.team1683.autonomous;
 
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
 public class AutonomousSwitcher {
 	public Autonomous autoSelected;
-
-	private SendableChooser chooser;
+	
+	private AutonomousChooser autoChooser;
 
 	BuiltInAccel accel;
 	Gyro gyro;
 
 	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader) {
-		chooser = new SendableChooser();
-		chooser.addObject("Do nothing", new DoNothing(tankDrive));
-		chooser.addObject("Square Auto", new SquareAuto(tankDrive));
-		chooser.addObject("Edge Gear Left", new EdgeGear(tankDrive, false, piReader));
-		chooser.addObject("Edge Gear Right", new EdgeGear(tankDrive, true, piReader));
-		chooser.addDefault("MiddleGear", new MiddleGear(tankDrive, piReader));
-		chooser.addObject("PassLine", new PassLine(tankDrive));
+		autoChooser = new AutonomousChooser();
+		
+		autoChooser.setDefault("Do nothing", new DoNothing(tankDrive));
+		autoChooser.addObject("Square Auto", new SquareAuto(tankDrive), false);
+		autoChooser.addObject("Edge Gear Left", new EdgeGear(tankDrive, false, piReader), true);
+		autoChooser.addObject("Edge Gear Right", new EdgeGear(tankDrive, true, piReader), true);
+		autoChooser.addObject("MiddleGear", new MiddleGear(tankDrive, piReader), true);
+		autoChooser.addObject("PassLine", new PassLine(tankDrive), true);
 
-		SmartDashboard.putData("Auto to run", chooser);
+		autoChooser.sendDashboard();
 	}
 
 	public void setAuto() {
-		autoSelected = (Autonomous) chooser.getSelected();
+		autoChooser.getSelected();
 	}
-
-	public Autonomous getAutoSelected() {
-		return autoSelected;
-	}
-
 	public void run() {
-		autoSelected.run();
+		autoChooser.selectedAuto.run();
 	}
 }

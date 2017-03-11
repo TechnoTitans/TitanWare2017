@@ -75,13 +75,12 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autoSwitch.setAuto();
-		auto = autoSwitch.getAutoSelected();
 		gyro.reset();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		auto.run();
+		autoSwitch.run();
 	}
 
 	@Override
