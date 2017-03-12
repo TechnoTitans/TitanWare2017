@@ -25,9 +25,9 @@ public class EdgeGear extends Autonomous {
 	private Timer timer;
 	private Timer timer2;
 
-	private final double SPEED = 0.3;
-
 	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55, 37, true), };
+	private PathPoint[] pathPointsLeft = { new PathPoint(0, -12), new PathPoint(-90, 37, true), };
+	private PathPoint[] pathPointsRight = { new PathPoint(0, -12), new PathPoint(90, 0, true), };
 
 	public EdgeGear(TankDrive tankDrive, boolean right, PiVisionReader piReader) {
 		super(tankDrive);
@@ -37,7 +37,7 @@ public class EdgeGear extends Autonomous {
 		timer = new Timer();
 		timer2 = new Timer();
 
-		if (this.right) {
+		if (right) {
 			for (int i = 0; i < pathPoints.length; ++i) {
 				PathPoint p = pathPoints[i];
 				pathPoints[i] = new PathPoint(-p.getX(), p.getY());
@@ -49,7 +49,7 @@ public class EdgeGear extends Autonomous {
 		switch (presentState) {
 			case INIT_CASE:
 				timer.start();
-				path = new Path(tankDrive, pathPoints, SPEED);
+				path = new Path(tankDrive, pathPoints, 0.3);
 				nextState = State.DRIVE_PATH;
 				break;
 			case DRIVE_PATH:
@@ -82,14 +82,25 @@ public class EdgeGear extends Autonomous {
 				break;
 			case SHAKE:
 				if (timer.get() > 14) {
-					nextState = State.END_CASE;
+					nextState = State.END_CASE; // keep end case until everything works then implement head to loading
 					tankDrive.stop();
+					if(right)
+						path = new Path(tankDrive, pathPointsRight, 0.9);
+					else
+						path = new Path(tankDrive, pathPointsLeft, 0.9);
 				} else {
 					tankDrive.turnInPlace(shakeRight, 0.15);
 					if (timer2.get() > 0.18) {
 						shakeRight = !shakeRight;
 						timer2.reset();
 					}
+				}
+				break;
+			case HEAD_TO_LOADING:
+				path.run();
+				if (path.isDone()) {
+					tankDrive.stop();
+					nextState = State.END_CASE;
 				}
 				break;
 			case END_CASE:
