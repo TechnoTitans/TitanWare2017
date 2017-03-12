@@ -14,9 +14,7 @@ public abstract class Autonomous {
 
 	protected Timer timer;
 	protected Timer timeout;
-
-	// public static final double ACTUATOR_ERROR_TOLERANCE = 0.05;
-	// public static final double REACH_DISTANCE = 74;
+	
 	public State presentState = State.INIT_CASE;
 	public State nextState;
 

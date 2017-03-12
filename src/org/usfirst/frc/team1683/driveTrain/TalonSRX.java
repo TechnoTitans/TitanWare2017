@@ -95,9 +95,9 @@ public class TalonSRX extends CANTalon implements Motor {
 	 * @throws EncoderNotFoundException
 	 *             if there is no encoder
 	 */
-	public void PIDInit() throws EncoderNotFoundException {
+	public void PIDInit() throws RunTimeException {
 		if (!hasEncoder())
-			throw new EncoderNotFoundException("No encoder for PIDInit");
+			throw new RunTimeException("No Encoder for PIDInit");
 		super.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 	}
 
