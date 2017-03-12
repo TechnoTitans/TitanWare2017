@@ -10,6 +10,7 @@ public class MotorGroup extends ArrayList<Motor> {
 	private Encoder encoder;
 
 	private AntiDrift antiDrift;
+
 	/**
 	 * Basically a list of motors.
 	 *
@@ -28,13 +29,15 @@ public class MotorGroup extends ArrayList<Motor> {
 			super.add(motor);
 		}
 	}
-	public ArrayList<Motor> getMotor(){
+
+	public ArrayList<Motor> getMotor() {
 		ArrayList<Motor> motors = new ArrayList<Motor>();
-		for (Motor motor : this){
+		for (Motor motor : this) {
 			motors.add(motor);
 		}
 		return motors;
 	}
+
 	/**
 	 * Constructor -- just a list of motors
 	 *
@@ -46,6 +49,7 @@ public class MotorGroup extends ArrayList<Motor> {
 			super.add(motor);
 		}
 	}
+
 	/**
 	 * Set collective speed of motors.
 	 *
