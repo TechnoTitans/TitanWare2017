@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.sensors.Encoder;
-import org.usfirst.frc.team1683.driveTrain.AntiDrift;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 public class TalonSRX extends CANTalon implements Motor {
 
 	private Encoder encoder;
-	private double PIDTargetSpeed;
 	AntiDrift anti;
 	Gyro gyro;
 
@@ -35,9 +34,10 @@ public class TalonSRX extends CANTalon implements Motor {
 	public TalonSRX(int channel, boolean reversed, Encoder encoder) {
 		super(channel);
 		super.setInverted(reversed);
-		
+
 		this.encoder = encoder;
 	}
+
 	/**
 	 * Constructor
 	 *
@@ -81,96 +81,6 @@ public class TalonSRX extends CANTalon implements Motor {
 		return (super.getSpeed() * 60) / (4096 * 0.1);
 	}
 
-	/**
-	 * Resets the position/distance counter
-	 */
-	public void calibrate() {
-		super.setPosition(0);
-	}
-
-	/**
-	 * Initializes PID by ensuring that the feedback device is the relative mag
-	 * encoder
-	 * 
-	 * @throws EncoderNotFoundException
-	 *             if there is no encoder
-	 */
-	public void PIDInit() throws RunTimeException {
-		if (!hasEncoder())
-			throw new RunTimeException("No Encoder for PIDInit");
-		super.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-	}
-
-	/**
-	 * Standard PID loop
-	 * 
-	 * @param P
-	 *            -- Proportional error coefficient
-	 * @param I
-	 *            -- Integral error coefficient
-	 * @param D
-	 *            -- Derivative error coefficient
-	 */
-	public void PIDUpdate(double P, double I, double D) {
-		PIDUpdate(P, I, D, 0);
-	}
-
-	private void PIDUpdate(double P, double I, double D, double F) {
-		super.setPID(P, I, D);
-		super.enableControl();
-	}
-
-	/**
-	 * Sets the position of motor Note: changes mode to POSITION
-	 * 
-	 * @param angle
-	 *            -- angle in degrees
-	 */
-	
-	
-	public void PIDAngle(double angle) {
-		PIDPosition(angle / 360.0);
-	}
-
-	/**
-	 * Sets PID position of motor
-	 * 
-	 * @param position
-	 *            -- position
-	 */
-	public void PIDPosition(double position) {
-		super.changeControlMode(TalonControlMode.Position);
-		super.set(position);
-	}
-
-	/**
-	 * Sets the PID target speed and sets the rpm
-	 * 
-	 * @param rpm
-	 */
-	public void PIDSpeed(double rpm) {
-		// PIDUpdate();
-		// speed = RPM * 1 min/(6000 (10 milliseconds)) * 4096 encoder counts
-		// /
-		// revolution
-		super.enableControl();
-		PIDTargetSpeed = rpm;
-		// double speed = rpm * (4096.0 / 6000.0);
-		super.changeControlMode(TalonControlMode.Speed);
-		super.set(rpm);
-	}
-
-	public double PIDErrorSpeed() {
-		return PIDTargetSpeed - getSpeed();
-	}
-
-	public double PIDTargetSpeed() {
-		return PIDTargetSpeed;
-	}
-
-	/**
-	 * Stops motor.
-	 */
 	@Override
 	public void stop() {
 		// super.enableBrakeMode(true);
@@ -182,24 +92,18 @@ public class TalonSRX extends CANTalon implements Motor {
 		super.enableBrakeMode(true);
 		super.disableControl();
 	}
-	
+
 	@Override
 	public void coast() {
 		super.enableBrakeMode(false);
 		super.disableControl();
 	}
-	
-	/**
-	 * @return If there is an encoder attached to this TalonSRX.
-	 */
+
 	@Override
 	public boolean hasEncoder() {
 		return !(encoder == null);
 	}
 
-	/**
-	 * @return The encoder attached to this Talon if exists, null otherwise.
-	 */
 	@Override
 	public Encoder getEncoder() {
 		return encoder;
@@ -220,15 +124,8 @@ public class TalonSRX extends CANTalon implements Motor {
 		return super.getError();
 	}
 
-	/**
-	 * @return If the Talon is reversed.
-	 */
 	@Override
 	public boolean isReversed() {
 		return super.getInverted();
-	}
-
-	public void setSetPoint(double point) {
-		super.setSetpoint(point);
 	}
 }
