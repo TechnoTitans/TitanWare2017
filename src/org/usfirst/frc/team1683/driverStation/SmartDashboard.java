@@ -82,10 +82,6 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 		}
 	}
 
-	/*
-	 * Methods to send data to store in Preferences
-	 */
-
 	/**
 	 * Sends the integer to be stored in Preferences in the roboRIO
 	 *

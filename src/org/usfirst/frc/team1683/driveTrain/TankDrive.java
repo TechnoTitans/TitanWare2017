@@ -69,11 +69,6 @@ public class TankDrive implements DriveTrain {
 		left.enableBrakeMode(false);
 		right.enableBrakeMode(false);
 
-		// double lSpeed =
-		// -DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-		// double rSpeed =
-		// -DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
-
 		left.set(leftSpeed);
 		right.set(rightSpeed);
 	}

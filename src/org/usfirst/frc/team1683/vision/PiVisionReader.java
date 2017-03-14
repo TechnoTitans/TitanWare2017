@@ -24,7 +24,7 @@ public class PiVisionReader {
 		}
 
 		void update() {
-			String confidenceName = "Cam0_Confidence";
+			String confidenceName = "Cam2_Confidence";
 			double inp = table.getNumber(name, -1);
 			double confidence = table.getNumber(confidenceName, 0) * this.sensitivity;
 			if (name.equals(confidenceName))

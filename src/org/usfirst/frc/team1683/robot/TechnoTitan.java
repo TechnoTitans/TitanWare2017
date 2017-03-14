@@ -39,7 +39,7 @@ public class TechnoTitan extends IterativeRobot {
 	Timer endGameTimer;
 
 	// TODO Make sure to change this value during competition
-	public static final boolean isCompetitionTime = true;
+	public static final boolean isCompetitionTime = false;
 
 	@Override
 	public void robotInit() {
@@ -74,7 +74,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		autoSwitch.setAuto();
+		autoSwitch.getSelected();
 		gyro.reset();
 	}
 
