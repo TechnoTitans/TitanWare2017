@@ -14,7 +14,7 @@ public abstract class Autonomous {
 
 	protected Timer timer;
 	protected Timer timeout;
-	
+
 	public State presentState = State.INIT_CASE;
 	public State nextState;
 
@@ -39,10 +39,6 @@ public abstract class Autonomous {
 
 	public void stop() {
 		presentState = State.END_CASE;
-	}
-
-	public void turnGreenLightOn() {
-
 	}
 
 	public abstract void run();

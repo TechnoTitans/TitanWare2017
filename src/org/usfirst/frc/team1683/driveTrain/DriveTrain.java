@@ -7,14 +7,6 @@ public interface DriveTrain {
 
 	public void set(double speed);
 
-	/**
-	 * @param leftSpeed
-	 *            speed of left motor group
-	 * @param rightSpeed
-	 *            speed of right motor group
-	 */
-	public void set(double left, double right);
-
 	public void stop();
 
 	public void coast();
