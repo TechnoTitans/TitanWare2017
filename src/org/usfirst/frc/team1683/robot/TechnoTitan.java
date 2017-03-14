@@ -14,7 +14,6 @@ import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 
 public class TechnoTitan extends IterativeRobot {
 	public static final boolean LEFT_REVERSE = false;
@@ -36,15 +35,11 @@ public class TechnoTitan extends IterativeRobot {
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
 
-	Timer endGameTimer;
-
 	// TODO Make sure to change this value during competition
 	public static final boolean isCompetitionTime = false;
 
 	@Override
 	public void robotInit() {
-
-		endGameTimer = new Timer();
 		gyro = new Gyro(HWR.GYRO);
 
 		piReader = new PiVisionReader();
@@ -66,10 +61,6 @@ public class TechnoTitan extends IterativeRobot {
 		autoSwitch = new AutonomousSwitcher(drive, piReader);
 
 		controls = new Controls(drive, lightRing, piReader);
-
-		server = CameraServer.getInstance();
-		server.startAutomaticCapture();
-
 	}
 
 	@Override
@@ -86,7 +77,6 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		drive.stop();
-		endGameTimer.start();
 	}
 
 	@Override
