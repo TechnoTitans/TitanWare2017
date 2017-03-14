@@ -45,17 +45,19 @@ public class PiVisionReader {
 		}
 	}
 
-	private VisionValue targetCenter1, targetCenter2, distance1, distance2, confidence1, confidence2;
+	private VisionValue offset1, offset2, distance1, distance2, confidence1, confidence2;
+	private final String cam1 = "Cam1";
+	private final String cam2 = "Cam2";
 
 	public PiVisionReader() {
 		table = NetworkTable.getTable(tableName);
 
-		targetCenter1 = new VisionValue("Cam1", "_X_Offset", table, 1.0);
-		targetCenter2 = new VisionValue("Cam2", "_X_Offset", table, 1.0);
-		distance1 = new VisionValue("Cam1", "_Distance", table, 0.1);
-		distance2 = new VisionValue("Cam2", "_Distance", table, 0.1);
-		confidence1 = new VisionValue("Cam1", "_Confidence", table, 0.9);
-		confidence2 = new VisionValue("Cam2", "_Confidence", table, 0.9);
+		offset1 = new VisionValue(cam1, "_X_Offset", table, 1.0);
+		offset2 = new VisionValue(cam2, "_X_Offset", table, 1.0);
+		distance1 = new VisionValue(cam1, "_Distance", table, 0.1);
+		distance2 = new VisionValue(cam2, "_Distance", table, 0.1);
+		confidence1 = new VisionValue(cam1, "_Confidence", table, 0.9);
+		confidence2 = new VisionValue(cam2, "_Confidence", table, 0.9);
 	}
 
 	/**
@@ -63,21 +65,24 @@ public class PiVisionReader {
 	 * @return An offset between -0.5 and 0.5 where negative indicates target is
 	 *         on the left
 	 */
-	private final double ONE_CAM_OFFSET = 0.5;
+	private final double ONE_CAM_OFFSET = 5;
 
 	public double getOffset() {
-		double offset1 = targetCenter1.getValue();
-		double offset2 = targetCenter2.getValue();
+		double offsetValue1 = offset1.getValue();
+		double offsetValue2 = offset2.getValue();
+		
+		double confidenceValue1 = confidence1.getValue();
+		double confidenceValue2 = confidence2.getValue();
 
 		double offset = 0.0;
-		if (offset1 == 0.0 && offset2 == 0.0) {
+		if (confidenceValue1 == 0.0 && confidenceValue2 == 0.0) {
 			offset = 0.0;
-		} else if (offset1 == 0.0) {
-			offset = (offset2 + ONE_CAM_OFFSET) / 100;
-		} else if (offset2 == 0.0) {
-			offset2 = (offset1 - ONE_CAM_OFFSET) / 100;
+		} else if (confidenceValue1 == 0.0) {
+			offset = (offsetValue2 + ONE_CAM_OFFSET) / 100;
+		} else if (confidenceValue2 == 0.0) {
+			offset = (offsetValue1 - ONE_CAM_OFFSET) / 100;
 		} else {
-			offset = (offset1 + offset2) / 100.0;
+			offset = (offsetValue1 + offsetValue2) / 100.0;
 		}
 		SmartDashboard.sendData("vision offset", offset, false);
 		return offset;
@@ -88,8 +93,8 @@ public class PiVisionReader {
 	}
 
 	public void update() {
-		targetCenter1.update();
-		targetCenter2.update();
+		offset1.update();
+		offset2.update();
 		distance1.update();
 		distance2.update();
 		confidence1.update();
@@ -97,6 +102,8 @@ public class PiVisionReader {
 	}
 
 	public double getConfidence() {
-		return Math.max(confidence1.getValue(), confidence2.getValue());
+		double visionConfidence = Math.max(confidence1.getValue(), confidence2.getValue());
+		SmartDashboard.sendData("vision confidence", visionConfidence, false);
+		return visionConfidence;
 	}
 }
