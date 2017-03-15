@@ -22,8 +22,8 @@ public class AutonomousSwitcher {
 		
 		setDefault("Do nothing", new DoNothing(tankDrive));
 		addAuto("Square Auto", new SquareAuto(tankDrive), false);
-		addAuto("Edge Gear Left", new EdgeGear(tankDrive, false, piReader), true);
-		addAuto("Edge Gear Right", new EdgeGear(tankDrive, true, piReader), true);
+		addAuto("Edge Gear Turn Left", new EdgeGear(tankDrive, false, piReader), true);
+		addAuto("Edge Gear Turn Right", new EdgeGear(tankDrive, true, piReader), true);
 		addAuto("MiddleGear", new MiddleGear(tankDrive, piReader), true);
 		addAuto("PassLine", new PassLine(tankDrive), true);
 		addAuto("VisionMiddle", new VisionMiddle(tankDrive, piReader), false);
