@@ -12,7 +12,8 @@ public class VisionMiddle extends Autonomous {
 	GearScore gearScore;
 	PiVisionReader piReader;
 	DriveTrainMover mover;
-	private boolean shakeRight = true;
+	
+	Timer waitTimer;
 	
 	Timer timer;
 	Timer timer2;
@@ -22,12 +23,14 @@ public class VisionMiddle extends Autonomous {
 		this.piReader = piReader;
 		timer = new Timer();
 		timer2 = new Timer();
+		
+		waitTimer = new Timer();
 	}
 
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
-				gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0, "middle");
+				gearScore = new GearScore(tankDrive, 0.3, piReader, 1.4, 0, 0, "middle");
 				nextState = State.APPROACH_GOAL;
 				break;
 			case APPROACH_GOAL:
@@ -37,27 +40,23 @@ public class VisionMiddle extends Autonomous {
 					gearScore.disable();
 					tankDrive.stop();
 					mover = new DriveTrainMover(tankDrive, -1, 0.3);
+					nextState = State.WAIT;
+				}
+				break;
+			case WAIT:
+				tankDrive.stop();
+				if (waitTimer.get() > 0.1) {
+					tankDrive.stop();
+					mover = new DriveTrainMover(tankDrive, -1, 0.3);
+					nextState = State.BACK_UP;
 				}
 				break;
 			case BACK_UP:
 				mover.runIteration();
 				if (mover.areAnyFinished()) {
 					tankDrive.stop();
-					nextState = State.SHAKE;
-					timer.start();
-					timer2.start();
-				}
-				break;
-			case SHAKE:
-				if (timer2.get() > 3) {
 					nextState = State.END_CASE;
-					tankDrive.stop();
-				} else {
-					tankDrive.turnInPlace(shakeRight, 0.15);
-					if (timer.get() > 0.18) {
-						shakeRight = !shakeRight;
-						timer.reset();
-					}
+					waitTimer.start();
 				}
 				break;
 			case END_CASE:

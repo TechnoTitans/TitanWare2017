@@ -28,6 +28,7 @@ public class MiddleGear extends Autonomous {
 	private final double speed = 0.5;
 	private Timer timer;
 	private Timer timer2;
+	private Timer waitTimer;
 	private DriveTrainMover driveTrainMover;
 
 	private boolean shakeRight = true;
@@ -53,12 +54,23 @@ public class MiddleGear extends Autonomous {
 			case INIT_CASE:
 				timer = new Timer();
 				timer2 = new Timer();
+				waitTimer = new Timer();
+
 				nextState = State.DRIVE_FORWARD;
 				mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.3);
 				break;
 			case DRIVE_FORWARD:
 				mover.runIteration();
 				if (mover.areAnyFinished()) {
+					tankDrive.stop();
+					waitTimer.start();
+					SmartDashboard.sendData("waitTimer", waitTimer.get(), false);
+					nextState = State.WAIT;
+				}
+				break;
+			case WAIT:
+				tankDrive.stop();
+				if (waitTimer.get() > 0.1) {
 					tankDrive.stop();
 					mover = new DriveTrainMover(tankDrive, -1, 0.3);
 					nextState = State.BACK_UP;
@@ -68,23 +80,22 @@ public class MiddleGear extends Autonomous {
 				mover.runIteration();
 				if (mover.areAnyFinished()) {
 					tankDrive.stop();
-					nextState = State.SHAKE;
-					timer.start();
-					timer2.start();
-				}
-				break;
-			case SHAKE:
-				if (timer2.get() > 3) {
 					nextState = State.END_CASE;
-					tankDrive.stop();
-				} else {
-					tankDrive.turnInPlace(shakeRight, 0.15);
-					if (timer.get() > 0.18) {
-						shakeRight = !shakeRight;
-						timer.reset();
-					}
+					waitTimer.start();
 				}
 				break;
+//			case SHAKE:
+//				if (timer2.get() > 3) {
+//					nextState = State.END_CASE;
+//					tankDrive.stop();
+//				} else {
+//					tankDrive.turnInPlace(shakeRight, 0.15);
+//					if (timer.get() > 0.18) {
+//						shakeRight = !shakeRight;
+//						timer.reset();
+//					}
+//				}
+//				break;
 			case END_CASE:
 				nextState = State.END_CASE;
 				break;
