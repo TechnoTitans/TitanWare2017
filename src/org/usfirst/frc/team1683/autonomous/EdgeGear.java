@@ -24,19 +24,23 @@ public class EdgeGear extends Autonomous {
 	private Timer timer;
 	private Timer waitTimer;
 
-	private PathPoint[] pathPoints = { new PathPoint(0, 73), new PathPoint(-55 * 0.0001, 37 * 0.0001, true), };
+	private PathPoint[] pathPoint1 = { new PathPoint(0, 73), new PathPoint(-55 * 0.0001, 37 * 0.0001, true), };
+	private PathPoint[] pathPoints;
 	// private PathPoint[] pathPointsLeft = { new PathPoint(0, -12), new
 	// PathPoint(-90, 37, true), };
 	// private PathPoint[] pathPointsRight = { new PathPoint(0, -12), new
 	// PathPoint(90, 0, true), };
 
-	public EdgeGear(TankDrive tankDrive, boolean right, PiVisionReader piReader) {
+	public EdgeGear(TankDrive tankDrive, boolean right, boolean wide, PiVisionReader piReader) {
 		super(tankDrive);
 		this.piReader = piReader;
 
 		timer = new Timer();
 		waitTimer = new Timer();
-
+		
+		if(!wide)
+			pathPoints = pathPoint1;
+		
 		if (right) {
 			for (int i = 0; i < pathPoints.length; ++i) {
 				PathPoint p = pathPoints[i];

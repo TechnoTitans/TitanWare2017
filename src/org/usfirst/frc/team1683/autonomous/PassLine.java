@@ -29,6 +29,7 @@ public class PassLine extends Autonomous {
 					tankDrive.stop();
 					nextState = State.END_CASE;
 				}
+				break;
 			case END_CASE:
 				tankDrive.set(0);
 				break;

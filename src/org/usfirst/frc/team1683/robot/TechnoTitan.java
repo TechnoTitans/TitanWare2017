@@ -14,6 +14,7 @@ import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 
 public class TechnoTitan extends IterativeRobot {
 	public static final boolean LEFT_REVERSE = false;
@@ -22,6 +23,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	TankDrive drive;
 	Controls controls;
+
+	Timer waitTeleop;
 
 	PiVisionReader piReader;
 	CameraServer server;
@@ -36,10 +39,11 @@ public class TechnoTitan extends IterativeRobot {
 	MotorGroup rightGroup;
 
 	// TODO Make sure to change this value during competition
-	public static final boolean isCompetitionTime = false;
+	public static final boolean isCompetitionTime = true;
 
 	@Override
 	public void robotInit() {
+		waitTeleop = new Timer();
 		gyro = new Gyro(HWR.GYRO);
 
 		piReader = new PiVisionReader();
@@ -65,6 +69,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		drive.stop();
 		autoSwitch.getSelected();
 		gyro.reset();
 	}
@@ -76,12 +81,14 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		waitTeleop.start();
 		drive.stop();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		controls.run();
+		if (waitTeleop.get() > 0.1)
+			controls.run();
 	}
 
 	@Override
@@ -91,5 +98,4 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 	}
-
 }
