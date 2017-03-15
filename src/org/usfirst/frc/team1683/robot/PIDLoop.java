@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
+import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 import edu.wpi.first.wpilibj.TalonSRX;
@@ -16,10 +17,11 @@ public class PIDLoop extends PIDSubsystem {
 
 	private DriveTrain drive;
 	private TalonSRX talon;
+	private MotorGroup group;
 	private String identifier;
 
 	private double input;
-	private boolean disabled;
+	private boolean disabled = true;
 	private double speed;
 
 	public PIDLoop(double p, double i, double d, DriveTrain drive, double speed, String identifier) {
@@ -27,14 +29,16 @@ public class PIDLoop extends PIDSubsystem {
 		this.drive = drive;
 		this.speed = speed;
 		this.identifier = identifier;
-
-		disabled = true;
 	}
 
 	public PIDLoop(double p, double i, double d, TalonSRX talon) {
 		super(p, i, d);
 		this.talon = talon;
-		disabled = true;
+	}
+
+	public PIDLoop(double p, double i, double d, MotorGroup group) {
+		super(p, i, d);
+		this.group = group;
 	}
 
 	public void setInput(double input) {
@@ -58,6 +62,11 @@ public class PIDLoop extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
+		if (getType() == 1)
+			runDrive(output);
+	}
+
+	private void runDrive(double output) {
 		SmartDashboard.sendData("GearScoreDisabled", disabled, false);
 		if (!disabled) {
 			SmartDashboard.sendData(identifier + " PID Output ", speed * (1 - output), false);
@@ -78,12 +87,12 @@ public class PIDLoop extends PIDSubsystem {
 
 	// return 0 if neither found, 1 if drivetrain, -1 if talon
 	public int getType() {
-		if (drive != null) {
+		if (drive != null)
 			return 1;
-		}
-		if (talon != null) {
-			return -1;
-		}
+		if (talon != null)
+			return 2;
+		if (group != null)
+			return 3;
 		return 0;
 	}
 

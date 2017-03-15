@@ -37,7 +37,7 @@ public class Controls {
 	public final double MAX_JOYSTICK_SPEED = 1.0;
 	public final double SECOND_JOYSTICK_SPEED = 0.7;
 
-	private double p = 1.8;
+	private double p = 0.74;
 	private double i = 0.0;
 	private double d = 0.0;
 
@@ -59,11 +59,10 @@ public class Controls {
 	public void run() {
 		// drivetrain
 		SmartDashboard.sendData("Front(intake) or Back(gear) mode", frontMode ? "intake" : "gear", true);
-		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL)) {
+		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL))
 			frontMode = false;
-		} else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL)) {
+		else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL))
 			frontMode = true;
-		}
 
 		if (checkToggle(HWR.LEFT_JOYSTICK, HWR.TOGGLE_VISION_AID)) {
 			visionAidedMovement = !visionAidedMovement;
@@ -91,9 +90,9 @@ public class Controls {
 			}
 			drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
 		} else {
-			if (gearScore == null) {
+			if (gearScore == null)
 				gearScore = new GearScore(drive, 0.2, piReader, p, i, d, "Cont");
-			}
+
 			gearScore.enable();
 			gearScore.run();
 		}

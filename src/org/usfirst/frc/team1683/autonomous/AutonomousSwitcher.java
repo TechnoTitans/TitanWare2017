@@ -22,13 +22,15 @@ public class AutonomousSwitcher {
 		
 		setDefault("Do nothing", new DoNothing(tankDrive));
 		addAuto("Square Auto", new SquareAuto(tankDrive), false);
-		addAuto("Edge Gear Turn Left", new EdgeGear(tankDrive, false, piReader), true);
-		addAuto("Edge Gear Turn Right", new EdgeGear(tankDrive, true, piReader), true);
+		addAuto("Edge Gear Turn Left", new EdgeGear(tankDrive, false, false, piReader), true);
+		addAuto("Edge Gear Turn Right", new EdgeGear(tankDrive, true, false, piReader), true);
+		addAuto("Wide Edge Turn Left", new EdgeGear(tankDrive, false, true, piReader), true);
+		addAuto("Wide Edge Turn Right", new EdgeGear(tankDrive, true, true, piReader), true);
 		addAuto("MiddleGear", new MiddleGear(tankDrive, piReader), true);
 		addAuto("PassLine", new PassLine(tankDrive), true);
 		addAuto("VisionMiddle", new VisionMiddle(tankDrive, piReader), false);
 
-		SmartDashboard.putData("Choose Auto", chooser);
+		SmartDashboard.putData("Auto", chooser);
 	}
 	
 	public void setDefault(String name, Autonomous auto) {
