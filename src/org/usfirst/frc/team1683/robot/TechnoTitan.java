@@ -39,7 +39,7 @@ public class TechnoTitan extends IterativeRobot {
 	MotorGroup rightGroup;
 
 	// TODO Make sure to change this value during competition
-	public static final boolean isCompetitionTime = true;
+	public static final boolean isCompetitionTime = false;
 
 	@Override
 	public void robotInit() {

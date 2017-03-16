@@ -30,7 +30,7 @@ public class VisionMiddle extends Autonomous {
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
-				gearScore = new GearScore(tankDrive, 0.3, piReader, 1.4, 0, 0, "middle");
+				gearScore = new GearScore(tankDrive, 0.2 , piReader, 0.74, 0, 0, "middle");
 				nextState = State.APPROACH_GOAL;
 				break;
 			case APPROACH_GOAL:
