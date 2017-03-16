@@ -7,6 +7,7 @@ import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.vision.LightRing;
@@ -25,6 +26,7 @@ public class TechnoTitan extends IterativeRobot {
 	Controls controls;
 
 	Timer waitTeleop;
+	Timer waitAuto;
 
 	PiVisionReader piReader;
 	CameraServer server;
@@ -44,6 +46,8 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		waitTeleop = new Timer();
+		waitAuto = new Timer();
+
 		gyro = new Gyro(HWR.GYRO);
 
 		piReader = new PiVisionReader();
@@ -69,6 +73,11 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		waitAuto.reset();
+		waitAuto.start();
+
+		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
+
 		drive.stop();
 		autoSwitch.getSelected();
 		gyro.reset();
@@ -76,18 +85,22 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		autoSwitch.run();
+		if (waitAuto.get() > 0.2)
+			autoSwitch.run();
 	}
 
 	@Override
 	public void teleopInit() {
+		waitTeleop.reset();
 		waitTeleop.start();
+
+		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
 		drive.stop();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		if (waitTeleop.get() > 0.1)
+		if (waitTeleop.get() > 0.2)
 			controls.run();
 	}
 
