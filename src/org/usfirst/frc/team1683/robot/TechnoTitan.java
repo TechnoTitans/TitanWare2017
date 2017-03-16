@@ -7,6 +7,7 @@ import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
+import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
@@ -39,6 +40,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
+
+	boolean teleopReady = false;
 
 	// TODO Make sure to change this value during competition
 	public static final boolean isCompetitionTime = false;
@@ -100,7 +103,9 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		if (waitTeleop.get() > 0.2)
+		if (waitTeleop.get() > 0.2 || DriverStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
+			teleopReady = true;
+		if (teleopReady)
 			controls.run();
 	}
 
