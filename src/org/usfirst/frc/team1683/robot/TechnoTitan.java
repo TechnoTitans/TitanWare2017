@@ -83,11 +83,7 @@ public class TechnoTitan extends IterativeRobot {
 	public void autonomousInit() {
 		waitAuto.reset();
 		waitAuto.start();
-
-<<<<<<< HEAD
-		SmartDashboard.sendData("piready", true, true);
-=======
->>>>>>> refs/remotes/origin/master
+		
 		drive.stop();
 		autoSwitch.getSelected();
 		gyro.reset();
@@ -110,36 +106,12 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-<<<<<<< HEAD
+
 		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
-		if (waitTeleop.get() > 0.2 || DriverStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
+		if (waitTeleop.get() > 0.2 || DriveStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
 			teleopReady = true;
 		if (teleopReady)
 			controls.run();
-=======
-		SmartDashboard.sendData("Voltage", DriverStation.getInstance().getBatteryVoltage(), false);
-		if (!brownTripped && DriverStation.getInstance().getBatteryVoltage() < 7.2) {
-			SmartDashboard.sendData("BrownOut Protection:", "triggered", true);
-			brownProtection.reset();
-			brownProtection.start();
-			brownTripped = true;
-		}
-
-		if (brownProtection.get() > 2 || DriveStation.rightStick.getRawButton(HWR.OVERRIDE_BROWN))
-			brownTripped = false;
-
-		if (!brownTripped) {
-			SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
-			if (waitTeleop.get() > 0.2 || DriveStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
-				teleopReady = true;
-			if (teleopReady)
-				controls.run();
-			brownProtection.reset();
-			SmartDashboard.sendData("BrownOut Protection:", "N/A", true);
-		} else {
-			drive.coast();
-		}
->>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
