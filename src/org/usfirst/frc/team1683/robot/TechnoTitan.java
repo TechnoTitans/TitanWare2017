@@ -7,7 +7,7 @@ import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
-import org.usfirst.frc.team1683.driverStation.DriverStation;
+import org.usfirst.frc.team1683.driverStation.DriveStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
@@ -15,6 +15,7 @@ import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -28,6 +29,8 @@ public class TechnoTitan extends IterativeRobot {
 
 	Timer waitTeleop;
 	Timer waitAuto;
+	Timer brownProtection;
+	boolean brownTripped = false;
 
 	PiVisionReader piReader;
 	CameraServer server;
@@ -50,6 +53,7 @@ public class TechnoTitan extends IterativeRobot {
 	public void robotInit() {
 		waitTeleop = new Timer();
 		waitAuto = new Timer();
+		brownProtection = new Timer();
 
 		gyro = new Gyro(HWR.GYRO);
 
@@ -79,8 +83,6 @@ public class TechnoTitan extends IterativeRobot {
 		waitAuto.reset();
 		waitAuto.start();
 
-		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
-
 		drive.stop();
 		autoSwitch.getSelected();
 		gyro.reset();
@@ -88,6 +90,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
 		if (waitAuto.get() > 0.2)
 			autoSwitch.run();
 	}
@@ -97,16 +100,33 @@ public class TechnoTitan extends IterativeRobot {
 		waitTeleop.reset();
 		waitTeleop.start();
 
-		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
 		drive.stop();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		if (waitTeleop.get() > 0.2 || DriverStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
-			teleopReady = true;
-		if (teleopReady)
-			controls.run();
+		SmartDashboard.sendData("Voltage", DriverStation.getInstance().getBatteryVoltage(), false);
+		if (!brownTripped && DriverStation.getInstance().getBatteryVoltage() < 7.2) {
+			SmartDashboard.sendData("BrownOut Protection:", "triggered", true);
+			brownProtection.reset();
+			brownProtection.start();
+			brownTripped = true;
+		}
+
+		if (brownProtection.get() > 2 || DriveStation.rightStick.getRawButton(HWR.OVERRIDE_BROWN))
+			brownTripped = false;
+
+		if (!brownTripped) {
+			SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
+			if (waitTeleop.get() > 0.2 || DriveStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
+				teleopReady = true;
+			if (teleopReady)
+				controls.run();
+			brownProtection.reset();
+			SmartDashboard.sendData("BrownOut Protection:", "N/A", true);
+		} else {
+			drive.coast();
+		}
 	}
 
 	@Override

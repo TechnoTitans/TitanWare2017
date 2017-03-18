@@ -41,4 +41,5 @@ public class HWR {
 
 	public static final int TURN_INTAKE = HWP.BUTTON_2;
 	public static final int OVERRIDE_TIMER = HWP.BUTTON_9;
+	public static final int OVERRIDE_BROWN = HWP.BUTTON_9;
 }
