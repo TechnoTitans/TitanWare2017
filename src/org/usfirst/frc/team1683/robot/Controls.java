@@ -35,7 +35,9 @@ public class Controls {
 	double maxPower = 1.0;
 
 	public final double MAX_JOYSTICK_SPEED = 1.0;
-	public final double SECOND_JOYSTICK_SPEED = 0.7;
+	public final double SECOND_JOYSTICK_SPEED = 0.8;
+	
+	public InputFilter rightFilter, leftFilter;
 
 	private double p = 0.74;
 	private double i = 0.0;
@@ -54,6 +56,9 @@ public class Controls {
 		intake = new Intake(HWR.INTAKE);
 
 		gearScore = new GearScore(drive, 0.2, piReader, p, i, d, "Cont");
+		
+		rightFilter = new InputFilter(0.86);
+		leftFilter = new InputFilter(0.86);
 	}
 
 	public void run() {
@@ -75,10 +80,6 @@ public class Controls {
 				gearScore = null;
 				getPID();
 			}
-			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
-				maxPower = MAX_JOYSTICK_SPEED;
-			else if (DriverStation.leftStick.getRawButton(HWR.SECOND_POWER))
-				maxPower = SECOND_JOYSTICK_SPEED;
 
 			SmartDashboard.sendData("Drive Power", maxPower, true);
 			if (frontMode) {
@@ -88,7 +89,22 @@ public class Controls {
 				lSpeed = maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 				rSpeed = maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 			}
-			drive.driveMode(Math.pow(lSpeed, 3), Math.pow(rSpeed, 3));
+			
+			if(maxPower == MAX_JOYSTICK_SPEED){
+				lSpeed = leftFilter.filterInput(Math.pow(lSpeed, 3));
+				rSpeed = rightFilter.filterInput(Math.pow(rSpeed, 3));
+			}
+			else if(maxPower == SECOND_JOYSTICK_SPEED){
+				lSpeed = leftFilter.filterInput(lSpeed);
+				rSpeed = rightFilter.filterInput(rSpeed);
+			}
+			
+			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
+				maxPower = MAX_JOYSTICK_SPEED;
+			else if (DriverStation.leftStick.getRawButton(HWR.SECOND_POWER))
+				maxPower = SECOND_JOYSTICK_SPEED;
+			
+			drive.driveMode(lSpeed, rSpeed);
 		} else {
 			if (gearScore == null)
 				gearScore = new GearScore(drive, 0.2, piReader, p, i, d, "Cont");
@@ -104,7 +120,7 @@ public class Controls {
 			intake.stop();
 
 		// winch
-		toggleMotor(HWR.TOGGLE_WINCH, winch);
+		toggleMotor(HWR.MAIN_WINCH, winch);
 	}
 
 	public void getPID() {
@@ -155,5 +171,10 @@ public class Controls {
 			joystickCheckToggle[joystick][button - 1] = false;
 			return false;
 		}
+	}
+	
+	@SuppressWarnings("unused")
+	private boolean returnToggle(int joystick, int button){
+		return joystickCheckToggle[joystick][button - 1];
 	}
 }

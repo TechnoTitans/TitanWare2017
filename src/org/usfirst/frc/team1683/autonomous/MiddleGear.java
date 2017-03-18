@@ -72,7 +72,7 @@ public class MiddleGear extends Autonomous {
 				tankDrive.stop();
 				if (waitTimer.get() > 0.1) {
 					tankDrive.stop();
-					mover = new DriveTrainMover(tankDrive, -1, 0.3);
+					mover = new DriveTrainMover(tankDrive, -2, 0.3);
 					nextState = State.BACK_UP;
 				}
 				break;

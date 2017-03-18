@@ -46,6 +46,7 @@ public class PathPoint {
 	/**
 	 * 
 	 * @return The angle this point is on, in degrees, where 0 degrees is horizontal and moving counterclockwise
+	 * 
 	 */
 	public double getAngle() {
 		return Math.toDegrees(Math.atan2(y, x));

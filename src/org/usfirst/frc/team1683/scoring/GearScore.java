@@ -17,7 +17,7 @@ public class GearScore {
 	private double errorKP = 2.3;
 
 	private final double CONFIDENCE_CUTOFF = 0.3;
-	private final double DISTANCE_NOT_SEEN = 67;
+	private final double DISTANCE_NOT_SEEN = 100;
 
 	PIDLoop drive;
 	String identifier;
@@ -60,10 +60,15 @@ public class GearScore {
 		SmartDashboard.sendData(identifier + " GearScore confidence", confidence, false);
 		SmartDashboard.sendData(identifier + " GearScore distance", distance, false);
 
-		if (confidence < CONFIDENCE_CUTOFF || distance < 10) {
+		if (confidence < CONFIDENCE_CUTOFF || distance < 8) {
 			if (lastdistance == 0.0)
 				lastdistance = DISTANCE_NOT_SEEN;
 			isRunningPID = false;
+			SmartDashboard.sendData(identifier + " antidrift:", "conf low or distance less", false);
+		}
+		if (Math.abs(offset) < 0.02 && distance < 15) {
+			isRunningPID = false;
+			SmartDashboard.sendData(identifier + " antidrift:", "offset low", false);
 		}
 		if (isEnabled) {
 			if (isRunningPID) {
@@ -73,7 +78,7 @@ public class GearScore {
 				lastdistance = distance;
 				SmartDashboard.sendData(identifier + " Distance", lastdistance, false);
 			} else {
-				SmartDashboard.sendData(identifier + " Vision Aided:", "can't see target", false);
+				SmartDashboard.sendData(identifier + " Vision Aided:", "run antidrift", false);
 				drive.stopPID();
 				SmartDashboard.sendData(identifier + " Last Distance", lastdistance, false);
 				if (mover == null) {

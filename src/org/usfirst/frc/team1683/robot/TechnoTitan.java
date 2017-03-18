@@ -44,7 +44,7 @@ public class TechnoTitan extends IterativeRobot {
 	boolean teleopReady = false;
 
 	// TODO Make sure to change this value during competition
-	public static final boolean isCompetitionTime = false;
+	public static final boolean isCompetitionTime = true;
 
 	@Override
 	public void robotInit() {
@@ -72,6 +72,7 @@ public class TechnoTitan extends IterativeRobot {
 		autoSwitch = new AutonomousSwitcher(drive, piReader);
 
 		controls = new Controls(drive, lightRing, piReader);
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	@Override
@@ -79,8 +80,7 @@ public class TechnoTitan extends IterativeRobot {
 		waitAuto.reset();
 		waitAuto.start();
 
-		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
-
+		SmartDashboard.sendData("piready", true, true);
 		drive.stop();
 		autoSwitch.getSelected();
 		gyro.reset();
@@ -88,21 +88,22 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
 		if (waitAuto.get() > 0.2)
 			autoSwitch.run();
 	}
-
+ 
 	@Override
 	public void teleopInit() {
 		waitTeleop.reset();
 		waitTeleop.start();
 
-		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
 		drive.stop();
 	}
 
 	@Override
 	public void teleopPeriodic() {
+		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
 		if (waitTeleop.get() > 0.2 || DriverStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
 			teleopReady = true;
 		if (teleopReady)

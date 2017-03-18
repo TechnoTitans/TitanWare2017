@@ -25,7 +25,7 @@ public class EdgeGear extends Autonomous {
 	private Timer waitTimer;
 
 	private PathPoint[] pathPoint1 = { new PathPoint(0, 73), new PathPoint(-55 * 0.1, 37 * 0.1, true), };
-	private PathPoint[] pathPoint2 = { new PathPoint(0, 58), new PathPoint(-85 * 0.1, 51.7 * 0.1, true), };
+	private PathPoint[] pathPoint2 = { new PathPoint(0, 44), new PathPoint(-85 * 0.1, 51.7 * 0.1, true), };
 	private PathPoint[] pathPoints;
 	// private PathPoint[] pathPointsLeft = { new PathPoint(0, -12), new
 	// PathPoint(-90, 37, true), };
@@ -56,7 +56,7 @@ public class EdgeGear extends Autonomous {
 		switch (presentState) {
 			case INIT_CASE:
 				timer.start();
-				path = new Path(tankDrive, pathPoints, 0.2);
+				path = new Path(tankDrive, pathPoints, 0.3);
 				nextState = State.DRIVE_PATH;
 				break;
 			case DRIVE_PATH:
@@ -70,7 +70,7 @@ public class EdgeGear extends Autonomous {
 			case APPROACH_GOAL:
 				gearScore.run();
 				gearScore.enable();
-				if (gearScore.isDone()) {
+				if (gearScore.isDone() || timer.get() > 13) {
 					waitTimer.start();
 					gearScore.disable();
 					tankDrive.stop();
@@ -81,7 +81,7 @@ public class EdgeGear extends Autonomous {
 				tankDrive.stop();
 				if (waitTimer.get() > 0.1) {
 					tankDrive.stop();
-					mover = new DriveTrainMover(tankDrive, -1, 0.3);
+					mover = new DriveTrainMover(tankDrive, -2, 0.3);
 					nextState = State.BACK_UP;
 				}
 				break;
