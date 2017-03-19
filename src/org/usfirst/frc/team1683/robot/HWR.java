@@ -12,7 +12,6 @@ public class HWR {
 
 	public static final int WINCH1 = HWP.CAN_11;
 	public static final int WINCH2 = HWP.CAN_12;
-	public static final int INTAKE = HWP.CAN_10;
 
 	public static final int GREEN_LIGHT_LOW = HWP.CAN_3;
 
@@ -39,6 +38,5 @@ public class HWR {
 	public static final int TOGGLE_BACK_WINCH = HWP.BUTTON_11;
 	public static final int MAIN_WINCH = HWP.BUTTON_3;
 
-	public static final int TURN_INTAKE = HWP.BUTTON_2;
 	public static final int OVERRIDE_TIMER = HWP.BUTTON_9;
 }

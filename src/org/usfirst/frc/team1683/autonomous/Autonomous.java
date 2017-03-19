@@ -25,6 +25,7 @@ public abstract class Autonomous {
 		resetAuto();
 	}
 
+	// Different states the autonomous could take
 	public static enum State {
 		INIT_CASE, END_CASE, DRIVE_FORWARD, APPROACH_GOAL, DRIVE_PATH, BACK_UP, SHAKE, HEAD_TO_LOADING, WAIT;
 	}

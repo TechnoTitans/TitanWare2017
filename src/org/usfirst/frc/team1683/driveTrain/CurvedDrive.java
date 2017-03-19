@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
  * Curved drive to follow path based on a function y
  * 
  * ALL METERS HERE except antidrift
+ * 
  * Not used maybe next year
  * 
  * @author Yi Liu
@@ -40,7 +41,7 @@ public class CurvedDrive {
 
 	public void run() {
 		t = timer.get() / 3.00;
-		
+
 		SmartDashboard.sendData("Time(x)", t, false);
 		SmartDashboard.sendData("Function", function(), false);
 		SmartDashboard.sendData("Curved Drive Ratio", ratioAngularVelocity(t, false), false);
@@ -51,10 +52,8 @@ public class CurvedDrive {
 		SmartDashboard.sendData("Curved right speed",
 				speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1), false);
 
-		 drive.setRight(speed * (isTurningRight(t, false) ? 1 :
-		 ratioAngularVelocity(t, false)));
-		 drive.setLeft(speed * (isTurningRight(t, false) ?
-		 ratioAngularVelocity(t, false) : 1));
+		drive.setRight(speed * (isTurningRight(t, false) ? 1 : ratioAngularVelocity(t, false)));
+		drive.setLeft(speed * (isTurningRight(t, false) ? ratioAngularVelocity(t, false) : 1));
 
 		SmartDashboard.sendData("Antidrift", antiDrift(-1), false);
 		SmartDashboard.sendData("Antidrift", antiDrift(1), false);

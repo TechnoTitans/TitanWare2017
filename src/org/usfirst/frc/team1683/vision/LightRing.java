@@ -3,6 +3,15 @@ package org.usfirst.frc.team1683.vision;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.robot.HWR;
 
+/**
+ * 
+ * Controls light rings
+ * 
+ * Not used
+ * 
+ * @author Yi Liu
+ *
+ */
 public class LightRing {
 	TalonSRX light;
 	final double MAX_BRIGHTNESS = -1.0;

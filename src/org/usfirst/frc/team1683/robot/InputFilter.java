@@ -1,5 +1,12 @@
 package org.usfirst.frc.team1683.robot;
 
+/**
+ * 
+ * Filters input from joysticks
+ * 
+ * Avoid electrical failure
+ *
+ */
 public class InputFilter {
 
 	private double filterK;
@@ -31,7 +38,8 @@ public class InputFilter {
 
 	public double filterInput(double input) {
 		if (!setInitOldOutput) {
-			// If no default old output was set, set it to the first input that comes in
+			// If no default old output was set, set it to the first input that
+			// comes in
 			oldOutput = input;
 			setInitOldOutput = true;
 		}
@@ -39,7 +47,7 @@ public class InputFilter {
 		oldOutput = output;
 		return output;
 	}
-	
+
 	public double getLastOutput() {
 		return oldOutput;
 	}

@@ -11,8 +11,10 @@ import org.usfirst.frc.team1683.vision.PiVisionReader;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- * Edge gear scoring autonomous (scores on the edge)
- * Important! Be careful
+ * 
+ * Edge gear scoring autonomous (scores on the edge) Important! Be careful
+ * 
+ * @author Yi Liu
  *
  */
 public class EdgeGear extends Autonomous {
@@ -25,8 +27,13 @@ public class EdgeGear extends Autonomous {
 	private Timer timer;
 	private Timer waitTimer;
 
-	private PathPoint[] pathPoint1 = { new PathPoint(0, 73), new PathPoint(-55 * 0.1, 37 * 0.1, true), };// path for normal edge
-	private PathPoint[] pathPoint2 = { new PathPoint(0, 52), new PathPoint(-81 * 0.1, 55 * 0.1, true), };// path for wide edge
+	// Path for normal edge gear autonomous
+	private PathPoint[] pathPoint1 = { new PathPoint(0, 73), new PathPoint(-55 * 0.1, 37 * 0.1, true), };
+	// Path for "wide" autonomous
+	private PathPoint[] pathPoint2 = { new PathPoint(0, 52), new PathPoint(-81 * 0.1, 55 * 0.1, true), };
+
+	// Path that is ran
+	// Check next comment for more info
 	private PathPoint[] pathPoints;
 
 	public EdgeGear(TankDrive tankDrive, boolean right, boolean wide, PiVisionReader piReader) {
@@ -36,6 +43,7 @@ public class EdgeGear extends Autonomous {
 		timer = new Timer();
 		waitTimer = new Timer();
 
+		// Sets pathPoint depending on if it is wide or normal
 		if (!wide)
 			pathPoints = pathPoint1;
 		else
@@ -66,7 +74,6 @@ public class EdgeGear extends Autonomous {
 				break;
 			case APPROACH_GOAL:
 				gearScore.run();
-				gearScore.enable();
 				if (gearScore.isDone() || timer.get() > 13) {
 					waitTimer.start();
 					gearScore.disable();

@@ -17,6 +17,7 @@ public class AutonomousSwitcher {
 	BuiltInAccel accel;
 	Gyro gyro;
 
+	// Creates buttons for co driver to pick autonomous
 	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader) {
 		chooser = new SendableChooser();
 
@@ -34,10 +35,12 @@ public class AutonomousSwitcher {
 		SmartDashboard.putData("Auto", chooser);
 	}
 
+	// When chooser is displayed, this autonomous is autonomatically selected
 	public void setDefault(String name, Autonomous auto) {
 		chooser.addDefault(name, auto);
 	}
 
+	// Adds auto to chooser only if it is for competition
 	@SuppressWarnings("unused")
 	public void addAuto(String name, Autonomous auto, boolean forCompetition) {
 		double warning;

@@ -8,6 +8,10 @@ import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 /**
  * 
+ * Gear scoring
+ * 
+ * Uses vision and antidrift
+ * 
  * @author Yi Liu
  *
  */
@@ -89,6 +93,7 @@ public class GearScore {
 					mover.runIteration();
 				} else {
 					driveTrain.stop();
+					isEnabled = false;
 					isDone = true;
 				}
 			}

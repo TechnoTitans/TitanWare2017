@@ -1,10 +1,11 @@
 package org.usfirst.frc.team1683.driveTrain;
+
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
 /*
  * 
- * keeps robot moving in a line
+ * Keeps robot moving in a line
  * 
  */
 public class AntiDrift {
@@ -28,23 +29,24 @@ public class AntiDrift {
 
 	/**
 	 * 
-	 * @param speed The current speed of the motor
-	 * @return The new speed of the motor that should be set to make the angle of the gyro closer to zero
+	 * @param speed
+	 *            The current speed of the motor
+	 * @return The new speed of the motor that should be set to make the angle
+	 *         of the gyro closer to zero
 	 */
 	public double antiDrift(double speed) {
 		double error = antidriftangle - gyro.getAngle();
 		SmartDashboard.sendData("gyroangle", gyro.getAngle(), false);
-		
+
 		double correction = SmartDashboard.getDouble("kp") * error / 2.0;
-		return limitSpeed(speed -  correction * right);
+		return limitSpeed(speed - correction * right);
 	}
-	
+
 	public void reset() {
 		gyro.reset();
 		antidriftangle = gyro.getAngle();
 	}
-	
-	
+
 	private static double limitSpeed(double speed) {
 		if (speed > 1.0) {
 			return 1.0;

@@ -7,7 +7,7 @@ import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.MotorGroup;
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
-import org.usfirst.frc.team1683.driverStation.DriveStation;
+import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
@@ -18,6 +18,11 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 
+/**
+ * 
+ * Main class
+ *
+ */
 public class TechnoTitan extends IterativeRobot {
 	public static final boolean LEFT_REVERSE = false;
 	public static final boolean RIGHT_REVERSE = true;
@@ -103,7 +108,7 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
-		if (waitTeleop.get() > 0.2 || DriveStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
+		if (waitTeleop.get() > 0.2 || DriverStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
 			teleopReady = true;
 		if (teleopReady)
 			controls.run();

@@ -1,16 +1,17 @@
 package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
-import org.usfirst.frc.team1683.driverStation.DriveStation;
+import org.usfirst.frc.team1683.driverStation.DriverStation;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.GearScore;
-import org.usfirst.frc.team1683.scoring.Intake;
 import org.usfirst.frc.team1683.scoring.ScoringMotor;
 import org.usfirst.frc.team1683.scoring.Winch;
 import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 /**
+ * 
+ * Handles all joystick inputs
  * 
  * @author Yi Liu
  * 
@@ -22,7 +23,6 @@ public class Controls {
 	DriveTrain drive;
 	GearScore gearScore;
 	Winch winch;
-	Intake intake;
 	LightRing light;
 	PiVisionReader piReader;
 
@@ -36,7 +36,7 @@ public class Controls {
 
 	public final double MAX_JOYSTICK_SPEED = 1.0;
 	public final double SECOND_JOYSTICK_SPEED = 0.8;
-	
+
 	public InputFilter rightFilter, leftFilter;
 
 	private double p = 0.74;
@@ -53,10 +53,9 @@ public class Controls {
 		SmartDashboard.prefDouble("ad", d);
 
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
-		intake = new Intake(HWR.INTAKE);
 
 		gearScore = new GearScore(drive, 0.2, piReader, p, i, d, "Cont");
-		
+
 		rightFilter = new InputFilter(0.86);
 		leftFilter = new InputFilter(0.86);
 	}
@@ -64,11 +63,14 @@ public class Controls {
 	public void run() {
 		// drivetrain
 		SmartDashboard.sendData("Front(intake) or Back(gear) mode", frontMode ? "intake" : "gear", true);
-		if (DriveStation.rightStick.getRawButton(HWR.BACK_CONTROL))
+
+		// Selects which side of robot becomes the "front"
+		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL))
 			frontMode = false;
-		else if (DriveStation.rightStick.getRawButton(HWR.FRONT_CONTROL))
+		else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL))
 			frontMode = true;
 
+		// Selects if vision mode or not
 		if (checkToggle(HWR.LEFT_JOYSTICK, HWR.TOGGLE_VISION_AID)) {
 			visionAidedMovement = !visionAidedMovement;
 		}
@@ -83,27 +85,27 @@ public class Controls {
 
 			SmartDashboard.sendData("Drive Power", maxPower, true);
 			if (frontMode) {
-				lSpeed = -maxPower * DriveStation.leftStick.getRawAxis(DriveStation.YAxis);
-				rSpeed = -maxPower * DriveStation.rightStick.getRawAxis(DriveStation.YAxis);
+				lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+				rSpeed = -maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
 			} else {
-				lSpeed = maxPower * DriveStation.rightStick.getRawAxis(DriveStation.YAxis);
-				rSpeed = maxPower * DriveStation.leftStick.getRawAxis(DriveStation.YAxis);
+				lSpeed = maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+				rSpeed = maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
 			}
-			
-			if(maxPower == MAX_JOYSTICK_SPEED){
+
+			// Input filtering to avoid electrical failure
+			if (maxPower == MAX_JOYSTICK_SPEED) {
 				lSpeed = leftFilter.filterInput(Math.pow(lSpeed, 3));
 				rSpeed = rightFilter.filterInput(Math.pow(rSpeed, 3));
-			}
-			else if(maxPower == SECOND_JOYSTICK_SPEED){
+			} else if (maxPower == SECOND_JOYSTICK_SPEED) {
 				lSpeed = leftFilter.filterInput(lSpeed);
 				rSpeed = rightFilter.filterInput(rSpeed);
 			}
-			
-			if (DriveStation.rightStick.getRawButton(HWR.FULL_POWER))
+
+			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
 				maxPower = MAX_JOYSTICK_SPEED;
-			else if (DriveStation.leftStick.getRawButton(HWR.SECOND_POWER))
+			else if (DriverStation.leftStick.getRawButton(HWR.SECOND_POWER))
 				maxPower = SECOND_JOYSTICK_SPEED;
-			
+
 			drive.driveMode(lSpeed, rSpeed);
 		} else {
 			if (gearScore == null)
@@ -112,12 +114,6 @@ public class Controls {
 			gearScore.enable();
 			gearScore.run();
 		}
-
-		// intake
-		if (DriveStation.auxStick.getRawButton(HWR.TURN_INTAKE)) {
-			intake.turnOn();
-		} else
-			intake.stop();
 
 		// winch
 		toggleMotor(HWR.MAIN_WINCH, winch);
@@ -150,13 +146,13 @@ public class Controls {
 
 		switch (joystick) {
 			case HWR.AUX_JOYSTICK:
-				pressed = DriveStation.auxStick.getRawButton(button);
+				pressed = DriverStation.auxStick.getRawButton(button);
 				break;
 			case HWR.RIGHT_JOYSTICK:
-				pressed = DriveStation.rightStick.getRawButton(button);
+				pressed = DriverStation.rightStick.getRawButton(button);
 				break;
 			case HWR.LEFT_JOYSTICK:
-				pressed = DriveStation.leftStick.getRawButton(button);
+				pressed = DriverStation.leftStick.getRawButton(button);
 				break;
 			default:
 				break;
@@ -172,9 +168,9 @@ public class Controls {
 			return false;
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
-	private boolean returnToggle(int joystick, int button){
+	private boolean returnToggle(int joystick, int button) {
 		return joystickCheckToggle[joystick][button - 1];
 	}
 }

@@ -11,7 +11,8 @@ import org.usfirst.frc.team1683.vision.PiVisionReader;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- * middle gear scoring
+ * 
+ * Middle gear scoring
  * 
  * @author Yi Liu
  *
@@ -50,7 +51,7 @@ public class MiddleGear extends Autonomous {
 
 	}
 
-	public void run() {// TODO feedback
+	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
 				timer = new Timer();

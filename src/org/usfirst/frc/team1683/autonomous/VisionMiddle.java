@@ -8,34 +8,40 @@ import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.Timer;
 
+/**
+ * 
+ * Center gear scoring ONLY FOR TESTINGf
+ * 
+ * @author panda
+ *
+ */
 public class VisionMiddle extends Autonomous {
 	GearScore gearScore;
 	PiVisionReader piReader;
 	DriveTrainMover mover;
-	
+
 	Timer waitTimer;
-	
+
 	Timer timer;
 	Timer timer2;
-	
+
 	public VisionMiddle(TankDrive tankDrive, PiVisionReader piReader) {
 		super(tankDrive);
 		this.piReader = piReader;
 		timer = new Timer();
 		timer2 = new Timer();
-		
+
 		waitTimer = new Timer();
 	}
 
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
-				gearScore = new GearScore(tankDrive, 0.2 , piReader, 0.74, 0, 0, "middle");
+				gearScore = new GearScore(tankDrive, 0.2, piReader, 0.74, 0, 0, "middle");
 				nextState = State.APPROACH_GOAL;
 				break;
 			case APPROACH_GOAL:
 				gearScore.run();
-				gearScore.enable();
 				if (gearScore.isDone()) {
 					gearScore.disable();
 					tankDrive.stop();
