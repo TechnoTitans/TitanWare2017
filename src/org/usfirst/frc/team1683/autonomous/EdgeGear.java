@@ -11,7 +11,8 @@ import org.usfirst.frc.team1683.vision.PiVisionReader;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- * Edge gear scoring
+ * Edge gear scoring autonomous (scores on the edge)
+ * Important! Be careful
  *
  */
 public class EdgeGear extends Autonomous {
@@ -24,13 +25,9 @@ public class EdgeGear extends Autonomous {
 	private Timer timer;
 	private Timer waitTimer;
 
-	private PathPoint[] pathPoint1 = { new PathPoint(0, 73), new PathPoint(-55 * 0.1, 37 * 0.1, true), };
-	private PathPoint[] pathPoint2 = { new PathPoint(0, 44), new PathPoint(-85 * 0.1, 51.7 * 0.1, true), };
+	private PathPoint[] pathPoint1 = { new PathPoint(0, 73), new PathPoint(-55 * 0.1, 37 * 0.1, true), };// path for normal edge
+	private PathPoint[] pathPoint2 = { new PathPoint(0, 52), new PathPoint(-81 * 0.1, 55 * 0.1, true), };// path for wide edge
 	private PathPoint[] pathPoints;
-	// private PathPoint[] pathPointsLeft = { new PathPoint(0, -12), new
-	// PathPoint(-90, 37, true), };
-	// private PathPoint[] pathPointsRight = { new PathPoint(0, -12), new
-	// PathPoint(90, 0, true), };
 
 	public EdgeGear(TankDrive tankDrive, boolean right, boolean wide, PiVisionReader piReader) {
 		super(tankDrive);
@@ -56,7 +53,7 @@ public class EdgeGear extends Autonomous {
 		switch (presentState) {
 			case INIT_CASE:
 				timer.start();
-				path = new Path(tankDrive, pathPoints, 0.3);
+				path = new Path(tankDrive, pathPoints, 0.6, 0.3);
 				nextState = State.DRIVE_PATH;
 				break;
 			case DRIVE_PATH:
@@ -64,7 +61,7 @@ public class EdgeGear extends Autonomous {
 				if (path.isDone() || timer.get() > 6) {
 					tankDrive.stop();
 					nextState = State.APPROACH_GOAL;
-					gearScore = new GearScore(tankDrive, 0.2, piReader, 0.8, 0.0, 0, "edge");
+					gearScore = new GearScore(tankDrive, 0.2, piReader, 0.84, 0.0, 0, "edge");
 				}
 				break;
 			case APPROACH_GOAL:

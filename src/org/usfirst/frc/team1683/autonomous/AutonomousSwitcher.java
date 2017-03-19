@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class AutonomousSwitcher {
 	public Autonomous autoSelected;
-	
+
 	public SendableChooser chooser;
 
 	BuiltInAccel accel;
@@ -19,20 +19,21 @@ public class AutonomousSwitcher {
 
 	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader) {
 		chooser = new SendableChooser();
-		
+
 		addAuto("Do nothing", new DoNothing(tankDrive), true);
 		addAuto("Square Auto", new SquareAuto(tankDrive), false);
 		addAuto("Edge Gear Turn Left", new EdgeGear(tankDrive, false, false, piReader), true);
 		addAuto("Edge Gear Turn Right", new EdgeGear(tankDrive, true, false, piReader), true);
 		addAuto("Wide Edge Turn Left", new EdgeGear(tankDrive, false, true, piReader), true);
-		addAuto("Wide Edge Turn Right", new EdgeGear(tankDrive, true, true, piReader), true);
-		setDefault("MiddleGear", new MiddleGear(tankDrive, piReader));
-		addAuto("PassLine", new PassLine(tankDrive), true);
-		addAuto("VisionMiddle", new VisionMiddle(tankDrive, piReader), true);
+		setDefault("Wide Edge Turn Right", new EdgeGear(tankDrive, true, true, piReader));
+		addAuto("MiddleGear", new MiddleGear(tankDrive, piReader), true);
+		addAuto("PassLine Turn Right", new PassLine(tankDrive, true), true);
+		addAuto("PassLine Turn Left", new PassLine(tankDrive, false), true);
+		addAuto("VisionMiddle", new VisionMiddle(tankDrive, piReader), false);
 
 		SmartDashboard.putData("Auto", chooser);
 	}
-	
+
 	public void setDefault(String name, Autonomous auto) {
 		chooser.addDefault(name, auto);
 	}
@@ -48,7 +49,7 @@ public class AutonomousSwitcher {
 	public void getSelected() {
 		autoSelected = (Autonomous) chooser.getSelected();
 	}
-	
+
 	public void run() {
 		autoSelected.run();
 	}
