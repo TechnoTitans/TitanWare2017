@@ -6,6 +6,11 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
+/*
+ * 
+ * Motor control (talonSRX)
+ * 
+ */
 public class TalonSRX extends CANTalon implements Motor {
 
 	private Encoder encoder;

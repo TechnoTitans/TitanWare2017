@@ -4,6 +4,7 @@ import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 /**
  * 
+ * Moves robot in a path based on coordinates
  * @author Pran
  *
  */
@@ -16,6 +17,7 @@ public class Path {
 	private boolean isTurning = true;
 	private int pathIndex = 0;
 	private double speed;
+	private double turnSpeed;
 	private boolean stopCondition;
 	
 
@@ -26,8 +28,8 @@ public class Path {
 	 * @param speed The speed with which to move and turn
 	 * Note: default heading is 90 degrees
 	 */
-	public Path(DriveTrain driveTrain, PathPoint[] path, double speed) {
-		this(driveTrain, path, speed, 90);
+	public Path(DriveTrain driveTrain, PathPoint[] path, double speed, double turnSpeed) {
+		this(driveTrain, path, speed, turnSpeed, 90);
 	}
 	
 	/**
@@ -38,7 +40,7 @@ public class Path {
 	 * @param currentHeading The current heading in degrees, where 0 degrees is horizontal, and 90 degrees is pointing up (towards positive y coordinates)
 	 * 							The current heading is used to determine how much to initially turn.
 	 */
-	public Path(DriveTrain driveTrain, PathPoint[] path, double speed, double currentHeading) {
+	public Path(DriveTrain driveTrain, PathPoint[] path, double speed, double turnSpeed, double currentHeading) {
 		this.driveTrain = driveTrain;
 		this.path = path;
 		this.currentHeading = currentHeading;
@@ -46,6 +48,7 @@ public class Path {
 			turner = new DriveTrainTurner(driveTrain, path[0].getAngle() - currentHeading, speed);
 		}
 		this.speed = speed;
+		this.turnSpeed = turnSpeed;
 		setStopCondition(false);
 		PathPoint.convertAbsoluteToRelative(path);
 	}
@@ -91,7 +94,7 @@ public class Path {
 				SmartDashboard.sendData("pathIndex", pathIndex, false);
 				if (!isDone()) {
 					SmartDashboard.sendData("path length", path.length, false);
-					turner = new DriveTrainTurner(driveTrain, path[pathIndex].getAngle() - currentHeading, Math.abs(speed));
+					turner = new DriveTrainTurner(driveTrain, path[pathIndex].getAngle() - currentHeading, Math.abs(turnSpeed));
 					isTurning = true;
 				}
 			}

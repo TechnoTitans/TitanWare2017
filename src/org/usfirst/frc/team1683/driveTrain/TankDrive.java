@@ -3,6 +3,11 @@ package org.usfirst.frc.team1683.driveTrain;
 import org.usfirst.frc.team1683.sensors.Encoder;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
+/*
+ * 
+ * Controls tank drive
+ * 
+ */
 public class TankDrive implements DriveTrain {
 
 	private MotorGroup left;
