@@ -15,7 +15,6 @@ import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -29,8 +28,6 @@ public class TechnoTitan extends IterativeRobot {
 
 	Timer waitTeleop;
 	Timer waitAuto;
-	Timer brownProtection;
-	boolean brownTripped = false;
 
 	PiVisionReader piReader;
 	CameraServer server;
@@ -47,13 +44,12 @@ public class TechnoTitan extends IterativeRobot {
 	boolean teleopReady = false;
 
 	// TODO Make sure to change this value during competition
-	public static final boolean isCompetitionTime = true;
+	public static final boolean isCompetitionTime = false;
 
 	@Override
 	public void robotInit() {
 		waitTeleop = new Timer();
 		waitAuto = new Timer();
-		brownProtection = new Timer();
 
 		gyro = new Gyro(HWR.GYRO);
 
@@ -83,7 +79,7 @@ public class TechnoTitan extends IterativeRobot {
 	public void autonomousInit() {
 		waitAuto.reset();
 		waitAuto.start();
-		
+
 		drive.stop();
 		autoSwitch.getSelected();
 		gyro.reset();
@@ -95,7 +91,7 @@ public class TechnoTitan extends IterativeRobot {
 		if (waitAuto.get() > 0.2)
 			autoSwitch.run();
 	}
- 
+
 	@Override
 	public void teleopInit() {
 		waitTeleop.reset();
@@ -106,7 +102,6 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-
 		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
 		if (waitTeleop.get() > 0.2 || DriveStation.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
 			teleopReady = true;

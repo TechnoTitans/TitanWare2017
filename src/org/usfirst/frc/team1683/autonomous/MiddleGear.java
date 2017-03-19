@@ -28,6 +28,7 @@ public class MiddleGear extends Autonomous {
 	private final double speed = 0.5;
 	private Timer timer;
 	private Timer timer2;
+	private Timer timer3;
 	private Timer waitTimer;
 	private DriveTrainMover driveTrainMover;
 
@@ -54,6 +55,7 @@ public class MiddleGear extends Autonomous {
 			case INIT_CASE:
 				timer = new Timer();
 				timer2 = new Timer();
+				timer3 = new Timer();
 				waitTimer = new Timer();
 
 				nextState = State.DRIVE_FORWARD;
@@ -80,22 +82,24 @@ public class MiddleGear extends Autonomous {
 				mover.runIteration();
 				if (mover.areAnyFinished()) {
 					tankDrive.stop();
-					nextState = State.END_CASE;
+					nextState = State.SHAKE;
 					waitTimer.start();
+					timer2.start();
+					timer3.start();
 				}
 				break;
-//			case SHAKE:
-//				if (timer2.get() > 3) {
-//					nextState = State.END_CASE;
-//					tankDrive.stop();
-//				} else {
-//					tankDrive.turnInPlace(shakeRight, 0.15);
-//					if (timer.get() > 0.18) {
-//						shakeRight = !shakeRight;
-//						timer.reset();
-//					}
-//				}
-//				break;
+			case SHAKE:
+				if (timer2.get() > 3) {
+					nextState = State.END_CASE;
+					tankDrive.stop();
+				} else {
+					tankDrive.turnInPlace(shakeRight, 0.15);
+					if (timer3.get() > 0.18) {
+						shakeRight = !shakeRight;
+						timer3.reset();
+					}
+				}
+				break;
 			case END_CASE:
 				nextState = State.END_CASE;
 				break;
