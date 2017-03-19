@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import org.usfirst.frc.team1683.sensors.Encoder;
 
+/*
+ * 
+ * Creates a group of motors (for left and right side)
+ * 
+ */
 public class MotorGroup extends ArrayList<Motor> {
 
 	private static final long serialVersionUID = 1L;

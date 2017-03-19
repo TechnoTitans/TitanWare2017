@@ -1,5 +1,10 @@
 package org.usfirst.frc.team1683.sensors;
 
+/**
+ * 
+ * Don't worry about this. Not used
+ * 
+ */
 public class TiltSensor {
 	AnalogAccel accelX;
 	AnalogAccel accelY;

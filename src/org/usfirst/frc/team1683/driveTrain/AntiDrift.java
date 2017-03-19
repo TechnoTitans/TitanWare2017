@@ -2,6 +2,11 @@ package org.usfirst.frc.team1683.driveTrain;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
+/*
+ * 
+ * keeps robot moving in a line
+ * 
+ */
 public class AntiDrift {
 
 	private double antidriftangle = 0;

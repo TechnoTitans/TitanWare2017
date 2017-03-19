@@ -1,5 +1,10 @@
 package org.usfirst.frc.team1683.sensors;
 
+/**
+ * 
+ * Not used
+ *
+ */
 public class AnalogAccel extends edu.wpi.first.wpilibj.AnalogAccelerometer {
 	public static final double SENSITIVITY = 3.3 / 6;
 	public static final double ZERO_G_IN_VOLTS = 1.65;

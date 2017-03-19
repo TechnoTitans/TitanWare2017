@@ -4,6 +4,11 @@ import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
+/*
+ * 
+ * Gets values from raspberry pi and returns them
+ * 
+ */
 public class PiVisionReader {
 	private NetworkTable table;
 	private final String tableName = "SmartDashboard";
@@ -70,7 +75,7 @@ public class PiVisionReader {
 	public double getOffset() {
 		double offsetValue1 = offset1.getValue();
 		double offsetValue2 = offset2.getValue();
-		
+
 		double confidenceValue1 = confidence1.getValue();
 		double confidenceValue2 = confidence2.getValue();
 

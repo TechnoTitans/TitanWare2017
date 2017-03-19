@@ -1,9 +1,13 @@
 package org.usfirst.frc.team1683.sensors;
 
 import org.usfirst.frc.team1683.driveTrain.TalonSRX;
-
-//import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDevice;
+
+/**
+ * 
+ * Encoder class. Used to measure how far the robot traveled
+ * 
+ */
 
 public class QuadEncoder implements Encoder {
 

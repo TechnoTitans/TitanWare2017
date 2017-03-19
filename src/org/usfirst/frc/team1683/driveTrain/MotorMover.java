@@ -2,6 +2,11 @@ package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.sensors.Encoder;
 
+/*
+ * 
+ * Controlled by drive train mover
+ * 
+ */
 public class MotorMover implements Runnable {
 	private double distance;
 	private double speed;

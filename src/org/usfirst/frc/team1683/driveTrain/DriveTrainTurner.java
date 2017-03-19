@@ -5,6 +5,7 @@ import org.usfirst.frc.team1683.sensors.Gyro;
 /**
  * 
  * @author Pran
+ * Turns robot a certain number of degrees
  *
  */
 public class DriveTrainTurner {

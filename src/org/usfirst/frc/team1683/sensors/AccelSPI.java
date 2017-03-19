@@ -3,6 +3,11 @@ package org.usfirst.frc.team1683.sensors;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
+/*
+ * 
+ * Not used
+ * 
+ */
 public class AccelSPI extends edu.wpi.first.wpilibj.ADXL362 {
 
 	public AccelSPI(SPI.Port port, Accelerometer.Range range) {
