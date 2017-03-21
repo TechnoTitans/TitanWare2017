@@ -3,7 +3,6 @@ package org.usfirst.frc.team1683.autonomous;
 import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.scoring.GearScore;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -25,14 +24,12 @@ public class MiddleGear extends Autonomous {
 	private Timer waitTimer;
 
 	private boolean shakeRight = true;
-	GearScore gearScore;
 	PiVisionReader piReader;
 	DriveTrainMover mover;
 
 	public MiddleGear(TankDrive tankDrive, PiVisionReader piReader) {
 		super(tankDrive);
 		this.piReader = piReader;
-		gearScore = new GearScore(tankDrive, 0.3, piReader, 0.84, 0.0, 0.0, "edge");
 		presentState = State.INIT_CASE;
 	}
 

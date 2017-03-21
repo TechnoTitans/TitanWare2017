@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1683.driveTrain;
 
+import org.usfirst.frc.team1683.robot.InputFilter;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
 /*
@@ -15,6 +16,8 @@ public class MotorMover implements Runnable {
 	private Encoder encoder;
 	private AntiDrift anti;
 	private boolean running = true;
+
+	private InputFilter inputFilter;
 
 	/**
 	 * Class for moving a motor a certain distance based on an encoder
@@ -44,6 +47,8 @@ public class MotorMover implements Runnable {
 		if (anti != null) {
 			anti.reset();
 		}
+
+		inputFilter = new InputFilter(0.9);
 	}
 
 	/**
@@ -96,7 +101,7 @@ public class MotorMover implements Runnable {
 		double correctSpeed = speed;
 		if (anti != null)
 			correctSpeed = anti.antiDrift(speed);
-		motor.set(correctSpeed);
+		motor.set(inputFilter.filterInput(correctSpeed));
 		return false;
 	}
 
