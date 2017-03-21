@@ -27,7 +27,7 @@ public abstract class Autonomous {
 
 	// Different states the autonomous could take
 	public static enum State {
-		INIT_CASE, END_CASE, DRIVE_FORWARD, APPROACH_GOAL, DRIVE_PATH, BACK_UP, SHAKE, HEAD_TO_LOADING, WAIT;
+		INIT_CASE, END_CASE, DRIVE_FORWARD, APPROACH_GOAL, DRIVE_PATH, BACK_UP, SHAKE, HEAD_TO_LOADING, WAIT, TEST_LEFT, TEST_RIGHT, TEST_DRIVE, TEST_WINCH;
 	}
 
 	public boolean isAtEndCase() {

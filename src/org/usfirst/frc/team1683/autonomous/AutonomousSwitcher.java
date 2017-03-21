@@ -31,6 +31,7 @@ public class AutonomousSwitcher {
 		addAuto("PassLine Turn Right", new PassLine(tankDrive, true), true);
 		addAuto("PassLine Turn Left", new PassLine(tankDrive, false), true);
 		addAuto("VisionMiddle", new VisionMiddle(tankDrive, piReader), false);
+		addAuto("Test Everything", new TestEverything(tankDrive), true);
 
 		SmartDashboard.putData("Auto", chooser);
 	}
