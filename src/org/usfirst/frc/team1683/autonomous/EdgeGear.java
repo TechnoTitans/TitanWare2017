@@ -25,7 +25,10 @@ public class EdgeGear extends Autonomous {
 	private DriveTrainMover mover;
 
 	private Timer timer;
+	private Timer timer2;
+	private Timer timer3;
 	private Timer waitTimer;
+	private boolean shakeRight = false;
 
 	// Path for normal edge gear autonomous
 	private PathPoint[] pathPoint1 = { new PathPoint(0, 73), new PathPoint(-55 * 0.1, 37 * 0.1, true), };
@@ -41,6 +44,8 @@ public class EdgeGear extends Autonomous {
 		this.piReader = piReader;
 
 		timer = new Timer();
+		timer2 = new Timer();
+		timer3 = new Timer();
 		waitTimer = new Timer();
 
 		// Sets pathPoint depending on if it is wide or normal
@@ -74,7 +79,7 @@ public class EdgeGear extends Autonomous {
 				break;
 			case APPROACH_GOAL:
 				gearScore.run();
-				if (gearScore.isDone() || timer.get() > 13) {
+				if (gearScore.isDone() || timer.get() > 12) {
 					waitTimer.start();
 					gearScore.disable();
 					tankDrive.stop();
@@ -93,9 +98,24 @@ public class EdgeGear extends Autonomous {
 				mover.runIteration();
 				if (mover.areAnyFinished()) {
 					tankDrive.stop();
-					nextState = State.END_CASE;
+					nextState = State.SHAKE;
+					timer2.start();
+					timer3.start();
 				}
 				break;
+			case SHAKE:
+				if (timer2.get() > 3) {
+					nextState = State.END_CASE;
+					tankDrive.stop();
+				} else {
+					tankDrive.turnInPlace(shakeRight, 0.15);
+					if (timer3.get() > 0.18) {
+						shakeRight = !shakeRight;
+						timer3.reset();
+					}
+				}
+				break;
+			// Not ready
 			case HEAD_TO_LOADING:
 				path.run();
 				if (path.isDone()) {
