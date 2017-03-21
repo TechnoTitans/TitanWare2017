@@ -12,6 +12,8 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            Value name
 	 * @param val
 	 *            double Input value
+	 * @param isForDriver
+	 *            true if you want to driver to see this value
 	 */
 
 	@SuppressWarnings("unused")
@@ -32,6 +34,8 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            Value name
 	 * @param val
 	 *            int Input value
+	 * @param isForDriver
+	 *            true if you want to driver to see this value
 	 */
 	@SuppressWarnings("unused")
 	public static void sendData(String key, int val, boolean isForDriver) {
@@ -51,6 +55,8 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            Value name
 	 * @param val
 	 *            String Input value
+	 * @param isForDriver
+	 *            true if you want to driver to see this value
 	 */
 	@SuppressWarnings("unused")
 	public static void sendData(String key, String val, boolean isForDriver) {
@@ -70,6 +76,8 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            Value name
 	 * @param val
 	 *            boolean Input value
+	 * @param isForDriver
+	 *            true if you want to driver to see this value
 	 */
 	@SuppressWarnings("unused")
 	public static void sendData(String key, boolean val, boolean isForDriver) {

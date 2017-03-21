@@ -1,8 +1,6 @@
 package org.usfirst.frc.team1683.autonomous;
 
 import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
-import org.usfirst.frc.team1683.driveTrain.Motor;
-import org.usfirst.frc.team1683.driveTrain.MotorMover;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.GearScore;
@@ -18,20 +16,13 @@ import edu.wpi.first.wpilibj.Timer;
  *
  */
 
-@SuppressWarnings("unused")
 public class MiddleGear extends Autonomous {
 
-	private final double distance;
 	private static final double DEFAULT_DISTANCE = 112;
-	private final double pixelFromCenter = 10; // pixel (guessing)
-	private final double turnSpeed = 3;
-	private final double distanceFromGoal = 3; // degrees
-	private final double speed = 0.5;
 	private Timer timer;
 	private Timer timer2;
 	private Timer timer3;
 	private Timer waitTimer;
-	private DriveTrainMover driveTrainMover;
 
 	private boolean shakeRight = true;
 	GearScore gearScore;
@@ -39,16 +30,10 @@ public class MiddleGear extends Autonomous {
 	DriveTrainMover mover;
 
 	public MiddleGear(TankDrive tankDrive, PiVisionReader piReader) {
-		this(tankDrive, DEFAULT_DISTANCE);
-		this.piReader = piReader;
-		gearScore = new GearScore(tankDrive, 0.3, piReader, 1.7, 0.0001, 0, "edge");
-		presentState = State.INIT_CASE;
-	}
-
-	public MiddleGear(TankDrive tankDrive, double distance) {
 		super(tankDrive);
-		this.distance = distance;
-
+		this.piReader = piReader;
+		gearScore = new GearScore(tankDrive, 0.3, piReader, 0.84, 0.0, 0.0, "edge");
+		presentState = State.INIT_CASE;
 	}
 
 	public void run() {

@@ -74,7 +74,7 @@ public class EdgeGear extends Autonomous {
 				if (path.isDone() || timer.get() > 6) {
 					tankDrive.stop();
 					nextState = State.APPROACH_GOAL;
-					gearScore = new GearScore(tankDrive, 0.2, piReader, 0.84, 0.0, 0, "edge");
+					gearScore = new GearScore(tankDrive, 0.2, piReader, 0.84, 0.0, 0.0, "edge");
 				}
 				break;
 			case APPROACH_GOAL:

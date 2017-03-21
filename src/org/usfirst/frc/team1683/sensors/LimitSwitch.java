@@ -1,8 +1,10 @@
 package org.usfirst.frc.team1683.sensors;
 
-/*
+/**
  * 
- * Not used
+ * @author Yi Liu
+ * 
+ *         Not used
  * 
  */
 public class LimitSwitch extends edu.wpi.first.wpilibj.DigitalInput {

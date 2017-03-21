@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.Timer;
 
 /**
  * 
- * Center gear scoring ONLY FOR TESTINGf
+ * Center gear scoring ONLY FOR TESTING
  * 
- * @author panda
+ * @author Yi Liu
  *
  */
 public class VisionMiddle extends Autonomous {
