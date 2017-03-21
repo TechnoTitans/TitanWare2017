@@ -35,7 +35,7 @@ public class TestEverything extends Autonomous {
 				timer.start();
 				break;
 			case TEST_LEFT:
-				tankDrive.setLeft(0.7);
+				tankDrive.setLeft(0.4);
 				if (timer.get() > 2) {
 					tankDrive.stop();
 					presentState = State.TEST_RIGHT;
@@ -43,7 +43,7 @@ public class TestEverything extends Autonomous {
 				break;
 			case TEST_RIGHT:
 				if (timer.get() > 3)
-					tankDrive.setRight(0.7);
+					tankDrive.setRight(0.4);
 				if (timer.get() > 5) {
 					tankDrive.stop();
 					mover = new DriveTrainMover(tankDrive, 30, 0.3);
