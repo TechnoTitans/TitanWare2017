@@ -4,10 +4,13 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 
 public class DriverCameraReader {
+	
+	
 	private NetworkTable networkTable;
 	public DriverCameraReader(){
 		networkTable = NetworkTable.getTable("GRIP/myContoursReport");
 	}
+	
 	public boolean checkForGear(){
 		try {
 			double[] area = networkTable.getNumberArray("area", new double[0]);

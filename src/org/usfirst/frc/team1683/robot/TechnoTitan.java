@@ -14,6 +14,7 @@ import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -47,6 +48,9 @@ public class TechnoTitan extends IterativeRobot {
 	MotorGroup rightGroup;
 
 	boolean teleopReady = false;
+	
+	private static final int IMG_WIDTH = 320;
+	private static final int IMG_HEIGHT = 240;
 
 	@Override
 	public void robotInit() {
@@ -74,7 +78,11 @@ public class TechnoTitan extends IterativeRobot {
 		autoSwitch = new AutonomousSwitcher(drive, piReader);
 
 		controls = new Controls(drive, lightRing, piReader);
-		CameraServer.getInstance().startAutomaticCapture();
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+	    
+//	    visionThread = new VisionThread(camera, new Pipeline(), pipeline -> {});
+//	    visionThread.start();
 	}
 
 	@Override
