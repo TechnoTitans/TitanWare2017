@@ -2,11 +2,11 @@ package org.usfirst.frc.team1683.autonomous;
 
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.robot.TechnoTitan;
 import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class AutonomousSwitcher {
@@ -16,11 +16,14 @@ public class AutonomousSwitcher {
 
 	BuiltInAccel accel;
 	Gyro gyro;
+	
+	public boolean isCompetitionTime;
 
 	// Creates buttons for co driver to pick autonomous
 	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader) {
+		isCompetitionTime = DriverStation.getInstance().isFMSAttached();
 		chooser = new SendableChooser();
-
+		
 		addAuto("Do nothing", new DoNothing(tankDrive), true);
 		addAuto("Square Auto", new SquareAuto(tankDrive), false);
 		addAuto("Edge Gear Turn Left", new EdgeGear(tankDrive, false, false, piReader), true);
@@ -45,7 +48,7 @@ public class AutonomousSwitcher {
 	@SuppressWarnings("unused")
 	public void addAuto(String name, Autonomous auto, boolean forCompetition) {
 		double warning;
-		if (!(TechnoTitan.isCompetitionTime && !forCompetition)) {
+		if (!(isCompetitionTime && !forCompetition)) {
 			chooser.addObject(name, auto);
 		}
 	}

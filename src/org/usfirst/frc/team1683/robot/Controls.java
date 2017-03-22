@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.driveTrain.DriveTrain;
-import org.usfirst.frc.team1683.driverStation.DriverStation;
+import org.usfirst.frc.team1683.driverStation.DriverSetup;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.GearScore;
 import org.usfirst.frc.team1683.scoring.ScoringMotor;
@@ -65,9 +65,9 @@ public class Controls {
 		SmartDashboard.sendData("Front(intake) or Back(gear) mode", frontMode ? "intake" : "gear", true);
 
 		// Selects which side of robot becomes the "front"
-		if (DriverStation.rightStick.getRawButton(HWR.BACK_CONTROL))
+		if (DriverSetup.rightStick.getRawButton(HWR.BACK_CONTROL))
 			frontMode = false;
-		else if (DriverStation.rightStick.getRawButton(HWR.FRONT_CONTROL))
+		else if (DriverSetup.rightStick.getRawButton(HWR.FRONT_CONTROL))
 			frontMode = true;
 
 		// Selects if vision mode or not
@@ -85,11 +85,11 @@ public class Controls {
 
 			SmartDashboard.sendData("Drive Power", maxPower, true);
 			if (frontMode) {
-				lSpeed = -maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
-				rSpeed = -maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
+				lSpeed = -maxPower * DriverSetup.leftStick.getRawAxis(DriverSetup.YAxis);
+				rSpeed = -maxPower * DriverSetup.rightStick.getRawAxis(DriverSetup.YAxis);
 			} else {
-				lSpeed = maxPower * DriverStation.rightStick.getRawAxis(DriverStation.YAxis);
-				rSpeed = maxPower * DriverStation.leftStick.getRawAxis(DriverStation.YAxis);
+				lSpeed = maxPower * DriverSetup.rightStick.getRawAxis(DriverSetup.YAxis);
+				rSpeed = maxPower * DriverSetup.leftStick.getRawAxis(DriverSetup.YAxis);
 			}
 
 			// Input filtering to avoid electrical failure
@@ -101,9 +101,9 @@ public class Controls {
 				rSpeed = rightFilter.filterInput(rSpeed);
 			}
 
-			if (DriverStation.rightStick.getRawButton(HWR.FULL_POWER))
+			if (DriverSetup.rightStick.getRawButton(HWR.FULL_POWER))
 				maxPower = MAX_JOYSTICK_SPEED;
-			else if (DriverStation.leftStick.getRawButton(HWR.SECOND_POWER))
+			else if (DriverSetup.leftStick.getRawButton(HWR.SECOND_POWER))
 				maxPower = SECOND_JOYSTICK_SPEED;
 
 			drive.driveMode(lSpeed, rSpeed);
@@ -146,13 +146,13 @@ public class Controls {
 
 		switch (joystick) {
 			case HWR.AUX_JOYSTICK:
-				pressed = DriverStation.auxStick.getRawButton(button);
+				pressed = DriverSetup.auxStick.getRawButton(button);
 				break;
 			case HWR.RIGHT_JOYSTICK:
-				pressed = DriverStation.rightStick.getRawButton(button);
+				pressed = DriverSetup.rightStick.getRawButton(button);
 				break;
 			case HWR.LEFT_JOYSTICK:
-				pressed = DriverStation.leftStick.getRawButton(button);
+				pressed = DriverSetup.leftStick.getRawButton(button);
 				break;
 			default:
 				break;

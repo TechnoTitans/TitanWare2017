@@ -1,10 +1,15 @@
 package org.usfirst.frc.team1683.driverStation;
 
-import org.usfirst.frc.team1683.robot.TechnoTitan;
-
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 
 public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDashboard {
+	private static boolean isCompetitionTime;
+
+	public SmartDashboard() {
+		isCompetitionTime = DriverStation.getInstance().isFMSAttached();
+	}
+
 	/**
 	 * Sends the value to SmartDashboard
 	 *
@@ -15,11 +20,8 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param isForDriver
 	 *            true if you want to driver to see this value
 	 */
-
-	@SuppressWarnings("unused")
 	public static void sendData(String key, double val, boolean isForDriver) {
-		double warning; // I hate warnings
-		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
+		if (!(isCompetitionTime && !isForDriver)) {
 			try {
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
 			} catch (IllegalArgumentException e) {
@@ -37,10 +39,8 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param isForDriver
 	 *            true if you want to driver to see this value
 	 */
-	@SuppressWarnings("unused")
 	public static void sendData(String key, int val, boolean isForDriver) {
-		double warning; // I hate warnings
-		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
+		if (!(isCompetitionTime && !isForDriver)) {
 			try {
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
 			} catch (IllegalArgumentException e) {
@@ -58,10 +58,8 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param isForDriver
 	 *            true if you want to driver to see this value
 	 */
-	@SuppressWarnings("unused")
 	public static void sendData(String key, String val, boolean isForDriver) {
-		double warning; // I hate warnings
-		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
+		if (!(isCompetitionTime && !isForDriver)) {
 			try {
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putString(key, val);
 			} catch (IllegalArgumentException e) {
@@ -79,10 +77,8 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @param isForDriver
 	 *            true if you want to driver to see this value
 	 */
-	@SuppressWarnings("unused")
 	public static void sendData(String key, boolean val, boolean isForDriver) {
-		double warning; // I hate warnings
-		if (!(TechnoTitan.isCompetitionTime && !isForDriver)) {
+		if (!(isCompetitionTime && !isForDriver)) {
 			try {
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putBoolean(key, val);
 			} catch (IllegalArgumentException e) {
