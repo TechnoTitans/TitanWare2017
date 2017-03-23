@@ -48,9 +48,12 @@ public class TechnoTitan extends IterativeRobot {
 	MotorGroup rightGroup;
 
 	boolean teleopReady = false;
-	
+
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
+
+	// private VisionThread visionThread;
+	// private double centerX = 0.0;
 
 	@Override
 	public void robotInit() {
@@ -79,10 +82,11 @@ public class TechnoTitan extends IterativeRobot {
 
 		controls = new Controls(drive, lightRing, piReader);
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-	    
-//	    visionThread = new VisionThread(camera, new Pipeline(), pipeline -> {});
-//	    visionThread.start();
+		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+
+		// visionThread = new VisionThread(camera, new GripPipeline(), pipeline
+		// -> {});
+		// visionThread.start();
 	}
 
 	@Override

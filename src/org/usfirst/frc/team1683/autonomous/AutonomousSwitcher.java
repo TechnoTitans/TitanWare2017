@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 public class AutonomousSwitcher {
 	public Autonomous autoSelected;
 
-	public SendableChooser chooser;
+	public SendableChooser<Autonomous> chooser;
 
 	BuiltInAccel accel;
 	Gyro gyro;
@@ -22,7 +22,7 @@ public class AutonomousSwitcher {
 	// Creates buttons for co driver to pick autonomous
 	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader) {
 		isCompetitionTime = DriverStation.getInstance().isFMSAttached();
-		chooser = new SendableChooser();
+		chooser = new SendableChooser<Autonomous>();
 		
 		addAuto("Do nothing", new DoNothing(tankDrive), true);
 		addAuto("Square Auto", new SquareAuto(tankDrive), false);

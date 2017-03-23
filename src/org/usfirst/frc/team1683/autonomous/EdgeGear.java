@@ -5,7 +5,9 @@ import org.usfirst.frc.team1683.driveTrain.Path;
 import org.usfirst.frc.team1683.driveTrain.PathPoint;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.scoring.GearScore;
+import org.usfirst.frc.team1683.sensors.LimitSwitch;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -27,8 +29,10 @@ public class EdgeGear extends Autonomous {
 	private Timer timer;
 	private Timer timer2;
 	private Timer timer3;
+	private Timer waitGear;
 	private Timer waitTimer;
 	private boolean shakeRight = false;
+	private LimitSwitch limitSwitch;
 
 	// Path for normal edge gear autonomous
 	private PathPoint[] pathPoint1 = { new PathPoint(0, 73), new PathPoint(-55 * 0.1, 37 * 0.1, true), };
@@ -43,6 +47,7 @@ public class EdgeGear extends Autonomous {
 		super(tankDrive);
 		this.piReader = piReader;
 
+		limitSwitch = new LimitSwitch(HWR.LIMIT_SWITCH);
 		timer = new Timer();
 		timer2 = new Timer();
 		timer3 = new Timer();
@@ -71,7 +76,7 @@ public class EdgeGear extends Autonomous {
 				break;
 			case DRIVE_PATH:
 				path.run();
-				if (path.isDone() || timer.get() > 6) {
+				if (path.isDone() || timer.get() > 4) {
 					tankDrive.stop();
 					nextState = State.APPROACH_GOAL;
 					gearScore = new GearScore(tankDrive, 0.2, piReader, 0.84, 0.0, 0.0, "edge");
@@ -79,7 +84,7 @@ public class EdgeGear extends Autonomous {
 				break;
 			case APPROACH_GOAL:
 				gearScore.run();
-				if (gearScore.isDone() || timer.get() > 12) {
+				if (gearScore.isDone() || timer.get() > 8) {
 					waitTimer.start();
 					gearScore.disable();
 					tankDrive.stop();
@@ -104,8 +109,12 @@ public class EdgeGear extends Autonomous {
 				}
 				break;
 			case SHAKE:
-				if (timer2.get() > 3) {
-					nextState = State.END_CASE;
+				if (limitSwitch.isPressed() && waitGear == null) {
+					waitGear = new Timer();
+					waitGear.start();
+				}
+				if (timer2.get() > 2 && waitGear.get() > 3) {
+					nextState = State.HEAD_TO_LOADING;
 					tankDrive.stop();
 				} else {
 					tankDrive.turnInPlace(shakeRight, 0.15);
@@ -116,6 +125,7 @@ public class EdgeGear extends Autonomous {
 				}
 				break;
 			// Not ready
+			// TODO
 			case HEAD_TO_LOADING:
 				path.run();
 				if (path.isDone()) {
