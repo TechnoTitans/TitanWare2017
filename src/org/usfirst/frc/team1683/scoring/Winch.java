@@ -17,23 +17,32 @@ public class Winch implements ScoringMotor {
 	TalonSRX winchMotor2;
 
 	LimitSwitch limitSwitch;
-	public static final double LIFT_SPEED = 0.95;// TODO
+	private double liftSpeed = 0.6;// TODO
 
 	public Winch(int channel1, int channel2) {// , LimitSwitch limitSwitch) {
 		this.winchMotor1 = new TalonSRX(channel1, false);
 		this.winchMotor2 = new TalonSRX(channel2, true);
 		// this.limitSwitch = limitSwitch;
 	}
+	
+	//Takes positive double 
+	public void setSpeed(double speed){
+		if(speed > 1)
+			speed = 1;
+		if(speed < 0)
+			speed = 0;
+		liftSpeed = speed;
+	}
 
 	// turn the winch
 	public void turnOn() {
-		winchMotor1.set(LIFT_SPEED);
-		winchMotor2.set(LIFT_SPEED);
+		winchMotor1.set(liftSpeed);
+		winchMotor2.set(liftSpeed);
 	}
 
 	public void turnOtherWay() {
-		winchMotor1.set(-LIFT_SPEED);
-		winchMotor2.set(-LIFT_SPEED);
+		winchMotor1.set(-liftSpeed);
+		winchMotor2.set(-liftSpeed);
 	}
 
 	public void stop() {

@@ -117,6 +117,10 @@ public class Controls {
 
 		// winch
 		toggleMotor(HWR.MAIN_WINCH, winch);
+		if(DriverSetup.auxStick.getRawButton(HWR.HIGH_SPEED_WINCH))
+			winch.setSpeed(0.95);
+		if(DriverSetup.auxStick.getRawButton(HWR.LOW_SPEED_WINCH))
+			winch.setSpeed(0.6);
 	}
 
 	public void getPID() {

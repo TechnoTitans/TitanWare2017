@@ -36,8 +36,9 @@ public class HWR {
 	public static final int SECOND_POWER = HWP.BUTTON_6;
 	public static final int TOGGLE_VISION_AID = HWP.BUTTON_3;
 
-	public static final int TOGGLE_BACK_WINCH = HWP.BUTTON_11;
 	public static final int MAIN_WINCH = HWP.BUTTON_3;
+	public static final int HIGH_SPEED_WINCH = HWP.BUTTON_7;
+	public static final int LOW_SPEED_WINCH = HWP.BUTTON_6;
 
 	public static final int OVERRIDE_TIMER = HWP.BUTTON_9;
 }
