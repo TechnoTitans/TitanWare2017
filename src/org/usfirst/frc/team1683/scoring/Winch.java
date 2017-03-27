@@ -36,6 +36,7 @@ public class Winch implements ScoringMotor {
 
 	// turn the winch
 	public void turnOn() {
+		liftSpeed = 0.6;
 		winchMotor1.set(liftSpeed);
 		winchMotor2.set(liftSpeed);
 	}

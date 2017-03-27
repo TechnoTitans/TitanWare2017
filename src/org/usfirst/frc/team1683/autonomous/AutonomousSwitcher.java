@@ -45,9 +45,7 @@ public class AutonomousSwitcher {
 	}
 
 	// Adds auto to chooser only if it is for competition
-	@SuppressWarnings("unused")
 	public void addAuto(String name, Autonomous auto, boolean forCompetition) {
-		double warning;
 		if (!(isCompetitionTime && !forCompetition)) {
 			chooser.addObject(name, auto);
 		}
