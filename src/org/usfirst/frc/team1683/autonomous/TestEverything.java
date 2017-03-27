@@ -24,11 +24,12 @@ public class TestEverything extends Autonomous {
 	LimitSwitch limitSwitch;
 	DriveTrainTurner turner;
 
-	public TestEverything(TankDrive tankDrive) {
+	public TestEverything(TankDrive tankDrive, LimitSwitch limitSwitch) {
 		super(tankDrive);
+		
 		timer = new Timer();
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
-		limitSwitch = new LimitSwitch(HWR.LIMIT_SWITCH);
+		this.limitSwitch = limitSwitch;
 		presentState = State.INIT_CASE;
 	}
 
