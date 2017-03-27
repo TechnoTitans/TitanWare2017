@@ -7,7 +7,7 @@ import org.usfirst.frc.team1683.robot.HWR;
  * 
  * Controls light rings
  * 
- * Not used
+ * Currently not used. Might be used later. Do not delete
  * 
  * @author Yi Liu
  *

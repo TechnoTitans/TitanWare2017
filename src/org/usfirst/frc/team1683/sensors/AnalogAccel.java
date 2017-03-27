@@ -2,7 +2,9 @@ package org.usfirst.frc.team1683.sensors;
 
 /**
  * 
- * Not used
+ * Analog acceleromter
+ * 
+ * Not used. Might be used later to determine if we are at the peg.
  *
  */
 public class AnalogAccel extends edu.wpi.first.wpilibj.AnalogAccelerometer {

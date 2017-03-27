@@ -5,7 +5,9 @@ import org.usfirst.frc.team1683.sensors.Gyro;
 
 /*
  * 
- * Keeps robot moving in a line
+ * Keeps robot moving in a line.
+ * 
+ * Realigns robot based on gyro
  * 
  */
 public class AntiDrift {

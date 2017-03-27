@@ -22,6 +22,15 @@ public class PassLine extends Autonomous {
 		this.turnRight = turnRight;
 	}
 
+	/**
+	 * 
+	 * 1. Move forward past line
+	 * 
+	 * 2. Moves back towards gear station
+	 * 
+	 * 3. Turn to left or right
+	 * 
+	 */
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:

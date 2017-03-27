@@ -8,6 +8,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 
 	public SmartDashboard() {
 		isCompetitionTime = DriverStation.getInstance().isFMSAttached();
+		// checks if fms is connected to send debugging values
 	}
 
 	/**

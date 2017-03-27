@@ -33,6 +33,15 @@ public class MiddleGear extends Autonomous {
 		presentState = State.INIT_CASE;
 	}
 
+	/**
+	 * 
+	 * 1. Moves forward a fixed distance
+	 * 
+	 * 2. Backs up a small distance ~2 inches
+	 * 
+	 * 3. Shake
+	 * 
+	 */
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:

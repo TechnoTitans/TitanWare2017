@@ -67,6 +67,17 @@ public class EdgeGear extends Autonomous {
 		}
 	}
 
+	/**
+	 * 
+	 * 1. Drives a path (go straight and turn)
+	 * 
+	 * 2. Uses camera to center robot
+	 * 
+	 * 3. Backs up
+	 * 
+	 * 4. (maybe not implemented) head to gear station
+	 * 
+	 */
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
