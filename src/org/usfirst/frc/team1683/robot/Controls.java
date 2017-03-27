@@ -26,18 +26,19 @@ public class Controls {
 	LightRing light;
 	PiVisionReader piReader;
 
-	boolean frontMode = true;
-	boolean toggleWinch = false;
-	boolean visionAidedMovement = false;
+	private boolean frontMode = true;
+	private boolean toggleWinch = false;
+	private boolean visionAidedMovement = false;
 
-	double rSpeed;
-	double lSpeed;
-	double maxPower = 1.0;
+	private double rSpeed;
+	private double lSpeed;
+	private double maxPower = 1.0;
+	private double winchSpeed = 0.6;
+	
+	private final double MAX_JOYSTICK_SPEED = 1.0;
+	private final double SECOND_JOYSTICK_SPEED = 0.8;
 
-	public final double MAX_JOYSTICK_SPEED = 1.0;
-	public final double SECOND_JOYSTICK_SPEED = 0.8;
-
-	public InputFilter rightFilter, leftFilter;
+	private InputFilter rightFilter, leftFilter;
 
 	private double p = 0.74;
 	private double i = 0.0;
@@ -115,12 +116,18 @@ public class Controls {
 			gearScore.run();
 		}
 
-		// winch
-		toggleMotor(HWR.MAIN_WINCH, winch);
-		if (DriverSetup.auxStick.getRawButton(HWR.HIGH_SPEED_WINCH))
-			winch.setSpeed(0.95);
-		if (DriverSetup.auxStick.getRawButton(HWR.LOW_SPEED_WINCH))
-			winch.setSpeed(0.6);
+		if (checkToggle(HWR.AUX_JOYSTICK, HWR.MAIN_WINCH))
+			toggleWinch = !toggleWinch;
+		if (toggleWinch) {
+			if (DriverSetup.auxStick.getRawButton(HWR.HIGH_SPEED_WINCH))
+				winchSpeed = 0.95;
+			if (DriverSetup.auxStick.getRawButton(HWR.LOW_SPEED_WINCH))
+				winchSpeed = 0.6;
+			winch.setSpeed(winchSpeed);
+		}
+		else{
+			winch.stop();
+		}
 	}
 
 	public void getPID() {
@@ -134,7 +141,9 @@ public class Controls {
 	 * needs to remember past button state to toggle
 	 * 
 	 */
-	public static void toggleMotor(int button, ScoringMotor motor) {
+	
+	@SuppressWarnings("unused")
+	private static void toggleMotor(int button, ScoringMotor motor) {
 		if (checkToggle(HWR.AUX_JOYSTICK, button)) {
 			toggle[button - 1] = !toggle[button - 1];
 		}
@@ -171,10 +180,5 @@ public class Controls {
 			joystickCheckToggle[joystick][button - 1] = false;
 			return false;
 		}
-	}
-
-	@SuppressWarnings("unused")
-	private boolean returnToggle(int joystick, int button) {
-		return joystickCheckToggle[joystick][button - 1];
 	}
 }

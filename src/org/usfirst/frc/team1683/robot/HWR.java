@@ -27,7 +27,7 @@ public class HWR {
 
 	// Sensors
 	public static final int GYRO = HWP.ANALOG_1;
-	public static final int LIMIT_SWITCH = HWP.ANALOG_0;
+	public static final int LIMIT_SWITCH = HWP.DIO_0;
 
 	// joystick buttons
 	public static final int BACK_CONTROL = HWP.BUTTON_2;
