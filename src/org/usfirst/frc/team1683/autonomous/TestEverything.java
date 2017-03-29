@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 
 public class TestEverything extends Autonomous{
+	Timer compTimer;
 	Timer timer;
 	Winch winch;
 	DriveTrainMover mover;
@@ -28,6 +29,7 @@ public class TestEverything extends Autonomous{
 	public TestEverything(TankDrive tankDrive, LimitSwitch limitSwitch) {
 		super(tankDrive);
 		
+		compTimer = new Timer();
 		timer = new Timer();
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
 		
@@ -51,29 +53,32 @@ public class TestEverything extends Autonomous{
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
-				presentState = State.TEST_LEFT;
+				nextState = State.TEST_LEFT;
+				compTimer.start();
 				break;
 			case TEST_LEFT:
 				tankDrive.setLeft(0.4);
 				if (limitSwitch.isPressed()) {
 					tankDrive.stop();
-					presentState = State.TEST_RIGHT;
+					nextState = State.TEST_RIGHT;
+					timer.start();
 				}
 				break;
 			case TEST_RIGHT:
 				tankDrive.setRight(0.4);
-				if (limitSwitch.isPressed()) {
+				if (limitSwitch.isPressed() && timer.get() > 1.4) {
 					tankDrive.stop();
-					mover = new DriveTrainMover(tankDrive, 30, 0.3);
-					presentState = State.TEST_DRIVE;
+					mover = new DriveTrainMover(tankDrive, 100, 0.3);
+					nextState = State.TEST_DRIVE;
 				}
 				break;
 			case TEST_DRIVE:
 				mover.runIteration();
 				if (mover.areAllFinished()) {
 					tankDrive.stop();
+					timer.reset();
 					timer.start();
-					presentState = State.TEST_WINCH;
+					nextState = State.TEST_WINCH;
 				}
 				break;
 			case TEST_WINCH:
@@ -81,21 +86,21 @@ public class TestEverything extends Autonomous{
 				if (timer.get() > 3) {
 					winch.stop();
 					turner = new DriveTrainTurner(tankDrive, -30, 0.3);
-					presentState = State.TEST_GYRO;
+					nextState = State.TEST_GYRO;
 				}
 				break;
 			case TEST_GYRO:
 				turner.run();
 				if (turner.isDone()) {
 					tankDrive.stop();
-					presentState = State.END_CASE;
+					nextState = State.END_CASE;
 				}
 			case END_CASE:
 				break;
 			default:
 				break;
 		}
-		SmartDashboard.sendData("Auto Timer", timer.get(), true);
+		SmartDashboard.sendData("Auto Timer", compTimer.get(), true);
 		SmartDashboard.sendData("Auto State", presentState.toString(), true);
 		presentState = nextState;
 	}

@@ -9,6 +9,7 @@ import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.DriverSetup;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
@@ -45,6 +46,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	LightRing lightRing;
 	Gyro gyro;
+	BuiltInAccel accel;
 
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
@@ -58,6 +60,7 @@ public class TechnoTitan extends IterativeRobot {
 
 		gyro = new Gyro(HWR.GYRO);
 		limitSwitch = new LimitSwitch(HWR.LIMIT_SWITCH);
+		accel = new BuiltInAccel();
 		piReader = new PiVisionReader();
 
 		AntiDrift left = new AntiDrift(gyro, -1);
@@ -115,6 +118,7 @@ public class TechnoTitan extends IterativeRobot {
 		SmartDashboard.sendData("LimitSwitch", limitSwitch.isPressed(), true);
 		SmartDashboard.sendData("Gyro", gyro.getAngle(), true);
 		SmartDashboard.sendData("Competition Time", DriverStation.getInstance().isFMSAttached(), true);
+		SmartDashboard.sendData("Accelerometer", accel.getX(), true);
 	}
 
 	@Override
