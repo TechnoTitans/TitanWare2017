@@ -50,6 +50,13 @@ public class PassLine extends Autonomous {
 				if (mover.areAnyFinished()) {
 					tankDrive.stop();
 					turner = new DriveTrainTurner(tankDrive, (turnRight ? -1 : 1) * 56, 0.2);
+					nextState = State.TURN;
+				}
+				break;
+			case TURN:
+				turner.run();
+				if (turner.isDone()) {
+					tankDrive.stop();
 					nextState = State.END_CASE;
 				}
 				break;

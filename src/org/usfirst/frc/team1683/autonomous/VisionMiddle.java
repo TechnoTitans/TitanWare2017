@@ -45,6 +45,7 @@ public class VisionMiddle extends Autonomous {
 				if (gearScore.isDone()) {
 					gearScore.disable();
 					tankDrive.stop();
+					waitTimer.start();
 					mover = new DriveTrainMover(tankDrive, -1, 0.3);
 					nextState = State.WAIT;
 				}

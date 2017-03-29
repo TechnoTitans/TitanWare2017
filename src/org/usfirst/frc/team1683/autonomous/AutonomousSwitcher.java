@@ -32,10 +32,10 @@ public class AutonomousSwitcher {
 		addAuto("Wide Edge Turn Left", new EdgeGear(tankDrive, false, true, piReader, limitSwitch), true);
 		setDefault("Wide Edge Turn Right", new EdgeGear(tankDrive, true, true, piReader, limitSwitch));
 		addAuto("MiddleGear", new MiddleGear(tankDrive, piReader), true);
+		addAuto("Test Everything", new TestEverything(tankDrive, limitSwitch), true);
 		addAuto("PassLine Turn Right", new PassLine(tankDrive, true), true);
 		addAuto("PassLine Turn Left", new PassLine(tankDrive, false), true);
 		addAuto("VisionMiddle", new VisionMiddle(tankDrive, piReader), false);
-		addAuto("Test Everything", new TestEverything(tankDrive, limitSwitch), true);
 
 		SmartDashboard.putData("Auto", chooser);
 	}
