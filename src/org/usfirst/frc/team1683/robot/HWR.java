@@ -18,7 +18,6 @@ public class HWR {
 	// encoders
 	public static final int LEFT_DRIVE_ENCODER = HWP.CAN_7;
 	public static final int RIGHT_DRIVE_ENCODER = HWP.CAN_6;
-	public static final int SHOOTER_ENCODER = HWP.CAN_9;
 
 	// Joysticks
 	public static final int LEFT_JOYSTICK = HWP.JOY_0;

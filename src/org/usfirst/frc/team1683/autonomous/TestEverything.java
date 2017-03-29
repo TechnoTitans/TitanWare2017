@@ -3,6 +3,7 @@ package org.usfirst.frc.team1683.autonomous;
 import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
 import org.usfirst.frc.team1683.driveTrain.DriveTrainTurner;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.robot.HWR;
 import org.usfirst.frc.team1683.scoring.Winch;
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.Timer;
  *
  */
 
-public class TestEverything extends Autonomous {
+public class TestEverything extends Autonomous{
 	Timer timer;
 	Winch winch;
 	DriveTrainMover mover;
@@ -29,6 +30,7 @@ public class TestEverything extends Autonomous {
 		
 		timer = new Timer();
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
+		
 		this.limitSwitch = limitSwitch;
 		presentState = State.INIT_CASE;
 	}
@@ -46,7 +48,6 @@ public class TestEverything extends Autonomous {
 	 * 5. Turns robot 30 degrees clockwise
 	 * 
 	 */
-	@Override
 	public void run() {
 		switch (presentState) {
 			case INIT_CASE:
@@ -94,6 +95,8 @@ public class TestEverything extends Autonomous {
 			default:
 				break;
 		}
+		SmartDashboard.sendData("Auto Timer", timer.get(), true);
+		SmartDashboard.sendData("Auto State", presentState.toString(), true);
 		presentState = nextState;
 	}
 }

@@ -72,7 +72,7 @@ public class EdgeGear extends Autonomous {
 	 * 
 	 * 3. Backs up
 	 * 
-	 * 4. (maybe not implemented) head to gear station
+	 * 4. (maybe, not implemented) head to gear station
 	 * 
 	 */
 	public void run() {

@@ -112,9 +112,9 @@ public class TechnoTitan extends IterativeRobot {
 			teleopReady = true;
 		if (teleopReady)
 			controls.run();
-		SmartDashboard.sendData("limitSwitch", limitSwitch.isPressed(), true);
+		SmartDashboard.sendData("LimitSwitch", limitSwitch.isPressed(), true);
 		SmartDashboard.sendData("Gyro", gyro.getAngle(), true);
-		SmartDashboard.sendData("Competition TIme", DriverStation.getInstance().isFMSAttached(), true);
+		SmartDashboard.sendData("Competition Time", DriverStation.getInstance().isFMSAttached(), true);
 	}
 
 	@Override
