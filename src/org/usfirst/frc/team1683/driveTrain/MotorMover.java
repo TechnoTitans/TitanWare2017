@@ -38,6 +38,7 @@ public class MotorMover implements Runnable {
 		this.motor = motor;
 		this.distance = distance;
 		this.encoder = encoder;
+		this.encoder.reset();
 		this.anti = anti;
 		if (distance < 0)
 			this.speed = -speed;
@@ -95,7 +96,6 @@ public class MotorMover implements Runnable {
 			motor.set(0);
 			motor.brake();
 			running = false;
-			encoder.reset();
 			return true;
 		}
 		double correctSpeed = speed;

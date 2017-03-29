@@ -38,7 +38,7 @@ public class AntiDrift {
 	 */
 	public double antiDrift(double speed) {
 		double error = antidriftangle - gyro.getAngle();
-		SmartDashboard.sendData("gyroangle", gyro.getAngle(), false);
+		SmartDashboard.sendData("Antidrift Gyro", gyro.getAngle(), false);
 
 		double correction = SmartDashboard.getDouble("kp") * error / 2.0;
 		return limitSpeed(speed - correction * right);
