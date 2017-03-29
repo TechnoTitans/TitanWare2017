@@ -108,6 +108,7 @@ public class EdgeGear extends Autonomous {
 				}
 				break;
 			case BACK_UP:
+				SmartDashboard.sendData("Edge gear distance left", mover.getAverageDistanceLeft(), false);
 				mover.runIteration();
 				if (mover.areAnyFinished()) {
 					tankDrive.stop();
@@ -120,14 +121,15 @@ public class EdgeGear extends Autonomous {
 					waitGear = new Timer();
 					waitGear.start();
 				}
-				if (waitGear.get() > 3) {
-					nextState = State.HEAD_TO_LOADING;
-					tankDrive.stop();
-				} else {
-					tankDrive.turnInPlace(shakeRight, 0.15);
-					if (shakeTimer.get() > 0.18) {
-						shakeRight = !shakeRight;
-						shakeTimer.reset();
+				tankDrive.turnInPlace(shakeRight, 0.15);
+				if (shakeTimer.get() > 0.18) {
+					shakeRight = !shakeRight;
+					shakeTimer.reset();
+				}
+				if(waitGear != null){
+					if (waitGear.get() > 3) {
+						nextState = State.HEAD_TO_LOADING;
+						tankDrive.stop();
 					}
 				}
 				break;
