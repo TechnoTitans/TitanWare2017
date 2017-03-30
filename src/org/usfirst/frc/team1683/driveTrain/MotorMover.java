@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1683.driveTrain;
 
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.robot.InputFilter;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
@@ -102,9 +101,7 @@ public class MotorMover implements Runnable {
 		double correctSpeed = speed;
 		if (anti != null)
 			correctSpeed = anti.antiDrift(speed);
-		double mainSpeed = inputFilter.filterInput(correctSpeed);
-		SmartDashboard.sendData("MainSpeed", mainSpeed, true);
-		motor.set(mainSpeed);
+		motor.set(inputFilter.filterInput(correctSpeed));
 		return false;
 	}
 

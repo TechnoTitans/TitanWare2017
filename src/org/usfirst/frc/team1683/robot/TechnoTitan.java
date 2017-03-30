@@ -87,7 +87,12 @@ public class TechnoTitan extends IterativeRobot {
 	public void autonomousInit() {
 		waitAuto.reset();
 		waitAuto.start();
-
+		
+		SmartDashboard.sendData("Autorasp_side", DriverStation.getInstance().getLocation(), true);
+		String color = "blue";
+		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red)
+			color = "red";
+		SmartDashboard.sendData("Autorasp_alli", color, true);
 		drive.stop();
 		autoSwitch.getSelected();
 		gyro.reset();
@@ -98,7 +103,7 @@ public class TechnoTitan extends IterativeRobot {
 		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
 		if (waitAuto.get() > 0.2)
 			autoSwitch.run();
-	}
+	} 
 
 	@Override
 	public void teleopInit() {
