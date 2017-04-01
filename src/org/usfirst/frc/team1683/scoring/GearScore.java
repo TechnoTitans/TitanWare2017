@@ -78,7 +78,7 @@ public class GearScore {
 			if (isRunningPID) {
 				SmartDashboard.sendData(identifier + " Vision Aided:", "working", true);
 				drive.setInput(offset);
-				drive.setSetpoint(0);
+				drive.setTarget(0);
 				lastdistance = distance;
 				SmartDashboard.sendData(identifier + " Distance", lastdistance, false);
 			} else {

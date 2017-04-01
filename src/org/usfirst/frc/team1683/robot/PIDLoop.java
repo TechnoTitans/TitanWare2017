@@ -31,9 +31,10 @@ public class PIDLoop extends PIDSubsystem {
 		this.identifier = identifier;
 	}
 
-	public PIDLoop(double p, double i, double d, TalonSRX talon) {
+	public PIDLoop(double p, double i, double d, TalonSRX talon, String identifier) {
 		super(p, i, d);
 		this.talon = talon;
+		this.identifier = identifier;
 	}
 
 	public PIDLoop(double p, double i, double d, MotorGroup group) {
@@ -60,25 +61,30 @@ public class PIDLoop extends PIDSubsystem {
 		return input;
 	}
 
+	public void setTarget(double input){
+		setSetpoint(input);
+	}
 	@Override
 	protected void usePIDOutput(double output) {
-		if (getType() == 1)
-			runDrive(output);
-	}
-
-	private void runDrive(double output) {
 		SmartDashboard.sendData("GearScoreDisabled", disabled, false);
 		if (!disabled) {
 			SmartDashboard.sendData(identifier + " PID Output ", speed * (1 - output), false);
 			SmartDashboard.sendData(identifier + " PIDLeft", speed * (1 - output), false);
 			SmartDashboard.sendData(identifier + " PIDRight", speed * (1 + output), false);
-			if (drive != null) {
-				drive.getLeftGroup().set(speed * (1 - output));
-				drive.getRightGroup().set(speed * (1 + output));
-			} else if (talon != null) {
-				talon.set(output);
-			}
+			if (getType() == 1)
+				runDrive(output);
+			if (getType() == 2)
+				runTalon(output);
 		}
+	}
+
+	private void runDrive(double output) {
+		drive.getLeftGroup().set(speed * (1 - output));
+		drive.getRightGroup().set(speed * (1 + output));
+	}
+
+	private void runTalon(double output) {
+		talon.set(output);
 	}
 
 	public double getPIDPosition() {

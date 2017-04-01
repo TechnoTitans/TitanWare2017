@@ -23,13 +23,11 @@ public class VisionMiddle extends Autonomous {
 	Timer waitTimer;
 
 	Timer timer;
-	Timer timer2;
 
 	public VisionMiddle(TankDrive tankDrive, PiVisionReader piReader) {
 		super(tankDrive);
 		this.piReader = piReader;
 		timer = new Timer();
-		timer2 = new Timer();
 
 		waitTimer = new Timer();
 	}
