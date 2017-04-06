@@ -25,10 +25,11 @@ public class EdgeGear extends Autonomous {
 
 	private Path path;
 	private DriveTrainMover mover;
+	// private DriveTrainTurner turner;
 
 	private Timer timer;
 	private Timer shakeTimer;
-	private Timer waitGear;
+//	private Timer waitGear;
 	private Timer waitTimer;
 	private boolean shakeRight = false;
 
@@ -41,11 +42,12 @@ public class EdgeGear extends Autonomous {
 	// Check next comment for more info
 	private PathPoint[] pathPoints;
 
-	public EdgeGear(TankDrive tankDrive, boolean right, boolean wide, PiVisionReader piReader, LimitSwitch limitSwitch) {
+	public EdgeGear(TankDrive tankDrive, boolean right, boolean wide, PiVisionReader piReader,
+			LimitSwitch limitSwitch) {
 		super(tankDrive);
 		this.piReader = piReader;
 		this.limitSwitch = limitSwitch;
-				
+
 		timer = new Timer();
 		shakeTimer = new Timer();
 		waitTimer = new Timer();
@@ -77,76 +79,80 @@ public class EdgeGear extends Autonomous {
 	 */
 	public void run() {
 		switch (presentState) {
-			case INIT_CASE:
-				timer.start();
-				path = new Path(tankDrive, pathPoints, 0.6, 0.3);
-				nextState = State.DRIVE_PATH;
-				break;
-			case DRIVE_PATH:
-				path.run();
-				if (path.isDone() || timer.get() > 6) {
-					tankDrive.stop();
-					nextState = State.APPROACH_GOAL;
-					gearScore = new GearScore(tankDrive, 0.2, piReader, 0.84, 0.0, 0.0, "edge");
-				}
-				break;
-			case APPROACH_GOAL:
-				gearScore.run();
-				if (gearScore.isDone() || timer.get() > 13) {
-					waitTimer.start();
-					gearScore.disable();
-					tankDrive.stop();
-					nextState = State.WAIT;
-				}
-				break;
-			case WAIT:
+		case INIT_CASE:
+			timer.start();
+			path = new Path(tankDrive, pathPoints, 0.6, 0.3);
+			nextState = State.DRIVE_PATH;
+			break;
+		case DRIVE_PATH:
+			path.run();
+			if (path.isDone() || timer.get() > 6) {
 				tankDrive.stop();
-				if (waitTimer.get() > 0.1) {
-					tankDrive.stop();
-					mover = new DriveTrainMover(tankDrive, -2, 0.3);
-					nextState = State.BACK_UP;
-				}
-				break;
-			case BACK_UP:
-				SmartDashboard.sendData("Edge gear distance left", mover.getAverageDistanceLeft(), false);
-				mover.runIteration();
-				if (mover.areAnyFinished()) {
-					tankDrive.stop();
-					nextState = State.SHAKE;
-					shakeTimer.start();
-				}
-				break;
-			case SHAKE:
-				if (limitSwitch.isPressed() && waitGear == null) {
-					waitGear = new Timer();
-					waitGear.start();
-				}
-				tankDrive.turnInPlace(shakeRight, 0.15);
-				if (shakeTimer.get() > 0.18) {
-					shakeRight = !shakeRight;
-					shakeTimer.reset();
-				}
-				if(waitGear != null){
-					if (waitGear.get() > 3) {
-						nextState = State.HEAD_TO_LOADING;
-						tankDrive.stop();
-					}
-				}
-				break;
-			// Not ready
-			// TODO
-			case HEAD_TO_LOADING:
-				path.run();
-				if (path.isDone()) {
-					tankDrive.stop();
-					nextState = State.END_CASE;
-				}
-				break;
-			case END_CASE:
-				nextState = State.END_CASE;
-				break;
-			default:
-				break;
+				nextState = State.APPROACH_GOAL;
+				gearScore = new GearScore(tankDrive, 0.3, piReader, 0.84, 0.0, 0.0, "edge");
+			}
+			break;
+		case APPROACH_GOAL:
+			gearScore.run();
+			if (gearScore.isDone() || timer.get() > 13) {
+				waitTimer.start();
+				gearScore.disable();
+				tankDrive.stop();
+				nextState = State.WAIT;
+			}
+			break;
+		case WAIT:
+			tankDrive.stop();
+			if (waitTimer.get() > 0.1) {
+				tankDrive.stop();
+				mover = new DriveTrainMover(tankDrive, -2, 0.3);
+				nextState = State.BACK_UP;
+			}
+			break;
+		case BACK_UP:
+			SmartDashboard.sendData("Edge gear distance left", mover.getAverageDistanceLeft(), false);
+			mover.runIteration();
+			if (mover.areAnyFinished()) {
+				tankDrive.stop();
+				nextState = State.SHAKE;
+				shakeTimer.start();
+			}
+			break;
+		case SHAKE:
+			// if (limitSwitch.isPressed() && waitGear == null) {
+			// waitGear = new Timer();
+			// waitGear.start();
+			// }
+			tankDrive.turnInPlace(shakeRight, 0.15);
+			if (shakeTimer.get() > 0.18) {
+				shakeRight = !shakeRight;
+				shakeTimer.reset();
+			}
+			// if (waitGear != null) {
+			// if (waitGear.get() > 3) {
+			// mover = new DriveTrainMover(tankDrive, -20, 0.3);
+			nextState = State.END_CASE;
+			tankDrive.stop();
+			//
+			// }
+			break;
+		// Not ready
+		// TODO
+		// case HEAD_TO_LOADING:
+		// mover.runIteration();
+		// if (mover.areAnyFinished()){
+		// tankDrive.stop();
+		// turner = new DriveTrainTurner(tankDrive, -45, 0);
+		// nextState = State.TURN_TO_LOADING;
+		// }
+		// break;
+		// case TURN_TO_LOADING:
+		// break;
+		case END_CASE:
+			nextState = State.END_CASE;
+			break;
+		default:
+			break;
 		}
 		SmartDashboard.sendData("Auto Timer", timer.get(), true);
 		SmartDashboard.sendData("Auto State", presentState.toString(), true);

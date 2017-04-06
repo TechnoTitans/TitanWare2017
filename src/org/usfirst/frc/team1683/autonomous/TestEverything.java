@@ -58,7 +58,7 @@ public class TestEverything extends Autonomous{
 				break;
 			case TEST_LEFT:
 				tankDrive.setLeft(0.4);
-				if (limitSwitch.isPressed()) {
+				if (compTimer.get() > 3) {
 					tankDrive.stop();
 					nextState = State.TEST_RIGHT;
 					timer.start();
@@ -66,7 +66,7 @@ public class TestEverything extends Autonomous{
 				break;
 			case TEST_RIGHT:
 				tankDrive.setRight(0.4);
-				if (limitSwitch.isPressed() && timer.get() > 1.4) {
+				if (compTimer.get() > 6) {
 					tankDrive.stop();
 					mover = new DriveTrainMover(tankDrive, 100, 0.3);
 					nextState = State.TEST_DRIVE;

@@ -100,7 +100,9 @@ public class Controls {
 				lSpeed = leftFilter.filterInput(lSpeed);
 				rSpeed = rightFilter.filterInput(rSpeed);
 			}
-
+			
+			SmartDashboard.sendData("LeftSpeed", lSpeed, true);
+			SmartDashboard.sendData("RightSpeed", rSpeed, true);
 			if (DriverSetup.rightStick.getRawButton(HWR.FULL_POWER))
 				maxPower = MAX_JOYSTICK_SPEED;
 			else if (DriverSetup.leftStick.getRawButton(HWR.SECOND_POWER))

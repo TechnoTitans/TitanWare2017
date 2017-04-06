@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class TechnoTitan extends IterativeRobot {
 	public static final boolean LEFT_REVERSE = false;
 	public static final boolean RIGHT_REVERSE = true;
-	public static final double WHEEL_RADIUS = 2.2135;
+	public static final double WHEEL_RADIUS = 2.0356;
 
 	TankDrive drive;
 	Controls controls;
@@ -101,6 +101,7 @@ public class TechnoTitan extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
+		SmartDashboard.sendData("AutoGyro", gyro.getAngle(), true);
 		if (waitAuto.get() > 0.2)
 			autoSwitch.run();
 	} 
