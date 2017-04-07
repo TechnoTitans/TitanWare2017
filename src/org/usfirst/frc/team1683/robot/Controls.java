@@ -43,18 +43,17 @@ public class Controls {
 	private double i = 0.0;
 	private double d = 0.0;
 
-	public Controls(DriveTrain drive, LightRing light, PiVisionReader piReader) {
+	public Controls(DriveTrain drive, LightRing light, PiVisionReader piReader, Winch winch) {
 		this.drive = drive;
 		this.light = light;
 		this.piReader = piReader;
+		this.winch = winch;
 
 		SmartDashboard.prefDouble("ap", p);
 		SmartDashboard.prefDouble("ai", i);
 		SmartDashboard.prefDouble("ad", d);
 
-		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
-
-		gearScore = new GearScore(drive, 0.2, piReader, p, i, d, "Cont");
+		gearScore = new GearScore(drive, 0.3, piReader, p, i, d, "Cont");
 
 		rightFilter = new InputFilter(0.86);
 		leftFilter = new InputFilter(0.86);
@@ -111,25 +110,24 @@ public class Controls {
 			drive.driveMode(lSpeed, rSpeed);
 		} else {
 			if (gearScore == null)
-				gearScore = new GearScore(drive, 0.2, piReader, p, i, d, "Cont");
+				gearScore = new GearScore(drive, 0.3, piReader, p, i, d, "Cont");
 
 			gearScore.enable();
 			gearScore.run();
 		}
 
-		if (checkToggle(HWR.AUX_JOYSTICK, HWR.MAIN_WINCH)){
-			toggleWinch = !toggleWinch;
-			winch.setSpeed(0.6);
-		}
-		if(toggleWinch)
-			winch.turnOn();
-		else
-			winch.stop();
-		
-		if (DriverSetup.auxStick.getRawButton(HWR.HIGH_SPEED_WINCH))
-			winch.setSpeed(0.95);
-		if (DriverSetup.auxStick.getRawButton(HWR.LOW_SPEED_WINCH))
-			winch.setSpeed(0.6);
+		toggleMotor(HWR.MAIN_WINCH, winch);
+//		if (checkToggle(HWR.AUX_JOYSTICK, HWR.MAIN_WINCH)){
+//			toggleWinch = !toggleWinch;
+//			winch.setSpeed(0.6);
+//		}
+//		if(toggleWinch)
+//			winch.turnOn();
+//		
+//		if (DriverSetup.auxStick.getRawButton(HWR.HIGH_SPEED_WINCH))
+//			winch.setSpeed(0.95);
+//		if (DriverSetup.auxStick.getRawButton(HWR.LOW_SPEED_WINCH))
+//			winch.setSpeed(0.6);
 	}
 
 	public void getPID() {
@@ -144,11 +142,12 @@ public class Controls {
 	 * 
 	 */
 
-	@SuppressWarnings("unused")
 	private static void toggleMotor(int button, ScoringMotor motor) {
-		if (checkToggle(HWR.AUX_JOYSTICK, button)) {
+		boolean a = checkToggle(HWR.AUX_JOYSTICK, button);
+		if (a) {
 			toggle[button - 1] = !toggle[button - 1];
 		}
+		SmartDashboard.sendData("Toggle WInch sdf", toggle[button - 1], true);
 		if (toggle[button - 1]) {
 			motor.turnOn();
 		} else {

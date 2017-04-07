@@ -64,7 +64,8 @@ public class GearScore {
 		SmartDashboard.sendData(identifier + " GearScore confidence", confidence, false);
 		SmartDashboard.sendData(identifier + " GearScore distance", distance, false);
 
-		if (confidence < CONFIDENCE_CUTOFF || distance < 8) {
+		if (confidence < CONFIDENCE_CUTOFF || distance < 40) {
+			driveTrain.stop();
 			if (lastdistance == 0.0)
 				lastdistance = DISTANCE_NOT_SEEN;
 			isRunningPID = false;

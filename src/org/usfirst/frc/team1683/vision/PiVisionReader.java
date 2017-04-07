@@ -70,7 +70,6 @@ public class PiVisionReader {
 	 * @return An offset between -0.5 and 0.5 where negative indicates target is
 	 *         on the left
 	 */
-	private final double ONE_CAM_OFFSET = 5;
 
 	public double getOffset() {
 		double offsetValue1 = offset1.getValue();
@@ -83,11 +82,11 @@ public class PiVisionReader {
 		if (confidenceValue1 == 0.0 && confidenceValue2 == 0.0) {
 			offset = 0.0;
 		} else if (confidenceValue1 == 0.0) {
-			offset = (offsetValue2 + ONE_CAM_OFFSET) / 100;
+			offset = (offsetValue2 + 26.5) / 100;
 		} else if (confidenceValue2 == 0.0) {
-			offset = (offsetValue1 - ONE_CAM_OFFSET) / 100;
+			offset = (offsetValue1 - 19) / 100;
 		} else {
-			offset = (offsetValue1 + offsetValue2) / 100.0;
+			offset = (offsetValue1 + offsetValue2 + 5) / 100.0;
 		}
 		SmartDashboard.sendData("vision offset", offset, false);
 		return offset;

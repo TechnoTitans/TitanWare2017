@@ -41,6 +41,7 @@ public class VisionMiddle extends Autonomous {
 				nextState = State.APPROACH_GOAL;
 				break;
 			case APPROACH_GOAL:
+				gearScore.enable();
 				gearScore.run();
 				if (gearScore.isDone()) {
 					gearScore.disable();

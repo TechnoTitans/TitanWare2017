@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class MiddleGear extends Autonomous {
 
-	private static final double DEFAULT_DISTANCE = 112;
+	private static final double DEFAULT_DISTANCE = 111;
 	private Timer timer;
 	private Timer timer2;
 	private Timer timer3;

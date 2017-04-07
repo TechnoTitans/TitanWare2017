@@ -30,8 +30,8 @@ public class AutonomousSwitcher {
 		addAuto("Edge Gear Turn Left", new EdgeGear(tankDrive, false, false, piReader, limitSwitch), true);
 		addAuto("Edge Gear Turn Right", new EdgeGear(tankDrive, true, false, piReader, limitSwitch), true);
 		addAuto("Wide Edge Turn Left", new EdgeGear(tankDrive, false, true, piReader, limitSwitch), true);
-		setDefault("Wide Edge Turn Right", new EdgeGear(tankDrive, true, true, piReader, limitSwitch));
-		addAuto("MiddleGear", new MiddleGear(tankDrive, piReader), true);
+		addAuto("Wide Edge Turn Right", new EdgeGear(tankDrive, true, true, piReader, limitSwitch), true);
+		setDefault("MiddleGear", new MiddleGear(tankDrive, piReader));
 		addAuto("Test Everything", new TestEverything(tankDrive, limitSwitch), true);
 		addAuto("PassLine Turn Right", new PassLine(tankDrive, true), true);
 		addAuto("PassLine Turn Left", new PassLine(tankDrive, false), true);

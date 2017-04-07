@@ -9,6 +9,7 @@ import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.DriverSetup;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.scoring.Winch;
 import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
@@ -47,6 +48,7 @@ public class TechnoTitan extends IterativeRobot {
 	LightRing lightRing;
 	Gyro gyro;
 	BuiltInAccel accel;
+	Winch winch;
 
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
@@ -78,8 +80,9 @@ public class TechnoTitan extends IterativeRobot {
 		rightGroup.enableAntiDrift(right);
 
 		autoSwitch = new AutonomousSwitcher(drive, piReader, limitSwitch);
-
-		controls = new Controls(drive, lightRing, piReader);
+		
+		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
+		controls = new Controls(drive, lightRing, piReader, winch);
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 
@@ -100,6 +103,7 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		
 		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
 		SmartDashboard.sendData("AutoGyro", gyro.getAngle(), true);
 		if (waitAuto.get() > 0.2)
@@ -108,6 +112,14 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		try{
+			winch = new Winch(HWR.WINCH1, HWR.WINCH2);
+			System.out.print("Initializeing winc h");
+			
+		}
+		catch(Exception e){
+			
+		}
 		waitTeleop.reset();
 		waitTeleop.start();
 			
@@ -125,6 +137,14 @@ public class TechnoTitan extends IterativeRobot {
 		SmartDashboard.sendData("Gyro", gyro.getAngle(), true);
 		SmartDashboard.sendData("Competition Time", DriverStation.getInstance().isFMSAttached(), true);
 		SmartDashboard.sendData("Accelerometer", accel.getX(), true);
+		try{
+			winch = new Winch(HWR.WINCH1, HWR.WINCH2);
+			System.out.print("Initializeing winc h");
+			
+		}
+		catch(Exception e){
+			
+		}
 	}
 
 	@Override

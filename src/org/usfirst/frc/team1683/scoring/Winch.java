@@ -10,8 +10,8 @@ public class Winch implements ScoringMotor {
 	private double liftSpeed = 0.6;// TODO
 
 	public Winch(int channel1, int channel2) {
-		this.winchMotor1 = new TalonSRX(channel1, false);
-		this.winchMotor2 = new TalonSRX(channel2, true);
+		this.winchMotor1 = new TalonSRX(channel1, true);
+		this.winchMotor2 = new TalonSRX(channel2, false);
 	}
 
 	// Takes positive double

@@ -93,6 +93,7 @@ public class EdgeGear extends Autonomous {
 			}
 			break;
 		case APPROACH_GOAL:
+			gearScore.enable();
 			gearScore.run();
 			if (gearScore.isDone() || timer.get() > 13) {
 				waitTimer.start();
@@ -110,7 +111,6 @@ public class EdgeGear extends Autonomous {
 			}
 			break;
 		case BACK_UP:
-			SmartDashboard.sendData("Edge gear distance left", mover.getAverageDistanceLeft(), false);
 			mover.runIteration();
 			if (mover.areAnyFinished()) {
 				tankDrive.stop();
