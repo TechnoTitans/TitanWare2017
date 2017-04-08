@@ -7,7 +7,7 @@ public class Winch implements ScoringMotor {
 	TalonSRX winchMotor1;
 	TalonSRX winchMotor2;
 
-	private double liftSpeed = 0.6;// TODO
+	private double liftSpeed = 1.0;// TODO
 
 	public Winch(int channel1, int channel2) {
 		this.winchMotor1 = new TalonSRX(channel1, true);

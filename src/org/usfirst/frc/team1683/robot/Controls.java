@@ -6,7 +6,6 @@ import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.GearScore;
 import org.usfirst.frc.team1683.scoring.ScoringMotor;
 import org.usfirst.frc.team1683.scoring.Winch;
-import org.usfirst.frc.team1683.vision.LightRing;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 /**
@@ -23,7 +22,6 @@ public class Controls {
 	DriveTrain drive;
 	GearScore gearScore;
 	Winch winch;
-	LightRing light;
 	PiVisionReader piReader;
 
 	private boolean frontMode = true;
@@ -43,9 +41,8 @@ public class Controls {
 	private double i = 0.0;
 	private double d = 0.0;
 
-	public Controls(DriveTrain drive, LightRing light, PiVisionReader piReader, Winch winch) {
+	public Controls(DriveTrain drive, PiVisionReader piReader, Winch winch) {
 		this.drive = drive;
-		this.light = light;
 		this.piReader = piReader;
 		this.winch = winch;
 
@@ -115,8 +112,8 @@ public class Controls {
 			gearScore.enable();
 			gearScore.run();
 		}
-
-		toggleMotor(HWR.MAIN_WINCH, winch);
+		//winch.turnOn();
+		//toggleMotor(HWR.MAIN_WINCH, winch);
 //		if (checkToggle(HWR.AUX_JOYSTICK, HWR.MAIN_WINCH)){
 //			toggleWinch = !toggleWinch;
 //			winch.setSpeed(0.6);

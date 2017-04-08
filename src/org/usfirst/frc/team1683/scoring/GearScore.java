@@ -88,7 +88,7 @@ public class GearScore {
 				SmartDashboard.sendData(identifier + " Last Distance", lastdistance, false);
 				if (mover == null) {
 					driveTrain.stop();
-					mover = new DriveTrainMover(driveTrain, lastdistance, speed);
+					mover = new DriveTrainMover(driveTrain, lastdistance - 5, 0.5);
 				}
 				if (mover != null && !mover.areAnyFinished()) {
 					mover.runIteration();

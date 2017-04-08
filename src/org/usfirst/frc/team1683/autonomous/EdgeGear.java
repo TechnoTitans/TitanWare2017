@@ -6,6 +6,7 @@ import org.usfirst.frc.team1683.driveTrain.PathPoint;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.scoring.GearScore;
+import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
@@ -25,10 +26,12 @@ public class EdgeGear extends Autonomous {
 
 	private Path path;
 	private DriveTrainMover mover;
+	
 	// private DriveTrainTurner turner;
 
 	private Timer timer;
 	private Timer shakeTimer;
+	private BuiltInAccel accel;
 //	private Timer waitGear;
 	private Timer waitTimer;
 	private boolean shakeRight = false;
@@ -43,10 +46,11 @@ public class EdgeGear extends Autonomous {
 	private PathPoint[] pathPoints;
 
 	public EdgeGear(TankDrive tankDrive, boolean right, boolean wide, PiVisionReader piReader,
-			LimitSwitch limitSwitch) {
+			LimitSwitch limitSwitch, BuiltInAccel accel) {
 		super(tankDrive);
 		this.piReader = piReader;
 		this.limitSwitch = limitSwitch;
+		this.accel = accel;
 
 		timer = new Timer();
 		shakeTimer = new Timer();
@@ -89,13 +93,13 @@ public class EdgeGear extends Autonomous {
 			if (path.isDone() || timer.get() > 6) {
 				tankDrive.stop();
 				nextState = State.APPROACH_GOAL;
-				gearScore = new GearScore(tankDrive, 0.3, piReader, 0.84, 0.0, 0.0, "edge");
+				gearScore = new GearScore(tankDrive, 0.4, piReader, 0.84, 0.0, 0.0, "edge");
 			}
 			break;
 		case APPROACH_GOAL:
 			gearScore.enable();
 			gearScore.run();
-			if (gearScore.isDone() || timer.get() > 13) {
+			if (gearScore.isDone() || timer.get() > 12 || accel.getZ() > 0.65) {
 				waitTimer.start();
 				gearScore.disable();
 				tankDrive.stop();

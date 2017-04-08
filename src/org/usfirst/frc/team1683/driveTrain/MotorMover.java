@@ -49,7 +49,7 @@ public class MotorMover implements Runnable {
 			anti.reset();
 		}
 
-		inputFilter = new InputFilter(0.92, 0);
+		inputFilter = new InputFilter(0.9, 0);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package org.usfirst.frc.team1683.autonomous;
 import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -17,19 +18,22 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class MiddleGear extends Autonomous {
 
-	private static final double DEFAULT_DISTANCE = 111;
+	private static final double DEFAULT_DISTANCE = 101;
 	private Timer timer;
 	private Timer timer2;
 	private Timer timer3;
+	private Timer pegTimer;
 	private Timer waitTimer;
 
 	private boolean shakeRight = true;
 	PiVisionReader piReader;
 	DriveTrainMover mover;
+	BuiltInAccel accel;
 
-	public MiddleGear(TankDrive tankDrive, PiVisionReader piReader) {
+	public MiddleGear(TankDrive tankDrive, PiVisionReader piReader, BuiltInAccel accel) {
 		super(tankDrive);
 		this.piReader = piReader;
+		this.accel = accel;
 		presentState = State.INIT_CASE;
 	}
 
@@ -48,14 +52,18 @@ public class MiddleGear extends Autonomous {
 				timer = new Timer();
 				timer2 = new Timer();
 				timer3 = new Timer();
+				pegTimer = new Timer();
 				waitTimer = new Timer();
 
 				nextState = State.DRIVE_FORWARD;
-				mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.3);
+				mover = new DriveTrainMover(tankDrive, DEFAULT_DISTANCE, 0.4);
 				break;
 			case DRIVE_FORWARD:
 				mover.runIteration();
-				if (mover.areAnyFinished()) {
+				if(Math.abs(accel.getZ()) > 0.5){
+					pegTimer.start();
+				}
+				if (mover.areAnyFinished() || pegTimer.get() > 2) {
 					tankDrive.stop();
 					waitTimer.start();
 					SmartDashboard.sendData("waitTimer", waitTimer.get(), false);
@@ -85,7 +93,7 @@ public class MiddleGear extends Autonomous {
 					nextState = State.END_CASE;
 					tankDrive.stop();
 				} else {
-					tankDrive.turnInPlace(shakeRight, 0.15);
+					tankDrive.turnInPlace(shakeRight, 0.2);
 					if (timer3.get() > 0.18) {
 						shakeRight = !shakeRight;
 						timer3.reset();

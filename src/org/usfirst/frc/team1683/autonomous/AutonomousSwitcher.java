@@ -21,17 +21,17 @@ public class AutonomousSwitcher {
 	public boolean isCompetitionTime;
 
 	// Creates buttons for co driver to pick autonomous
-	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader, LimitSwitch limitSwitch) {
+	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader, LimitSwitch limitSwitch, BuiltInAccel accel) {
 		isCompetitionTime = DriverStation.getInstance().isFMSAttached();
 		chooser = new SendableChooser();
 		
 		addAuto("Do nothing", new DoNothing(tankDrive), true);
 		addAuto("Square Auto", new SquareAuto(tankDrive), false);
-		addAuto("Edge Gear Turn Left", new EdgeGear(tankDrive, false, false, piReader, limitSwitch), true);
-		addAuto("Edge Gear Turn Right", new EdgeGear(tankDrive, true, false, piReader, limitSwitch), true);
-		addAuto("Wide Edge Turn Left", new EdgeGear(tankDrive, false, true, piReader, limitSwitch), true);
-		addAuto("Wide Edge Turn Right", new EdgeGear(tankDrive, true, true, piReader, limitSwitch), true);
-		setDefault("MiddleGear", new MiddleGear(tankDrive, piReader));
+		addAuto("Edge Gear Turn Left", new EdgeGear(tankDrive, false, false, piReader, limitSwitch, accel), true);
+		addAuto("Edge Gear Turn Right", new EdgeGear(tankDrive, true, false, piReader, limitSwitch, accel), true);
+		addAuto("Wide Edge Turn Left", new EdgeGear(tankDrive, false, true, piReader, limitSwitch, accel), true);
+		addAuto("Wide Edge Turn Right", new EdgeGear(tankDrive, true, true, piReader, limitSwitch, accel), true);
+		setDefault("MiddleGear", new MiddleGear(tankDrive, piReader, accel));
 		addAuto("Test Everything", new TestEverything(tankDrive, limitSwitch), true);
 		addAuto("PassLine Turn Right", new PassLine(tankDrive, true), true);
 		addAuto("PassLine Turn Left", new PassLine(tankDrive, false), true);

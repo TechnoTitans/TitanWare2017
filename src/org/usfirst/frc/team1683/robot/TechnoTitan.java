@@ -79,10 +79,10 @@ public class TechnoTitan extends IterativeRobot {
 		leftGroup.enableAntiDrift(left);
 		rightGroup.enableAntiDrift(right);
 
-		autoSwitch = new AutonomousSwitcher(drive, piReader, limitSwitch);
+		autoSwitch = new AutonomousSwitcher(drive, piReader, limitSwitch, accel);
 		
 		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
-		controls = new Controls(drive, lightRing, piReader, winch);
+		controls = new Controls(drive, piReader, winch);
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 
@@ -103,9 +103,9 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		
 		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
 		SmartDashboard.sendData("AutoGyro", gyro.getAngle(), true);
+		SmartDashboard.sendData("Accel siefief", accel.getZ(), true);
 		if (waitAuto.get() > 0.2)
 			autoSwitch.run();
 	} 
@@ -114,7 +114,7 @@ public class TechnoTitan extends IterativeRobot {
 	public void teleopInit() {
 		try{
 			winch = new Winch(HWR.WINCH1, HWR.WINCH2);
-			System.out.print("Initializeing winc h");
+			System.out.print("Initializeing winch");
 			
 		}
 		catch(Exception e){
@@ -128,23 +128,17 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		if(DriverSetup.auxStick.getRawButton(HWR.MAIN_WINCH)){
+			winch.turnOn();
+		}
+		else{
+			winch.stop();
+		}
 		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
 		if (waitTeleop.get() > 0.2 || DriverSetup.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
 			teleopReady = true;
-		if (teleopReady)
+//		sif (teleopReady)
 			controls.run();
-		SmartDashboard.sendData("LimitSwitch", limitSwitch.isPressed(), true);
-		SmartDashboard.sendData("Gyro", gyro.getAngle(), true);
-		SmartDashboard.sendData("Competition Time", DriverStation.getInstance().isFMSAttached(), true);
-		SmartDashboard.sendData("Accelerometer", accel.getX(), true);
-		try{
-			winch = new Winch(HWR.WINCH1, HWR.WINCH2);
-			System.out.print("Initializeing winc h");
-			
-		}
-		catch(Exception e){
-			
-		}
 	}
 
 	@Override
