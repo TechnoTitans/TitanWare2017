@@ -112,19 +112,19 @@ public class Controls {
 			gearScore.enable();
 			gearScore.run();
 		}
-		//winch.turnOn();
-		//toggleMotor(HWR.MAIN_WINCH, winch);
-//		if (checkToggle(HWR.AUX_JOYSTICK, HWR.MAIN_WINCH)){
-//			toggleWinch = !toggleWinch;
-//			winch.setSpeed(0.6);
-//		}
-//		if(toggleWinch)
-//			winch.turnOn();
-//		
-//		if (DriverSetup.auxStick.getRawButton(HWR.HIGH_SPEED_WINCH))
-//			winch.setSpeed(0.95);
-//		if (DriverSetup.auxStick.getRawButton(HWR.LOW_SPEED_WINCH))
-//			winch.setSpeed(0.6);
+		winch.turnOn();
+		toggleMotor(HWR.MAIN_WINCH, winch);
+		if (checkToggle(HWR.AUX_JOYSTICK, HWR.MAIN_WINCH)){
+			toggleWinch = !toggleWinch;
+			winch.setSpeed(0.6);
+		}
+		if(toggleWinch)
+			winch.turnOn();
+		
+		if (DriverSetup.auxStick.getRawButton(HWR.HIGH_SPEED_WINCH))
+			winch.setSpeed(0.95);
+		if (DriverSetup.auxStick.getRawButton(HWR.LOW_SPEED_WINCH))
+			winch.setSpeed(0.6);
 	}
 
 	public void getPID() {
@@ -138,7 +138,6 @@ public class Controls {
 	 * needs to remember past button state to toggle
 	 * 
 	 */
-
 	private static void toggleMotor(int button, ScoringMotor motor) {
 		boolean a = checkToggle(HWR.AUX_JOYSTICK, button);
 		if (a) {

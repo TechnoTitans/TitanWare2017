@@ -112,14 +112,6 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		try{
-			winch = new Winch(HWR.WINCH1, HWR.WINCH2);
-			System.out.print("Initializeing winch");
-			
-		}
-		catch(Exception e){
-			
-		}
 		waitTeleop.reset();
 		waitTeleop.start();
 			
@@ -128,16 +120,10 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		if(DriverSetup.auxStick.getRawButton(HWR.MAIN_WINCH)){
-			winch.turnOn();
-		}
-		else{
-			winch.stop();
-		}
 		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
 		if (waitTeleop.get() > 0.2 || DriverSetup.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
 			teleopReady = true;
-//		sif (teleopReady)
+		if (teleopReady)
 			controls.run();
 	}
 
