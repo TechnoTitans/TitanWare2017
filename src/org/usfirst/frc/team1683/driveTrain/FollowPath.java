@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.constants.Constants;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 public class FollowPath {
 	private TankDrive drive;
@@ -9,19 +10,22 @@ public class FollowPath {
 
 	private PathPoint point1, point2, point3;
 	private DriveTrainMover mover;
+
 	public FollowPath(TankDrive drive) {
 		this.drive = drive;
 
 		point1 = pathPoints[0];
 		point2 = pathPoints[1];
 		point3 = pathPoints[2];
-		
+
+		SmartDashboard.sendData("CalDistance1", calDistTravel()[0], true);
+		SmartDashboard.sendData("CalDistance2", calDistTravel()[1], true);
 		mover = new DriveTrainMover(drive, calDistTravel()[0], calDistTravel()[1], 0.25, 0.25);
 	}
-	
-	public void run(){
+
+	public void run() {
 		mover.runIteration();
-		if(mover.areAllFinished()){
+		if (mover.areAllFinished()) {
 			drive.stop();
 		}
 	}

@@ -1,14 +1,17 @@
 package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.constants.Constants;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 
 public class AdvancedFollowPath {
 	private TankDrive drive;
 	private PathPoint[] pathPoints = { new PathPoint(0, 0, false), new PathPoint(0, 20, false),
-			new PathPoint(20, 20, false) };
+			new PathPoint(3, 30, false), new PathPoint(30, 40, false), new PathPoint(35, 60, false) };
 
 	private PathPoint point1, point2, point3;
 	private DriveTrainMover mover;
+	private int index = 0;
+	private boolean isPaint = true;
 
 	public AdvancedFollowPath(TankDrive drive) {
 		this.drive = drive;
@@ -18,22 +21,49 @@ public class AdvancedFollowPath {
 		point3 = pathPoints[2];
 
 		mover = new DriveTrainMover(drive, calDistTravel()[0], calDistTravel()[1],
-				curveDirection() ? 0.3 : calDistTravel()[1] / calDistTravel()[0] * 0.3,
-				curveDirection() ? calDistTravel()[0] / calDistTravel()[1] * 0.3 : 0.3);
+				curveDirection() ? 0.3 : Math.abs(calDistTravel()[0] / calDistTravel()[1]) * 0.3,
+				curveDirection() ? Math.abs(calDistTravel()[1] / calDistTravel()[0]) * 0.3 : 0.3);
 	}
 
 	public void run() {
-		mover.runIteration();
-		if (mover.areAllFinished()) {
-			drive.stop();
+		if (isPaint) {
+
+		} else {
+			SmartDashboard.sendData(index + " CalDistance1", calDistTravel()[0], true);
+			SmartDashboard.sendData(index + " CalDistance2", calDistTravel()[1], true);
+			SmartDashboard.sendData(index + " Speed1",
+					curveDirection() ? 0.3 : calDistTravel()[0] / calDistTravel()[1] * 0.3, true);
+			SmartDashboard.sendData(index + " Speed2",
+					curveDirection() ? calDistTravel()[1] / calDistTravel()[0] * 0.3 : 0.3, true);
+			SmartDashboard.sendData(index + " CurveDirection", curveDirection(), true);
+			SmartDashboard.sendData(index + " Radius", calRadius(), true);
+			SmartDashboard.sendData(index + " Angle", PathPoint.getAngleTwoPoints(point1, point3, calRadius()), true);
+			if (index < pathPoints.length - 2) {
+				SmartDashboard.sendData("Stopped", false, true);
+				mover.runIteration();
+				if (mover.areAnyFinished()) {
+					drive.coast();
+					index++;
+					if (index < pathPoints.length - 2) {
+						point1 = pathPoints[index];
+						point2 = pathPoints[index + 1];
+						point3 = pathPoints[index + 2];
+						mover = new DriveTrainMover(drive, calDistTravel()[0], calDistTravel()[1],
+								curveDirection() ? 0.3 : Math.abs(calDistTravel()[0] / calDistTravel()[1]) * 0.3,
+								curveDirection() ? Math.abs(calDistTravel()[1] / calDistTravel()[0]) * 0.3 : 0.3);
+					}
+				}
+			} else {
+				SmartDashboard.sendData("Stopped", true, true);
+			}
 		}
 	}
 
 	private double[] calDistTravel() {
 		double distance1 = (calRadius() + (curveDirection() ? 1 : -1) * Constants.ROBOT_WIDTH / 2)
-				* PathPoint.getAngleTwoPoints(point1, point3, calRadius());
+				* PathPoint.getAngleTwoPoints(point1, point2, calRadius());
 		double distance2 = (calRadius() + (curveDirection() ? -1 : 1) * Constants.ROBOT_WIDTH / 2)
-				* PathPoint.getAngleTwoPoints(point1, point3, calRadius());
+				* PathPoint.getAngleTwoPoints(point1, point2, calRadius());
 		return new double[] { distance1, distance2 };
 	}
 
