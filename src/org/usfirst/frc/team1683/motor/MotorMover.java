@@ -1,12 +1,11 @@
-package org.usfirst.frc.team1683.driveTrain;
+package org.usfirst.frc.team1683.motor;
 
+import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.robot.InputFilter;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
 /*
- * 
  * Controlled by drive train mover
- * 
  */
 public class MotorMover implements Runnable {
 	private double distance;
@@ -35,11 +34,18 @@ public class MotorMover implements Runnable {
 	 *            Antidrift, or null if no antidrift is to be used
 	 */
 	public MotorMover(Motor motor, double distance, double speed, Encoder encoder, AntiDrift anti) {
+		this(motor, distance, speed, encoder);
+		this.anti = anti;
+		if (anti != null) {
+			anti.reset();
+		}
+	}
+	
+	public MotorMover(Motor motor, double distance, double speed, Encoder encoder) {
 		this.motor = motor;
 		this.distance = distance;
 		this.encoder = encoder;
 		this.encoder.reset();
-		this.anti = anti;
 		if (distance < 0)
 			this.speed = -speed;
 		else
@@ -48,7 +54,6 @@ public class MotorMover implements Runnable {
 		if (anti != null) {
 			anti.reset();
 		}
-
 		inputFilter = new InputFilter(0.9, 0);
 	}
 

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1683.robot;
+package org.usfirst.frc.team1683.constants;
 
 /**
  * HWP - Stands for HardWare Ports Each variable represents a port on the

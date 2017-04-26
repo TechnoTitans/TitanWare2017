@@ -1,30 +1,21 @@
 package org.usfirst.frc.team1683.driveTrain;
 
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
 /*
- * 
  * Keeps robot moving in a line.
  * 
  * Realigns robot based on gyro
- * 
  */
 public class AntiDrift {
 
 	private double antidriftangle = 0;
-	@SuppressWarnings("unused")
-	// This variable is used for error correction (now automated)
-	// It used to come from SmartDashboard
-	private final double kp;
+	private final double KP = 0.022;
 	private Gyro gyro;
 	// 1 if right, -1 if left, 0 if no correction should be applied
 	private int right;
 
 	public AntiDrift(Gyro gyro, int right) {
-		SmartDashboard.prefDouble("kp", 0.022);
-		SmartDashboard.sendData("kp", 0.022, false);
-		this.kp = SmartDashboard.getDouble("kp");
 		this.gyro = gyro;
 		this.right = right;
 	}
@@ -38,9 +29,8 @@ public class AntiDrift {
 	 */
 	public double antiDrift(double speed) {
 		double error = antidriftangle - gyro.getAngle();
-		SmartDashboard.sendData("Antidrift Gyro", gyro.getAngle(), false);
 
-		double correction = SmartDashboard.getDouble("kp") * error / 2.0;
+		double correction = KP * error / 2.0;
 		return limitSpeed(speed - correction * right);
 	}
 

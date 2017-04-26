@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1683.vision;
 
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /*
@@ -88,7 +86,6 @@ public class PiVisionReader {
 		} else {
 			offset = (offsetValue1 + offsetValue2 + 5) / 100.0;
 		}
-		SmartDashboard.sendData("vision offset", offset, false);
 		return offset;
 	}
 
@@ -107,7 +104,6 @@ public class PiVisionReader {
 
 	public double getConfidence() {
 		double visionConfidence = Math.max(confidence1.getValue(), confidence2.getValue());
-		SmartDashboard.sendData("vision confidence", visionConfidence, false);
 		return visionConfidence;
 	}
 }

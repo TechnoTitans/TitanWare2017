@@ -10,11 +10,6 @@ import edu.wpi.first.wpilibj.Timer;
  * Curved drive to follow path based on a function y
  * 
  * ALL METERS HERE except antidrift
- * 
- * Not used maybe next year
- * 
- * @author Yi Liu
- *
  */
 public class CurvedDrive {
 	public final static double width = 0.6985;

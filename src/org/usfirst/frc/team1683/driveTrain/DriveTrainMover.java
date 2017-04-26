@@ -3,16 +3,16 @@ package org.usfirst.frc.team1683.driveTrain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.usfirst.frc.team1683.motor.Motor;
+import org.usfirst.frc.team1683.motor.MotorGroup;
+import org.usfirst.frc.team1683.motor.MotorMover;
+
 /**
- * 
  * Mover for robot to move for a set distance in a line
- * 
- * @author Pran
- *
  */
 public class DriveTrainMover {
 	private List<MotorMover> motorMovers = new ArrayList<MotorMover>();
-	private double distance, speed;
+	private double speed, distance;
 
 	public DriveTrainMover(DriveTrain driveTrain, double distance, double speed) {
 		this.distance = distance;
@@ -22,9 +22,22 @@ public class DriveTrainMover {
 		addMotorGroup(right);
 	}
 
+	public DriveTrainMover(DriveTrain driveTrain, double leftDistance, double rightDistance, double speed) {
+		this.speed = speed;
+		MotorGroup left = driveTrain.getLeftGroup(), right = driveTrain.getRightGroup();
+		addMotorGroup(left, leftDistance);
+		addMotorGroup(right, rightDistance);
+	}
+
 	private void addMotorGroup(MotorGroup group) {
 		for (Motor m : group) {
 			motorMovers.add(new MotorMover(m, distance, speed, group.getEncoder(), group.getAntiDrift()));
+		}
+	}
+	
+	private void addMotorGroup(MotorGroup group, double moveDistance) {
+		for (Motor m : group) {
+			motorMovers.add(new MotorMover(m, moveDistance, speed, group.getEncoder()));
 		}
 	}
 

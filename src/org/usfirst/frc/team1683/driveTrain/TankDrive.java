@@ -1,12 +1,11 @@
 package org.usfirst.frc.team1683.driveTrain;
 
+import org.usfirst.frc.team1683.motor.MotorGroup;
 import org.usfirst.frc.team1683.sensors.Encoder;
 import org.usfirst.frc.team1683.sensors.Gyro;
 
 /*
- * 
  * Controls tank drive
- * 
  */
 public class TankDrive implements DriveTrain {
 
@@ -25,7 +24,7 @@ public class TankDrive implements DriveTrain {
 		this.gyro = gyro;
 		// this.gyro.reset();
 	}
-	
+
 	@Override
 	public void set(double speed) {
 		left.set(speed);
@@ -39,12 +38,12 @@ public class TankDrive implements DriveTrain {
 	public void setRight(double speed) {
 		right.set(speed);
 	}
-	
+
 	public void set(double leftSpeed, double rightSpeed) {
 		left.set(leftSpeed);
 		right.set(rightSpeed);
 	}
-	
+
 	public void turnInPlace(boolean right, double speed) {
 		if (right) {
 			set(speed, -speed);
@@ -52,7 +51,7 @@ public class TankDrive implements DriveTrain {
 			set(-speed, speed);
 		}
 	}
-	
+
 	@Override
 	public void stop() {
 		left.enableBrakeMode(true);
@@ -74,7 +73,6 @@ public class TankDrive implements DriveTrain {
 		left.enableBrakeMode(false);
 		right.enableBrakeMode(false);
 
-		
 		left.set(leftSpeed);
 		right.set(rightSpeed);
 	}

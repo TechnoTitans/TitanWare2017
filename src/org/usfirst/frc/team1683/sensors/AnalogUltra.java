@@ -1,11 +1,6 @@
 package org.usfirst.frc.team1683.sensors;
-
-/**
- * 
- * @author Yi Liu
- * 
- *         Not used
- * 
+/*
+ * Ultrasonic sensor (analog)
  */
 public class AnalogUltra extends edu.wpi.first.wpilibj.AnalogInput {
 	private final double kp = 3;

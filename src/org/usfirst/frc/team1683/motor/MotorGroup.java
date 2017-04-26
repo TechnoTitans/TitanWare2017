@@ -1,13 +1,12 @@
-package org.usfirst.frc.team1683.driveTrain;
+package org.usfirst.frc.team1683.motor;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
 /*
- * 
  * Creates a group of motors (for left and right side)
- * 
  */
 public class MotorGroup extends ArrayList<Motor> {
 

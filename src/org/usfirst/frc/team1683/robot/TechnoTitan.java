@@ -3,22 +3,17 @@ package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
+import org.usfirst.frc.team1683.constants.HWR;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
-import org.usfirst.frc.team1683.driveTrain.MotorGroup;
-import org.usfirst.frc.team1683.driveTrain.TalonSRX;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.DriverSetup;
-import org.usfirst.frc.team1683.driverStation.SmartDashboard;
-import org.usfirst.frc.team1683.scoring.Winch;
-import org.usfirst.frc.team1683.sensors.BuiltInAccel;
+import org.usfirst.frc.team1683.motor.MotorGroup;
+import org.usfirst.frc.team1683.motor.TalonSRX;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
-import org.usfirst.frc.team1683.vision.LightRing;
-import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -37,18 +32,13 @@ public class TechnoTitan extends IterativeRobot {
 
 	Timer waitTeleop;
 	Timer waitAuto;
-
-	PiVisionReader piReader;
+	
 	CameraServer server;
 
 	Autonomous auto;
 	AutonomousSwitcher autoSwitch;
 	LimitSwitch limitSwitch;
-
-	LightRing lightRing;
 	Gyro gyro;
-	BuiltInAccel accel;
-	Winch winch;
 
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
@@ -62,8 +52,6 @@ public class TechnoTitan extends IterativeRobot {
 
 		gyro = new Gyro(HWR.GYRO);
 		limitSwitch = new LimitSwitch(HWR.LIMIT_SWITCH);
-		accel = new BuiltInAccel();
-		piReader = new PiVisionReader();
 
 		AntiDrift left = new AntiDrift(gyro, -1);
 		AntiDrift right = new AntiDrift(gyro, 1);
@@ -79,10 +67,9 @@ public class TechnoTitan extends IterativeRobot {
 		leftGroup.enableAntiDrift(left);
 		rightGroup.enableAntiDrift(right);
 
-		autoSwitch = new AutonomousSwitcher(drive, piReader, limitSwitch, accel);
+		autoSwitch = new AutonomousSwitcher(drive);
 		
-		winch = new Winch(HWR.WINCH1, HWR.WINCH2);
-		controls = new Controls(drive, piReader, winch);
+		controls = new Controls(drive);
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 
@@ -91,11 +78,6 @@ public class TechnoTitan extends IterativeRobot {
 		waitAuto.reset();
 		waitAuto.start();
 		
-		SmartDashboard.sendData("Autorasp_side", DriverStation.getInstance().getLocation(), true);
-		String color = "blue";
-		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red)
-			color = "red";
-		SmartDashboard.sendData("Autorasp_alli", color, true);
 		drive.stop();
 		autoSwitch.getSelected();
 		gyro.reset();
@@ -103,9 +85,6 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		SmartDashboard.sendData("Wait Auto Timer", waitAuto.get(), false);
-		SmartDashboard.sendData("AutoGyro", gyro.getAngle(), true);
-		SmartDashboard.sendData("Accel siefief", accel.getZ(), true);
 		if (waitAuto.get() > 0.2)
 			autoSwitch.run();
 	} 
@@ -120,7 +99,6 @@ public class TechnoTitan extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.sendData("Wait Teleop Timer", waitTeleop.get(), false);
 		if (waitTeleop.get() > 0.2 || DriverSetup.rightStick.getRawButton(HWR.OVERRIDE_TIMER))
 			teleopReady = true;
 		if (teleopReady)

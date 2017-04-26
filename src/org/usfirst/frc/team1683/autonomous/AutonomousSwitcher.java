@@ -4,8 +4,6 @@ import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.sensors.BuiltInAccel;
 import org.usfirst.frc.team1683.sensors.Gyro;
-import org.usfirst.frc.team1683.sensors.LimitSwitch;
-import org.usfirst.frc.team1683.vision.PiVisionReader;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -17,25 +15,16 @@ public class AutonomousSwitcher {
 
 	BuiltInAccel accel;
 	Gyro gyro;
-	
+
 	public boolean isCompetitionTime;
 
 	// Creates buttons for co driver to pick autonomous
-	public AutonomousSwitcher(TankDrive tankDrive, PiVisionReader piReader, LimitSwitch limitSwitch, BuiltInAccel accel) {
+	public AutonomousSwitcher(TankDrive tankDrive) {
 		isCompetitionTime = DriverStation.getInstance().isFMSAttached();
 		chooser = new SendableChooser();
-		
-		addAuto("Do nothing", new DoNothing(tankDrive), true);
+
+		addAuto("Do Nothing", new DoNothing(tankDrive), true);
 		addAuto("Square Auto", new SquareAuto(tankDrive), false);
-		addAuto("Edge Gear Turn Left", new EdgeGear(tankDrive, false, false, piReader, limitSwitch, accel), true);
-		addAuto("Edge Gear Turn Right", new EdgeGear(tankDrive, true, false, piReader, limitSwitch, accel), true);
-		addAuto("Wide Edge Turn Left", new EdgeGear(tankDrive, false, true, piReader, limitSwitch, accel), true);
-		addAuto("Wide Edge Turn Right", new EdgeGear(tankDrive, true, true, piReader, limitSwitch, accel), true);
-		setDefault("MiddleGear", new MiddleGear(tankDrive, piReader, accel));
-		addAuto("Test Everything", new TestEverything(tankDrive, limitSwitch), true);
-		addAuto("PassLine Turn Right", new PassLine(tankDrive, true), true);
-		addAuto("PassLine Turn Left", new PassLine(tankDrive, false), true);
-		addAuto("VisionMiddle", new VisionMiddle(tankDrive, piReader), false);
 
 		SmartDashboard.putData("Auto", chooser);
 	}

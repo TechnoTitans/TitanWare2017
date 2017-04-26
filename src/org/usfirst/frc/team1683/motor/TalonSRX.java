@@ -1,5 +1,6 @@
-package org.usfirst.frc.team1683.driveTrain;
+package org.usfirst.frc.team1683.motor;
 
+import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
 import com.ctre.CANTalon;
@@ -7,9 +8,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 /*
- * 
  * Motor control (talonSRX)
- * 
  */
 public class TalonSRX extends CANTalon implements Motor {
 

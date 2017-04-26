@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1683.driveTrain;
+package org.usfirst.frc.team1683.motor;
 
 import org.usfirst.frc.team1683.sensors.Encoder;
 

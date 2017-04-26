@@ -2,7 +2,7 @@ package org.usfirst.frc.team1683.sensors;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 
-public class Gyro extends AnalogGyro implements Sensor {
+public class Gyro extends AnalogGyro{
 
 	public static double GYRO_SENSITIVITY = 0.0065693; /// TODO find real value
 
@@ -11,12 +11,6 @@ public class Gyro extends AnalogGyro implements Sensor {
 		super.initGyro();
 		super.reset();
 		super.setSensitivity(GYRO_SENSITIVITY);
-	}
-
-	@Override
-	public double getRaw() {
-		// TODO Auto-generated method stub
-		return super.getAngle();
 	}
 
 	@Override

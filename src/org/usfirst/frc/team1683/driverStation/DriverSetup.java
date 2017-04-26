@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1683.driverStation;
 
-import org.usfirst.frc.team1683.robot.HWR;
+import org.usfirst.frc.team1683.constants.HWR;
 
 import edu.wpi.first.wpilibj.Joystick;
 
