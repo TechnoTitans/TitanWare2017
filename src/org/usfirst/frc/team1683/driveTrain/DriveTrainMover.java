@@ -22,11 +22,10 @@ public class DriveTrainMover {
 		addMotorGroup(right);
 	}
 
-	public DriveTrainMover(DriveTrain driveTrain, double leftDistance, double rightDistance, double speed) {
-		this.speed = speed;
+	public DriveTrainMover(DriveTrain driveTrain, double leftDistance, double rightDistance, double leftSpeed, double rightSpeed) {
 		MotorGroup left = driveTrain.getLeftGroup(), right = driveTrain.getRightGroup();
-		addMotorGroup(left, leftDistance);
-		addMotorGroup(right, rightDistance);
+		addMotorGroup(left, leftDistance, leftSpeed);
+		addMotorGroup(right, rightDistance, rightSpeed);
 	}
 
 	private void addMotorGroup(MotorGroup group) {
@@ -35,9 +34,9 @@ public class DriveTrainMover {
 		}
 	}
 	
-	private void addMotorGroup(MotorGroup group, double moveDistance) {
+	private void addMotorGroup(MotorGroup group, double moveDistance, double moveSpeed) {
 		for (Motor m : group) {
-			motorMovers.add(new MotorMover(m, moveDistance, speed, group.getEncoder()));
+			motorMovers.add(new MotorMover(m, moveDistance, moveSpeed, group.getEncoder()));
 		}
 	}
 

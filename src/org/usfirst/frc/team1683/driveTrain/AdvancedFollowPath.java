@@ -2,26 +2,29 @@ package org.usfirst.frc.team1683.driveTrain;
 
 import org.usfirst.frc.team1683.constants.Constants;
 
-public class FollowPath {
+public class AdvancedFollowPath {
 	private TankDrive drive;
 	private PathPoint[] pathPoints = { new PathPoint(0, 0, false), new PathPoint(0, 20, false),
 			new PathPoint(20, 20, false) };
 
 	private PathPoint point1, point2, point3;
 	private DriveTrainMover mover;
-	public FollowPath(TankDrive drive) {
+
+	public AdvancedFollowPath(TankDrive drive) {
 		this.drive = drive;
 
 		point1 = pathPoints[0];
 		point2 = pathPoints[1];
 		point3 = pathPoints[2];
-		
-		mover = new DriveTrainMover(drive, calDistTravel()[0], calDistTravel()[1], 0.25, 0.25);
+
+		mover = new DriveTrainMover(drive, calDistTravel()[0], calDistTravel()[1],
+				curveDirection() ? 0.3 : calDistTravel()[1] / calDistTravel()[0] * 0.3,
+				curveDirection() ? calDistTravel()[0] / calDistTravel()[1] * 0.3 : 0.3);
 	}
-	
-	public void run(){
+
+	public void run() {
 		mover.runIteration();
-		if(mover.areAllFinished()){
+		if (mover.areAllFinished()) {
 			drive.stop();
 		}
 	}

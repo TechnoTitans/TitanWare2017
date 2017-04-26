@@ -4,7 +4,9 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.constants.HWR;
+import org.usfirst.frc.team1683.driveTrain.AdvancedFollowPath;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
+import org.usfirst.frc.team1683.driveTrain.FollowPath;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.DriverSetup;
 import org.usfirst.frc.team1683.motor.MotorGroup;
@@ -72,28 +74,34 @@ public class TechnoTitan extends IterativeRobot {
 		controls = new Controls(drive);
 		CameraServer.getInstance().startAutomaticCapture();
 	}
-
+	
+	FollowPath followPath;
+	AdvancedFollowPath advancedPath;
 	@Override
 	public void autonomousInit() {
-		waitAuto.reset();
-		waitAuto.start();
-		
-		drive.stop();
-		autoSwitch.getSelected();
-		gyro.reset();
+//		waitAuto.reset();
+//		waitAuto.start();
+//		
+//		drive.stop();
+//		autoSwitch.getSelected();
+//		gyro.reset();
+//		followPath = new FollowPath(drive);
+		advancedPath = new AdvancedFollowPath(drive);
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		if (waitAuto.get() > 0.2)
-			autoSwitch.run();
+//		if (waitAuto.get() > 0.2)
+//			autoSwitch.run();
+//		followPath.run();
+		advancedPath.run();
 	} 
 
 	@Override
 	public void teleopInit() {
 		waitTeleop.reset();
 		waitTeleop.start();
-			
+		
 		drive.stop();
 	}
 
