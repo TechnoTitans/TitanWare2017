@@ -4,9 +4,8 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.AutonomousSwitcher;
 import org.usfirst.frc.team1683.constants.HWR;
-import org.usfirst.frc.team1683.driveTrain.AdvancedFollowPath;
-import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.FollowPath;
+import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.driverStation.DriverSetup;
 import org.usfirst.frc.team1683.motor.MotorGroup;
@@ -75,8 +74,7 @@ public class TechnoTitan extends IterativeRobot {
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
-	FollowPath followPath;
-	AdvancedFollowPath advancedPath;
+	FollowPath advancedPath;
 	@Override
 	public void autonomousInit() {
 //		waitAuto.reset();
@@ -86,7 +84,7 @@ public class TechnoTitan extends IterativeRobot {
 //		autoSwitch.getSelected();
 //		gyro.reset();
 //		followPath = new FollowPath(drive);
-		advancedPath = new AdvancedFollowPath(drive);
+		advancedPath = new FollowPath(drive);
 	}
 
 	@Override
