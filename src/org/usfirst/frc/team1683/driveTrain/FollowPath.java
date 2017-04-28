@@ -37,6 +37,7 @@ public class FollowPath {
 	}
 
 	public void run() {
+		SmartDashboard.sendData("CurrentlyRunning", index, true);
 		SmartDashboard.sendData(index + " CalDistance1", calDistTravel()[0], true);
 		SmartDashboard.sendData(index + " CalDistance2", calDistTravel()[1], true);
 		SmartDashboard.sendData(index + " Speed1",
@@ -45,7 +46,7 @@ public class FollowPath {
 				curveDirection() ? calDistTravel()[1] / calDistTravel()[0] * 0.3 : 0.3, true);
 		SmartDashboard.sendData(index + " CurveDirection", curveDirection(), true);
 		SmartDashboard.sendData(index + " Radius", calRadius(), true);
-		SmartDashboard.sendData(index + " Angle", PathPoint.getAngleTwoPoints(point1, point3, calRadius()), true);
+		SmartDashboard.sendData(index + " Angle", PathPoint.getAngleTwoPoints(point1, point2, calRadius()), true);
 		if (index < pathPoints.size() - 2) {
 			mover.runIteration();
 			if (mover.areAnyFinished()) {
@@ -86,6 +87,9 @@ public class FollowPath {
 		double semiPeri = (side1 + side2 + side3) / 2;
 		double area = Math.sqrt(semiPeri * (semiPeri - side1) * (semiPeri - side2) * (semiPeri - side3));
 
+		if(area <= 0.6){
+			return 9999;
+		}
 		double radius = side1 * side2 * side3 / (area * 4);
 		return radius;
 	}
