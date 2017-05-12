@@ -74,8 +74,17 @@ public class PathPoint {
 		return Math.sqrt(Math.pow(point1.getX() - point2.getX(), 2) + Math.pow(point1.getY() - point2.getY(), 2));
 	}
 
-	public static double getAngleTwoPoints(PathPoint point1, PathPoint point2, double radius) {
-		return 2 * Math.asin(getDistance(point1, point2) / (2 * Math.abs(radius)));
+	public static double getAngleTwoPoints(PathPoint currPoint, PathPoint nextPoint, double radius) {
+		if (getDistance(currPoint, nextPoint) >= (2 * Math.abs(radius)))
+			return Math.PI;
+		return 2 * Math.asin(getDistance(currPoint, nextPoint) / (2 * Math.abs(radius)));
+	}
+
+	public static double atan2(PathPoint center, PathPoint nexPoint) {
+		double angle = Math.atan2(nexPoint.getY() - center.getY(), nexPoint.getX() - center.getX());
+		if (angle > 0)
+			return angle;
+		return 2 * Math.PI + angle;
 	}
 
 	public boolean isRelative() {
