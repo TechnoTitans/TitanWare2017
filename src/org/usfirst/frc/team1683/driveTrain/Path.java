@@ -38,7 +38,9 @@ public class Path {
 	 * @param path
 	 *            An array of PathPoint objects indicating where to go
 	 * @param speed
-	 *            The speed with which to move and turn
+	 *            The speed with which to move (between 0 and 1)
+	 * @param turnSpeed
+	 *            The speed	with which to turn (between 0 and 1)
 	 * @param currentHeading
 	 *            The current heading in degrees, where 0 degrees is horizontal,
 	 *            and 90 degrees is pointing up (towards positive y coordinates)
@@ -50,7 +52,7 @@ public class Path {
 		this.path = path;
 		this.currentHeading = currentHeading;
 		if (path.length > 0) {
-			turner = new DriveTrainTurner(driveTrain, path[0].getAngle() - currentHeading, speed);
+			turner = new DriveTrainTurner(driveTrain, path[0].getAngle() - currentHeading, turnSpeed);
 		}
 		this.speed = speed;
 		this.turnSpeed = turnSpeed;
