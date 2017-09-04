@@ -1,37 +1,19 @@
 package org.usfirst.frc.team1683.sensors;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
+import org.usfirst.frc.team1683.simulation.SimIterativeRobot;
 
-public class Gyro extends AnalogGyro{
-
-	public static double GYRO_SENSITIVITY = 0.0065693; /// TODO find real value
-
+public class Gyro {
+	private double simHeading = 0;
+	
 	public Gyro(int channel) {
-		super(channel);
-		super.initGyro();
-		super.reset();
-		super.setSensitivity(GYRO_SENSITIVITY);
 	}
 
-	@Override
-	public void calibrate() {
-		// TODO Auto-generated method stub
-		super.calibrate();
-	}
-
-	@Override
 	public double getAngle() {
-		return super.getAngle() % 360;
+		SimIterativeRobot robot = SimIterativeRobot.get();
+		return robot.getDifferenceVector().getAngle();
 	}
 
-	@Override
-	public double getRate() {
-		// TODO Auto-generated method stub
-		return super.getRate();
-	}
-
-	@Override
 	public void reset() {
-		super.reset();
+		simHeading = 0;
 	}
 }

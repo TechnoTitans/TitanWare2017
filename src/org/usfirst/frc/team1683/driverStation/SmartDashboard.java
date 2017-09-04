@@ -1,14 +1,8 @@
 package org.usfirst.frc.team1683.driverStation;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
-
-public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDashboard {
-	private static boolean isCompetitionTime;
+public class SmartDashboard {
 
 	public SmartDashboard() {
-		isCompetitionTime = DriverStation.getInstance().isFMSAttached();
-		// checks if fms is connected to send debugging values
 	}
 
 	/**
@@ -22,12 +16,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            true if you want to driver to see this value
 	 */
 	public static void sendData(String key, double val, boolean isForDriver) {
-		if (!(isCompetitionTime && !isForDriver)) {
-			try {
-				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
-			} catch (IllegalArgumentException e) {
-			}
-		}
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -41,12 +30,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            true if you want to driver to see this value
 	 */
 	public static void sendData(String key, int val, boolean isForDriver) {
-		if (!(isCompetitionTime && !isForDriver)) {
-			try {
-				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber(key, val);
-			} catch (IllegalArgumentException e) {
-			}
-		}
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -60,12 +44,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            true if you want to driver to see this value
 	 */
 	public static void sendData(String key, String val, boolean isForDriver) {
-		if (!(isCompetitionTime && !isForDriver)) {
-			try {
-				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putString(key, val);
-			} catch (IllegalArgumentException e) {
-			}
-		}
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -79,12 +58,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            true if you want to driver to see this value
 	 */
 	public static void sendData(String key, boolean val, boolean isForDriver) {
-		if (!(isCompetitionTime && !isForDriver)) {
-			try {
-				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putBoolean(key, val);
-			} catch (IllegalArgumentException e) {
-			}
-		}
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -96,7 +70,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            int Value to be sent
 	 */
 	public static void prefInt(String key, int val) {
-		Preferences.getInstance().putInt(key, val);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -108,7 +82,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            boolean Value to be sent
 	 */
 	public static void prefBoolean(String key, boolean val) {
-		Preferences.getInstance().putBoolean(key, val);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -120,7 +94,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            String Value to be sent
 	 */
 	public static void prefString(String key, String val) {
-		Preferences.getInstance().putString(key, val);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -132,7 +106,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            double value to be sent
 	 */
 	public static void prefDouble(String key, double val) {
-		Preferences.getInstance().putDouble(key, val);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/*
@@ -147,7 +121,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 *            Value name
 	 */
 	public static boolean getBoolean(String key) {
-		return Preferences.getInstance().getBoolean(key, false);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -159,7 +133,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @return null if no string is found
 	 */
 	public static String getString(String key) {
-		return Preferences.getInstance().getString(key, null);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -171,7 +145,7 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @return 0.0 if key is not found
 	 */
 	public static double getDouble(String key) {
-		return Preferences.getInstance().getDouble(key, 0.0);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -183,6 +157,6 @@ public class SmartDashboard extends edu.wpi.first.wpilibj.smartdashboard.SmartDa
 	 * @return 0 if key is not found
 	 */
 	public static int getInt(String key) {
-		return Preferences.getInstance().getInt(key, 0);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 }

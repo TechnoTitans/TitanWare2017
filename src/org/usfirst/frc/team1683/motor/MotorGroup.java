@@ -27,9 +27,7 @@ public class MotorGroup extends ArrayList<Motor> {
 	public MotorGroup(Encoder encoder, Motor... motors) {
 		this.encoder = encoder;
 		for (Motor motor : motors) {
-			if (motor instanceof TalonSRX) {
-				((TalonSRX) motor).setEncoder(encoder);
-			}
+			motor.setEncoder(encoder);
 			super.add(motor);
 		}
 	}
@@ -62,7 +60,7 @@ public class MotorGroup extends ArrayList<Motor> {
 	 */
 	public void set(double speed) {
 		for (Motor motor : this) {
-			((TalonSRX) motor).set(speed);
+			motor.set(speed);
 		}
 	}
 
@@ -100,7 +98,7 @@ public class MotorGroup extends ArrayList<Motor> {
 	public double getError() {
 		double error = 0;
 		for (Motor motor : this) {
-			error += ((TalonSRX) motor).getError();
+			error += motor.getError();
 		}
 		error /= this.size();
 		return error;
@@ -115,9 +113,7 @@ public class MotorGroup extends ArrayList<Motor> {
 
 	public void enableBrakeMode(boolean enabled) {
 		for (Motor motor : this) {
-			if (motor instanceof TalonSRX) {
-				((TalonSRX) motor).enableBrakeMode(enabled);
-			}
+				motor.enableBrakeMode(enabled);
 		}
 	}
 

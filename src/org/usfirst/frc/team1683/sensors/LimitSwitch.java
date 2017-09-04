@@ -3,13 +3,13 @@ package org.usfirst.frc.team1683.sensors;
 /**
  * Limit Switch
  */
-public class LimitSwitch extends edu.wpi.first.wpilibj.DigitalInput {
+public class LimitSwitch {
 
 	public LimitSwitch(int portNumber) {
-		super(portNumber);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	public boolean isPressed() {
-		return !super.get();
+		throw new UnsupportedOperationException("Not implemented");
 	}
 }

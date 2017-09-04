@@ -3,17 +3,12 @@ package org.usfirst.frc.team1683.autonomous;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
-import edu.wpi.first.wpilibj.Timer;
-
 public abstract class Autonomous {
 	public static final double GYRO_ANGLE_TOLERANCE = 15.0;
 
 	protected TankDrive tankDrive;
 	protected Encoder leftEncoder;
 	protected Encoder rightEncoder;
-
-	protected Timer timer;
-	protected Timer timeout;
 
 	public State presentState = State.INIT_CASE;
 	public State nextState;

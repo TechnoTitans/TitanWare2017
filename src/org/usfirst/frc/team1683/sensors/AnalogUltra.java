@@ -2,14 +2,14 @@ package org.usfirst.frc.team1683.sensors;
 /*
  * Ultrasonic sensor (analog)
  */
-public class AnalogUltra extends edu.wpi.first.wpilibj.AnalogInput {
+public class AnalogUltra {
 	private final double kp = 3;
 
 	public AnalogUltra(int channel) {
-		super(channel);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	public double getDistance() {
-		return kp * super.getVoltage();
+		throw new UnsupportedOperationException("Not implemented");
 	}
 }

@@ -18,9 +18,13 @@ public interface Motor {
 
 	public Encoder getEncoder();
 
-	// public void setBrakeMode(boolean enable);
+	public void enableBrakeMode(boolean enable);
 
 	public int getChannel();
 
 	public boolean isReversed();
+
+	public double getError();
+
+	public void setEncoder(Encoder encoder);
 }
