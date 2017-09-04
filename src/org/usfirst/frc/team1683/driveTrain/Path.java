@@ -14,6 +14,8 @@ public class Path {
 	private double speed;
 	private double turnSpeed;
 	private boolean stopCondition;
+	private boolean canMoveBackward = false;
+	private boolean isMovingBackward = false;
 
 	/**
 	 * Creates a new path object
@@ -93,7 +95,8 @@ public class Path {
 		}
 		if (isTurning) {
 			if (turner.isDone()) {
-				mover = new DriveTrainMover(driveTrain, path[pathIndex].getDistance(), speed);
+				double b = isMovingBackward ? -1 : 1;
+				mover = new DriveTrainMover(driveTrain, b * path[pathIndex].getDistance(), speed);
 				isTurning = false;
 				currentHeading = path[pathIndex].getAngle();
 				driveTrain.stop();
@@ -105,11 +108,63 @@ public class Path {
 			if (isMoverDone()) {
 				pathIndex++;
 				if (!isDone()) {
-					turner = new DriveTrainTurner(driveTrain, path[pathIndex].getAngle() - currentHeading,
+					turner = new DriveTrainTurner(driveTrain, calculateTurnAngle(),
 							Math.abs(turnSpeed));
 					isTurning = true;
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Gives the turn angle necessary for movement
+	 * Normally, this is simply path[pathIndex].getAngle() - currentHeading
+	 * However, if canMoveBackward is set to true, then we force the angle to be between -90 and 90.
+	 * @return The angle needed to turn
+	 */
+	private double calculateTurnAngle() {
+		double angle = path[pathIndex].getAngle() - currentHeading;
+		if (!canMoveBackward) {
+			isMovingBackward = false;
+			return angle;
+		} else {
+			// Ensure that -90 <= angle <= 90
+			isMovingBackward = angle < -90 || angle > 90;
+			if (angle > 90)
+				return angle - 180;
+			else if (angle < -90)
+				return angle + 180;
+			else
+				return angle;
+		}
+	}
+	
+	/**
+	 * @return The speed when moving straight
+	 */
+	public double getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * @return The turning speed
+	 */
+	public double getTurnSpeed() {
+		return turnSpeed;
+	}
+
+	/**
+	 * @return Whether the robot can move backwards when executing the path, defaults to false
+	 */
+	public boolean getCanMoveBackward() {
+		return canMoveBackward;
+	}
+
+	/**
+	 * @param canMoveBackward If true, the robot will be able
+	 * to move backwards when executing the path, possibly making it quicker
+	 */
+	public void setCanMoveBackward(boolean canMoveBackward) {
+		this.canMoveBackward = canMoveBackward;
 	}
 }
