@@ -134,9 +134,6 @@ public class PathPoint {
 	 * @see PathPoint#fromAngle(double angle)
 	 */
 	public static PathPoint inDirectionOf(double x, double y) {
-		PathPoint p = new PathPoint(x, y);
-		p.x = 0;
-		p.y = 0;
-		return p;
+		return fromAngle(Math.toDegrees(Math.atan2(y, x)));
 	}
 }

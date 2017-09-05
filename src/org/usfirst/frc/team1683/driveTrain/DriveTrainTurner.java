@@ -94,4 +94,8 @@ public class DriveTrainTurner {
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
+
+	public double getAngle() {
+		return angle;
+	}
 }

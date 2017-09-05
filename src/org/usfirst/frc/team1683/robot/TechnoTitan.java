@@ -65,10 +65,13 @@ public class TechnoTitan extends SimIterativeRobot {
 	public void autonomousInit() {
 		//advancedPath = new FollowPath(drive);
 		path = new Path(drive, new PathPoint[] {
-				new PathPoint(36, -72, false),
-				new PathPoint(72, 0, false),
-				PathPoint.inDirectionOf(0, 1)
-		}, 1, 1, true);
+				PathPoint.fromAngle(80),
+				PathPoint.fromAngle(160),
+				PathPoint.fromAngle(240),
+				PathPoint.fromAngle(320),
+				PathPoint.fromAngle(40),
+				PathPoint.fromAngle(120)
+		}, 1, 0.5, false, 0);
 	}
 	
 	public void autonomousPeriodic() {

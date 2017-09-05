@@ -29,7 +29,11 @@ public class Path {
 	 *            90 degrees
 	 */
 	public Path(DriveTrain driveTrain, PathPoint[] path, double speed, double turnSpeed) {
-		this(driveTrain, path, speed, turnSpeed, 90);
+		this(driveTrain, path, speed, turnSpeed, false, 90);
+	}
+	
+	public Path(DriveTrain driveTrain, PathPoint[] path, double speed, double turnSpeed, boolean canMoveBackwards) {
+		this(driveTrain, path, speed, turnSpeed, canMoveBackwards, 90);
 	}
 
 	/**
@@ -49,17 +53,18 @@ public class Path {
 	 *            The current heading is used to determine how much to initially
 	 *            turn.
 	 */
-	public Path(DriveTrain driveTrain, PathPoint[] path, double speed, double turnSpeed, double currentHeading) {
+	public Path(DriveTrain driveTrain, PathPoint[] path, double speed, double turnSpeed, boolean canMoveBackwards, double currentHeading) {
 		this.driveTrain = driveTrain;
 		this.path = path;
+		PathPoint.convertAbsoluteToRelative(path);
 		this.currentHeading = currentHeading;
+		setCanMoveBackward(canMoveBackwards);
 		if (path.length > 0) {
-			turner = new DriveTrainTurner(driveTrain, path[0].getAngle() - currentHeading, turnSpeed);
+			turner = new DriveTrainTurner(driveTrain, calculateTurnAngle(), turnSpeed);
 		}
 		this.speed = speed;
 		this.turnSpeed = turnSpeed;
 		setStopCondition(false);
-		PathPoint.convertAbsoluteToRelative(path);
 	}
 
 	/**
@@ -98,7 +103,7 @@ public class Path {
 				double b = isMovingBackward ? -1 : 1;
 				mover = new DriveTrainMover(driveTrain, b * path[pathIndex].getDistance(), speed);
 				isTurning = false;
-				currentHeading = path[pathIndex].getAngle();
+				currentHeading += turner.getAngle();
 				driveTrain.stop();
 			} else {
 				turner.run();
@@ -125,6 +130,7 @@ public class Path {
 	private double calculateTurnAngle() {
 		double angle = path[pathIndex].getAngle() - currentHeading;
 		if (!canMoveBackward) {
+			System.out.println(angle);
 			isMovingBackward = false;
 			return angle;
 		} else {
