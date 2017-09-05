@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1683.sensors;
 
-import org.usfirst.frc.team1683.simulation.TalonSRX;
+import org.usfirst.frc.team1683.motor.TalonSRX;
 
 /**
  * Encoder class. Used to measure how far the robot traveled

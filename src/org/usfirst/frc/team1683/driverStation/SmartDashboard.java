@@ -1,7 +1,11 @@
 package org.usfirst.frc.team1683.driverStation;
 
-public class SmartDashboard {
+import java.util.LinkedHashMap;
+import java.util.Map;
 
+public class SmartDashboard {
+	public static Map<Object, Object> dashboard = new LinkedHashMap<>();
+	
 	public SmartDashboard() {
 	}
 
@@ -15,46 +19,8 @@ public class SmartDashboard {
 	 * @param isForDriver
 	 *            true if you want to driver to see this value
 	 */
-	public static void sendData(String key, double val, boolean isForDriver) {
-	}
-
-	/**
-	 * Sends the value to SmartDashboard
-	 *
-	 * @param key
-	 *            Value name
-	 * @param val
-	 *            int Input value
-	 * @param isForDriver
-	 *            true if you want to driver to see this value
-	 */
-	public static void sendData(String key, int val, boolean isForDriver) {
-	}
-
-	/**
-	 * Sends the value to SmartDashboard
-	 *
-	 * @param key
-	 *            Value name
-	 * @param val
-	 *            String Input value
-	 * @param isForDriver
-	 *            true if you want to driver to see this value
-	 */
-	public static void sendData(String key, String val, boolean isForDriver) {
-	}
-
-	/**
-	 * Sends the value to SmartDashboard
-	 *
-	 * @param key
-	 *            Value name
-	 * @param val
-	 *            boolean Input value
-	 * @param isForDriver
-	 *            true if you want to driver to see this value
-	 */
-	public static void sendData(String key, boolean val, boolean isForDriver) {
+	public static void sendData(Object key, Object val, boolean isForDriver) {
+		dashboard.put(key, val);
 	}
 
 	/**
@@ -113,7 +79,7 @@ public class SmartDashboard {
 	 *            Value name
 	 */
 	public static boolean getBoolean(String key) {
-		return false;
+		return (boolean) dashboard.getOrDefault(key, false);
 	}
 
 	/**
@@ -125,7 +91,7 @@ public class SmartDashboard {
 	 * @return null if no string is found
 	 */
 	public static String getString(String key) {
-		return null;
+		return (String) dashboard.getOrDefault(key, null);
 	}
 
 	/**
@@ -137,7 +103,7 @@ public class SmartDashboard {
 	 * @return 0.0 if key is not found
 	 */
 	public static double getDouble(String key) {
-		return 0;
+		return (double) dashboard.getOrDefault(key, 0);
 	}
 
 	/**
@@ -149,6 +115,10 @@ public class SmartDashboard {
 	 * @return 0 if key is not found
 	 */
 	public static int getInt(String key) {
-		return 0;
+		return (int) dashboard.getOrDefault(key, 0);
+	}
+	
+	public static Object get(String key) {
+		return dashboard.getOrDefault(key, null);
 	}
 }

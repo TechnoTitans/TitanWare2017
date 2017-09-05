@@ -7,7 +7,6 @@ import org.usfirst.frc.team1683.sensors.Gyro;
  */
 public class DriveTrainTurner {
 	private DriveTrain driveTrain;
-	private double initialHeading;
 	private Gyro gyro;
 	private double speed;
 	private double angle;
@@ -20,19 +19,16 @@ public class DriveTrainTurner {
 	 * @param driveTrain
 	 *            The drive train
 	 * @param angle
-	 *            The angle, if above 180 or below -180, will be adjusted to be
-	 *            in that range (will not do multiple revolutions); positive
-	 *            indicates counter-clockwise
+	 *            The angle, positive is counterclockwise, negative is clockwise.
+	 *            Can be above 360 (does multiple rotations)
 	 * @param speed
-	 *            Speed between 0 and 1 normally
+	 *            Speed between 0 and 1
 	 */
 	public DriveTrainTurner(DriveTrain driveTrain, double angle, double speed) {
 		// positive angle = counter clockwise, negative = clockwise
 		this.driveTrain = driveTrain;
 		gyro = driveTrain.getGyro();
 		gyro.reset();
-		initialHeading = gyro.getAngle();
-		angle = normalizeAngle(angle);
 		this.angle = angle;
 		this.speed = speed;
 		// If the angle is close to zero, no need to turn, we are already done
@@ -40,27 +36,11 @@ public class DriveTrainTurner {
 	}
 
 	/**
-	 * Takes an angle and returns the angle between -180 and 180 that is
-	 * equivalent to it
-	 * 
-	 * @param angle
-	 * @return An equivalent angle between -180 and 180
-	 */
-	public double normalizeAngle(double angle) {
-		angle %= 360;
-		if (angle < -180)
-			angle += 360;
-		if (angle > 180)
-			angle -= 360;
-		return angle;
-	}
-
-	/**
 	 * Turns in place as long as the heading is less than the angle (within
 	 * ANGLE_TOLERANCE)
 	 */
 	public void run() {
-		double heading = angleDiff(gyro.getAngle(), initialHeading);
+		double heading = gyro.getAngle();
 		if (!done && Math.abs(heading) <= Math.abs(angle) - ANGLE_TOLERANCE) {
 			// If angle > 0, then it should turn counterclockwise so the "right"
 			// parameter should be false
@@ -72,7 +52,7 @@ public class DriveTrainTurner {
 	}
 
 	public double angleLeft() {
-		return Math.abs(angle) - Math.abs(angleDiff(gyro.getAngle(), initialHeading));
+		return angle - gyro.getAngle();
 	}
 
 	/**
@@ -81,10 +61,6 @@ public class DriveTrainTurner {
 	 */
 	public boolean isDone() {
 		return done;
-	}
-
-	private double angleDiff(double a, double b) {
-		return normalizeAngle(a - b);
 	}
 
 	public double getSpeed() {

@@ -36,7 +36,7 @@ public class AntiDrift {
 	public double antiDrift(double speed) {
 		double error = antidriftangle - gyro.getAngle();
 		double correction = KP * error;
-		return limitSpeed(speed + correction * right);
+		return limitSpeed(speed - correction * right);
 	}
 
 	public void reset() {

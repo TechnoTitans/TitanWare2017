@@ -9,19 +9,21 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Random;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.usfirst.frc.team1683.constants.Constants;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
+import org.usfirst.frc.team1683.motor.TalonSRX;
 import org.usfirst.frc.team1683.robot.TechnoTitan;
+import org.usfirst.frc.team1683.sensors.Gyro;
 
 public class SimIterativeRobot {
 	private static SimIterativeRobot self = null;
@@ -59,7 +61,6 @@ public class SimIterativeRobot {
 			e.printStackTrace();
 		}
 		observer = new ImageObserver() {
-			
 			@Override
 			public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 				return false;
@@ -78,9 +79,6 @@ public class SimIterativeRobot {
 	public void autonomousPeriodic() {
 		System.out.println("Override me");
 	}
-	public static SimIterativeRobot get() {
-		return self;
-	}
 	
 	public static void startSim() {
 		JFrame frame = new JFrame("simulation");
@@ -98,6 +96,11 @@ public class SimIterativeRobot {
 					g.drawLine(0, (int) y, FRAME_WIDTH, (int) y);
 				}
 				g.drawString("Time: " + frames / FRAMES_PER_SECOND, 20, 20);
+				int i = 0;
+				for (Map.Entry<Object, Object> entry : SmartDashboard.dashboard.entrySet()) {
+					g.drawString(entry.getKey().toString() + ": " + entry.getValue().toString(), 20, 40 + 20*i);
+					i++;
+				}
 				self.paintComponent(g);
 			}
 		};
@@ -151,6 +154,9 @@ public class SimIterativeRobot {
 			center.add(positionRight);
 			positionLeft.rotateAbout(theta, center);
 			positionRight.rotateAbout(theta, center);
+		}
+		for (Gyro gyro : Gyro.getGyros()) {
+			gyro.update(this);
 		}
 	}
 	

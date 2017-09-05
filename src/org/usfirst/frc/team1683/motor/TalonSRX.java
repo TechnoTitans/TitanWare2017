@@ -1,7 +1,7 @@
-package org.usfirst.frc.team1683.simulation;
+package org.usfirst.frc.team1683.motor;
 
-import org.usfirst.frc.team1683.motor.Motor;
 import org.usfirst.frc.team1683.sensors.Encoder;
+import org.usfirst.frc.team1683.simulation.SimIterativeRobot;
 
 public class TalonSRX implements Motor {
 	private static TalonSRX[] initializedTalons = {null, null};
@@ -108,12 +108,12 @@ public class TalonSRX implements Motor {
 		position = p;
 	}
 	
-	void update(double dt) {
+	public void update(double dt) {
 		actualSpeed = setSpeed * ((SimIterativeRobot.random.nextDouble() - 0.5) * AVERAGE_ERROR + 1 + bias);
 		position += actualSpeed * dt * MAX_TRUE_SPEED;
 	}
 	
-	static TalonSRX getTalon(int port) {
+	public static TalonSRX getTalon(int port) {
 		if (initializedTalons[port] == null) {
 			return new TalonSRX(port);
 		}

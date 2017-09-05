@@ -122,13 +122,29 @@ public class Path {
 	}
 	
 	/**
+	 * Takes an angle and returns the angle between -180 and 180 that is
+	 * equivalent to it
+	 * 
+	 * @param angle
+	 * @return An equivalent angle between -180 and 180
+	 */
+	private double normalizeAngle(double angle) {
+		angle %= 360;
+		if (angle < -180)
+			angle += 360;
+		if (angle > 180)
+			angle -= 360;
+		return angle;
+	}
+	
+	/**
 	 * Gives the turn angle necessary for movement
 	 * Normally, this is simply path[pathIndex].getAngle() - currentHeading
 	 * However, if canMoveBackward is set to true, then we force the angle to be between -90 and 90.
 	 * @return The angle needed to turn
 	 */
 	private double calculateTurnAngle() {
-		double angle = path[pathIndex].getAngle() - currentHeading;
+		double angle = normalizeAngle(path[pathIndex].getAngle() - currentHeading);
 		if (!canMoveBackward) {
 			System.out.println(angle);
 			isMovingBackward = false;

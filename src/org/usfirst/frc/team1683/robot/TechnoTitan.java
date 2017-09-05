@@ -7,16 +7,18 @@ import org.usfirst.frc.team1683.constants.Constants;
 import org.usfirst.frc.team1683.constants.HWR;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
+import org.usfirst.frc.team1683.driveTrain.DriveTrainTurner;
 import org.usfirst.frc.team1683.driveTrain.FollowPath;
 import org.usfirst.frc.team1683.driveTrain.Path;
 import org.usfirst.frc.team1683.driveTrain.PathPoint;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
+import org.usfirst.frc.team1683.driverStation.SmartDashboard;
 import org.usfirst.frc.team1683.motor.MotorGroup;
+import org.usfirst.frc.team1683.motor.TalonSRX;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
 import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.simulation.SimIterativeRobot;
-import org.usfirst.frc.team1683.simulation.TalonSRX;
 
 /**
  * 
@@ -31,7 +33,6 @@ public class TechnoTitan extends SimIterativeRobot {
 
 	Autonomous auto;
 	LimitSwitch limitSwitch;
-	//Gyro gyro;
 
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
@@ -41,6 +42,8 @@ public class TechnoTitan extends SimIterativeRobot {
 	boolean teleopReady = false;
 	
 	Gyro gyro;
+	
+	DriveTrainTurner turner;
 
 	@Override
 	public void robotInit() {
