@@ -12,7 +12,7 @@ public class FollowPath {
 	private ArrayList<PathPoint> pathPoints = new ArrayList<PathPoint>();
 	private PathPoint currPoint, nexPoint;
 	private int index = 0;
-	private double SPEED = 0.2;
+	private double SPEED = 0.6;
 	private double lastSlope = 90;
 	private boolean lastDirection = true;
 	private boolean lastCurve;

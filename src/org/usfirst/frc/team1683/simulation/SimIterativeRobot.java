@@ -3,17 +3,25 @@ package org.usfirst.frc.team1683.simulation;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.usfirst.frc.team1683.constants.Constants;
 import org.usfirst.frc.team1683.robot.TechnoTitan;
-import org.usfirst.frc.team1683.sensors.Gyro;
 
 public class SimIterativeRobot {
 	private static SimIterativeRobot self = null;
@@ -21,7 +29,6 @@ public class SimIterativeRobot {
 	public static final int FRAME_HEIGHT = 720;
 	public static final double PIXELS_PER_INCH =  2.5;
 	public static final double FRAMES_PER_SECOND = 30;
-	public static final double ROBOT_WIDTH = 36; // inches
 	public static final double ROBOT_HEIGHT = 40;
 	public static Random random = new Random();
 	private static int frames = 0;
@@ -30,15 +37,34 @@ public class SimIterativeRobot {
 	
 	private Vector2D positionLeft, positionRight;
 	
+	private boolean imageFound;
+	private BufferedImage image;
+	private ImageObserver observer;
+	
 	public SimIterativeRobot() {
 		// Put the robot at the center
 		positionLeft = new Vector2D(FRAME_WIDTH / 2, FRAME_HEIGHT / 2);
 		positionRight = new Vector2D(FRAME_WIDTH / 2, FRAME_HEIGHT / 2);
 		// convert to inches
 		positionLeft.multiply(1 / PIXELS_PER_INCH);
-		positionLeft.add(-ROBOT_WIDTH / 2, 0);
+		positionLeft.add(-Constants.ROBOT_WIDTH / 2, 0);
 		positionRight.multiply(1 / PIXELS_PER_INCH);
-		positionRight.add(ROBOT_WIDTH / 2, 0);
+		positionRight.add(Constants.ROBOT_WIDTH / 2, 0);
+		try {
+			image = ImageIO.read(new File("robot.png"));
+			imageFound = true;
+		} catch (IOException e) {
+			imageFound = false;
+			System.out.println("The robot image was not found.");
+			e.printStackTrace();
+		}
+		observer = new ImageObserver() {
+			
+			@Override
+			public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+				return false;
+			}
+		};
 	}
 	
 	public void robotInit() {
@@ -117,10 +143,10 @@ public class SimIterativeRobot {
 			positionLeft.add(facing);
 			positionRight.add(facing);
 		} else {
-			double theta = dt * (rightSpeed - leftSpeed) / ROBOT_WIDTH;
+			double theta = dt * (rightSpeed - leftSpeed) / Constants.ROBOT_WIDTH;
 			Vector2D center = diff;
 			center.normalize();
-			center.multiply(ROBOT_WIDTH * rightSpeed / (rightSpeed - leftSpeed));
+			center.multiply(Constants.ROBOT_WIDTH * rightSpeed / (rightSpeed - leftSpeed));
 			center.multiply(-1);
 			center.add(positionRight);
 			positionLeft.rotateAbout(theta, center);
@@ -141,16 +167,20 @@ public class SimIterativeRobot {
 			ry = (int) (FRAME_HEIGHT - positionRight.y * PIXELS_PER_INCH),
 			x = (lx + rx) / 2,
 			y = (ly + ry) / 2,
-			w = (int) (ROBOT_WIDTH * PIXELS_PER_INCH),
+			w = (int) (Constants.ROBOT_WIDTH * PIXELS_PER_INCH),
 			h = (int) (ROBOT_HEIGHT * PIXELS_PER_INCH);
 		Graphics2D gg = (Graphics2D) g;
 		AffineTransform oldXForm = gg.getTransform();
 		Vector2D diffVec = getDifferenceVector();
 		gg.rotate(-diffVec.getAngle(), x, y);
-		gg.setColor(Color.BLACK);
-	    gg.fillRect(x - w/2, y - h/2, w, h);
-	    gg.setColor(Color.WHITE);
-	    line(gg, x - w / 2.5, y - h / 2.5, x + w / 2.5, y - h / 2.5);
+		if (!imageFound) {
+			gg.setColor(Color.BLACK);
+		    gg.fillRect(x - w/2, y - h/2, w, h);
+		    gg.setColor(Color.WHITE);
+		    line(gg, x - w / 2.5, y - h / 2.5, x + w / 2.5, y - h / 2.5);
+		} else {
+			g.drawImage(image, x - w/2, y - h/2, w, h, observer);
+		}
 	    gg.setTransform(oldXForm);
 	    gg.fillOval(lx - 3, ly - 3, 6, 6);
 	    gg.fillOval(rx - 3, ry - 3, 6, 6);

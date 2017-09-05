@@ -3,6 +3,7 @@ package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.autonomous.SquareAuto;
+import org.usfirst.frc.team1683.constants.Constants;
 import org.usfirst.frc.team1683.constants.HWR;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
@@ -24,9 +25,7 @@ import org.usfirst.frc.team1683.simulation.SimTalon;
  */
 public class TechnoTitan extends SimIterativeRobot {
 	public static final boolean LEFT_REVERSE = false;
-	public static final boolean RIGHT_REVERSE = true;
-	// In the simulation, the circumference of the wheels is 1 inch
-	public static final double WHEEL_RADIUS = 1 / (2*Math.PI);
+	public static final boolean RIGHT_REVERSE = false;
 
 	TankDrive drive;
 
@@ -53,8 +52,8 @@ public class TechnoTitan extends SimIterativeRobot {
 		AntiDrift right = new AntiDrift(gyro, 1);
 		SimTalon leftETalonSRX = new SimTalon(HWR.LEFT_DRIVE_TRAIN_FRONT);
 		SimTalon rightETalonSRX = new SimTalon(HWR.RIGHT_DRIVE_TRAIN_FRONT);
-		leftGroup = new MotorGroup(new SimQuadEncoder(leftETalonSRX, WHEEL_RADIUS), leftETalonSRX);
-		rightGroup = new MotorGroup(new SimQuadEncoder(rightETalonSRX, WHEEL_RADIUS), rightETalonSRX);
+		leftGroup = new MotorGroup(new SimQuadEncoder(leftETalonSRX, Constants.WHEEL_RADIUS), leftETalonSRX);
+		rightGroup = new MotorGroup(new SimQuadEncoder(rightETalonSRX, Constants.WHEEL_RADIUS), rightETalonSRX);
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
 		leftGroup.enableAntiDrift(left);
 		rightGroup.enableAntiDrift(right);
@@ -70,5 +69,6 @@ public class TechnoTitan extends SimIterativeRobot {
 	
 	public void autonomousPeriodic() {
 		square.run();
+		//advancedPath.run();
 	}
 }
