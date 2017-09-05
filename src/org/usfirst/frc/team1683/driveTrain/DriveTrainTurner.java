@@ -12,7 +12,7 @@ public class DriveTrainTurner {
 	private double speed;
 	private double angle;
 	private boolean done = false;
-	private final double ANGLE_TOLERANCE = 4;
+	private final double ANGLE_TOLERANCE = 1;
 
 	/**
 	 * Creates a DriveTrainTurner

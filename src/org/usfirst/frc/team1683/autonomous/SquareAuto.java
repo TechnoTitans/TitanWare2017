@@ -16,7 +16,7 @@ public class SquareAuto extends Autonomous {
 
 	public SquareAuto(TankDrive tankDrive) {
 		super(tankDrive);
-		path = new Path(tankDrive, points, 0.3, 0.3);
+		path = new Path(tankDrive, points, 0.7, 0.7);
 	}
 
 	public void run() {

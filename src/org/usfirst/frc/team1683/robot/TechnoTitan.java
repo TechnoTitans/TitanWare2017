@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1683.robot;
 
 import org.usfirst.frc.team1683.autonomous.Autonomous;
+import org.usfirst.frc.team1683.autonomous.SquareAuto;
 import org.usfirst.frc.team1683.constants.HWR;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
@@ -36,7 +37,7 @@ public class TechnoTitan extends SimIterativeRobot {
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
 
-	Path path;
+	Autonomous square;
 	
 	boolean teleopReady = false;
 	
@@ -64,21 +65,10 @@ public class TechnoTitan extends SimIterativeRobot {
 	@Override
 	public void autonomousInit() {
 		//advancedPath = new FollowPath(drive);
-		path = new Path(drive, new PathPoint[] {
-				PathPoint.fromAngle(80),
-				PathPoint.fromAngle(160),
-				PathPoint.fromAngle(240),
-				PathPoint.fromAngle(320),
-				PathPoint.fromAngle(40),
-				PathPoint.fromAngle(120)
-		}, 1, 0.5, false, 0);
+		square = new SquareAuto(drive);
 	}
 	
 	public void autonomousPeriodic() {
-		if (!path.isDone()) {
-			path.run();
-		} else {
-			drive.stop();
-		}
+		square.run();
 	}
 }
