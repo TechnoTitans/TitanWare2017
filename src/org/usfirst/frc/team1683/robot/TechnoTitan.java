@@ -4,7 +4,10 @@ package org.usfirst.frc.team1683.robot;
 import org.usfirst.frc.team1683.autonomous.Autonomous;
 import org.usfirst.frc.team1683.constants.HWR;
 import org.usfirst.frc.team1683.driveTrain.AntiDrift;
+import org.usfirst.frc.team1683.driveTrain.DriveTrainMover;
 import org.usfirst.frc.team1683.driveTrain.FollowPath;
+import org.usfirst.frc.team1683.driveTrain.Path;
+import org.usfirst.frc.team1683.driveTrain.PathPoint;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.motor.MotorGroup;
 import org.usfirst.frc.team1683.sensors.Gyro;
@@ -28,17 +31,21 @@ public class TechnoTitan extends SimIterativeRobot {
 
 	Autonomous auto;
 	LimitSwitch limitSwitch;
-	Gyro gyro;
+	//Gyro gyro;
 
 	MotorGroup leftGroup;
 	MotorGroup rightGroup;
 
+	Path path;
+	
 	boolean teleopReady = false;
+	
+	Gyro gyro;
 
 	@Override
 	public void robotInit() {
 
-		//gyro = new Gyro(HWR.GYRO);
+		gyro = new Gyro(HWR.GYRO);
 		//limitSwitch = new LimitSwitch(HWR.LIMIT_SWITCH);
 
 		AntiDrift left = new AntiDrift(gyro, -1);
@@ -50,7 +57,6 @@ public class TechnoTitan extends SimIterativeRobot {
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
 		leftGroup.enableAntiDrift(left);
 		rightGroup.enableAntiDrift(right);
-		
 	}
 	
 	//FollowPath advancedPath;
@@ -58,15 +64,18 @@ public class TechnoTitan extends SimIterativeRobot {
 	@Override
 	public void autonomousInit() {
 		//advancedPath = new FollowPath(drive);
-		drive.driveMode(1, 1);
+		path = new Path(drive, new PathPoint[] {
+				new PathPoint(36, -72, false),
+				new PathPoint(72, 0, false),
+				PathPoint.inDirectionOf(0, 1)
+		}, 1, 1, true);
 	}
 	
 	public void autonomousPeriodic() {
-		if (leftGroup.getEncoder().getDistance() >= 120) {
-			leftGroup.stop();
-		}
-		if (rightGroup.getEncoder().getDistance() >= 120) {
-			rightGroup.stop();
+		if (!path.isDone()) {
+			path.run();
+		} else {
+			drive.stop();
 		}
 	}
 }

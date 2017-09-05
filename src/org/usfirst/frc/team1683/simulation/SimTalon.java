@@ -14,7 +14,7 @@ public class SimTalon implements Motor {
 	private double position;
 	private final static double COAST_FRICTION = 0.1;
 	private static final double MAX_TRUE_SPEED = 5; // inches/sec
-	private static final double AVERAGE_ERROR = 0.2;
+	private static final double AVERAGE_ERROR = 0.1;
 	private double bias;
 
 	public SimTalon(int port) {

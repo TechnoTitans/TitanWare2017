@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.usfirst.frc.team1683.robot.TechnoTitan;
+import org.usfirst.frc.team1683.sensors.Gyro;
 
 public class SimIterativeRobot {
 	private static SimIterativeRobot self = null;
@@ -70,7 +71,7 @@ public class SimIterativeRobot {
 				for (double y = 0; y < FRAME_HEIGHT; y += PIXELS_PER_INCH * 12) {
 					g.drawLine(0, (int) y, FRAME_WIDTH, (int) y);
 				}
-				g.drawString((frames / FRAMES_PER_SECOND) + "", 20, 20);
+				g.drawString("Time: " + frames / FRAMES_PER_SECOND, 20, 20);
 				self.paintComponent(g);
 			}
 		};

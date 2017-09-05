@@ -16,7 +16,6 @@ public class SmartDashboard {
 	 *            true if you want to driver to see this value
 	 */
 	public static void sendData(String key, double val, boolean isForDriver) {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -30,7 +29,6 @@ public class SmartDashboard {
 	 *            true if you want to driver to see this value
 	 */
 	public static void sendData(String key, int val, boolean isForDriver) {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -44,7 +42,6 @@ public class SmartDashboard {
 	 *            true if you want to driver to see this value
 	 */
 	public static void sendData(String key, String val, boolean isForDriver) {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -58,7 +55,6 @@ public class SmartDashboard {
 	 *            true if you want to driver to see this value
 	 */
 	public static void sendData(String key, boolean val, boolean isForDriver) {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -70,7 +66,6 @@ public class SmartDashboard {
 	 *            int Value to be sent
 	 */
 	public static void prefInt(String key, int val) {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -82,7 +77,6 @@ public class SmartDashboard {
 	 *            boolean Value to be sent
 	 */
 	public static void prefBoolean(String key, boolean val) {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -94,7 +88,6 @@ public class SmartDashboard {
 	 *            String Value to be sent
 	 */
 	public static void prefString(String key, String val) {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/**
@@ -106,7 +99,6 @@ public class SmartDashboard {
 	 *            double value to be sent
 	 */
 	public static void prefDouble(String key, double val) {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	/*
@@ -121,7 +113,7 @@ public class SmartDashboard {
 	 *            Value name
 	 */
 	public static boolean getBoolean(String key) {
-		throw new UnsupportedOperationException("Not implemented");
+		return false;
 	}
 
 	/**
@@ -133,7 +125,7 @@ public class SmartDashboard {
 	 * @return null if no string is found
 	 */
 	public static String getString(String key) {
-		throw new UnsupportedOperationException("Not implemented");
+		return null;
 	}
 
 	/**
@@ -145,7 +137,7 @@ public class SmartDashboard {
 	 * @return 0.0 if key is not found
 	 */
 	public static double getDouble(String key) {
-		throw new UnsupportedOperationException("Not implemented");
+		return 0;
 	}
 
 	/**
@@ -157,6 +149,6 @@ public class SmartDashboard {
 	 * @return 0 if key is not found
 	 */
 	public static int getInt(String key) {
-		throw new UnsupportedOperationException("Not implemented");
+		return 0;
 	}
 }

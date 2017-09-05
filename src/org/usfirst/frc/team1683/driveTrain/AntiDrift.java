@@ -10,7 +10,7 @@ import org.usfirst.frc.team1683.sensors.Gyro;
 public class AntiDrift {
 
 	private double antidriftangle = 0;
-	private final double KP = 0.022;
+	private final double KP = 0.04;
 	private Gyro gyro;
 	// 1 if right, -1 if left, 0 if no correction should be applied
 	private int right;
@@ -29,9 +29,8 @@ public class AntiDrift {
 	 */
 	public double antiDrift(double speed) {
 		double error = antidriftangle - gyro.getAngle();
-
-		double correction = KP * error / 2.0;
-		return limitSpeed(speed - correction * right);
+		double correction = KP * error;
+		return limitSpeed(speed + correction * right);
 	}
 
 	public void reset() {
