@@ -129,8 +129,8 @@ public class SimIterativeRobot {
 			initAuto = true;
 		}
 		autonomousPeriodic();
-		SimTalon left = SimTalon.getTalon(0),
-				 right = SimTalon.getTalon(1);
+		TalonSRX left = TalonSRX.getTalon(0),
+				 right = TalonSRX.getTalon(1);
 		double dt = 1 / FRAMES_PER_SECOND;
 		left.update(dt);
 		right.update(dt);

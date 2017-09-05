@@ -14,9 +14,9 @@ import org.usfirst.frc.team1683.driveTrain.TankDrive;
 import org.usfirst.frc.team1683.motor.MotorGroup;
 import org.usfirst.frc.team1683.sensors.Gyro;
 import org.usfirst.frc.team1683.sensors.LimitSwitch;
-import org.usfirst.frc.team1683.sensors.SimQuadEncoder;
+import org.usfirst.frc.team1683.sensors.QuadEncoder;
 import org.usfirst.frc.team1683.simulation.SimIterativeRobot;
-import org.usfirst.frc.team1683.simulation.SimTalon;
+import org.usfirst.frc.team1683.simulation.TalonSRX;
 
 /**
  * 
@@ -50,10 +50,10 @@ public class TechnoTitan extends SimIterativeRobot {
 
 		AntiDrift left = new AntiDrift(gyro, -1);
 		AntiDrift right = new AntiDrift(gyro, 1);
-		SimTalon leftETalonSRX = new SimTalon(HWR.LEFT_DRIVE_TRAIN_FRONT);
-		SimTalon rightETalonSRX = new SimTalon(HWR.RIGHT_DRIVE_TRAIN_FRONT);
-		leftGroup = new MotorGroup(new SimQuadEncoder(leftETalonSRX, Constants.WHEEL_RADIUS), leftETalonSRX);
-		rightGroup = new MotorGroup(new SimQuadEncoder(rightETalonSRX, Constants.WHEEL_RADIUS), rightETalonSRX);
+		TalonSRX leftETalonSRX = new TalonSRX(HWR.LEFT_DRIVE_TRAIN_FRONT);
+		TalonSRX rightETalonSRX = new TalonSRX(HWR.RIGHT_DRIVE_TRAIN_FRONT);
+		leftGroup = new MotorGroup(new QuadEncoder(leftETalonSRX, Constants.WHEEL_RADIUS), leftETalonSRX);
+		rightGroup = new MotorGroup(new QuadEncoder(rightETalonSRX, Constants.WHEEL_RADIUS), rightETalonSRX);
 		drive = new TankDrive(leftGroup, rightGroup, gyro);
 		leftGroup.enableAntiDrift(left);
 		rightGroup.enableAntiDrift(right);
@@ -67,6 +67,7 @@ public class TechnoTitan extends SimIterativeRobot {
 		square = new SquareAuto(drive);
 	}
 	
+	@Override
 	public void autonomousPeriodic() {
 		square.run();
 		//advancedPath.run();

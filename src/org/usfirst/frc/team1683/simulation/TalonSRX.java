@@ -1,11 +1,10 @@
 package org.usfirst.frc.team1683.simulation;
 
-import org.usfirst.frc.team1683.driveTrain.AntiDrift;
 import org.usfirst.frc.team1683.motor.Motor;
 import org.usfirst.frc.team1683.sensors.Encoder;
 
-public class SimTalon implements Motor {
-	private static SimTalon[] initializedTalons = {null, null};
+public class TalonSRX implements Motor {
+	private static TalonSRX[] initializedTalons = {null, null};
 	private int port;
 	private double setSpeed = 0,
 				   actualSpeed = 0;
@@ -14,10 +13,10 @@ public class SimTalon implements Motor {
 	private double position;
 	private final static double COAST_FRICTION = 0.1;
 	private static final double MAX_TRUE_SPEED = 5; // inches/sec
-	private static final double AVERAGE_ERROR = 0.1;
+	private static final double AVERAGE_ERROR = 0.5;
 	private double bias;
 
-	public SimTalon(int port) {
+	public TalonSRX(int port) {
 		if (port < 0 || port > initializedTalons.length) {
 			throw new IllegalAccessError("Cannot access motor at port " + port);
 		}
@@ -114,9 +113,9 @@ public class SimTalon implements Motor {
 		position += actualSpeed * dt * MAX_TRUE_SPEED;
 	}
 	
-	static SimTalon getTalon(int port) {
+	static TalonSRX getTalon(int port) {
 		if (initializedTalons[port] == null) {
-			return new SimTalon(port);
+			return new TalonSRX(port);
 		}
 		return initializedTalons[port];
 	}

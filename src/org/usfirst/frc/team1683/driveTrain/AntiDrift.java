@@ -15,6 +15,12 @@ public class AntiDrift {
 	// 1 if right, -1 if left, 0 if no correction should be applied
 	private int right;
 
+	/**
+	 * Creates an anti-drift object that uses the gyro to keep the robot straight
+	 * Enable by calling motorGroup.enableAntiDrift(antiDrift)
+	 * @param gyro The gyro object
+	 * @param right 1 if it is right, -1 is left, 0 is no correction
+	 */
 	public AntiDrift(Gyro gyro, int right) {
 		this.gyro = gyro;
 		this.right = right;
@@ -35,7 +41,7 @@ public class AntiDrift {
 
 	public void reset() {
 		gyro.reset();
-		antidriftangle = gyro.getAngle();
+		antidriftangle = gyro.getAngle(); // should be 0 but just in case
 	}
 
 	private static double limitSpeed(double speed) {
